@@ -1,11 +1,23 @@
+// import colors
+const colors = require('tailwindcss/colors');
+
 module.exports = {
-  purge: ['./pages/**/*.js', './components/**/*.js'],
+  purge: ['./src/**/*.{ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    colors: {
+      primary: colors.amber,
+      secondary: colors.gray,
+      white: colors.white,
+      black: colors.black
+    },
+    fontFamily: {
+      sans: ['"Recursive"', 'sans-serif']
+    },
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
-}
+  plugins: []
+};

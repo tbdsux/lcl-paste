@@ -8,6 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.2.0",
+    "@monaco-editor/react": "^4.1.0",
+    "@tailwindcss/jit": "^0.1.4",
+    "@types/lodash": "^4.14.168",
     "autoprefixer": "^10.2.5",
     "next": "10.0.9",
     "postcss": "^8.2.8",
