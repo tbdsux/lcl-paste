@@ -5,14 +5,12 @@ import { PasteModel } from '@lib/models/paste';
 // middleware
 import methodHandler from '@lib/middleware/methods';
 
-// interfaces
-import { Paste } from '@utils/interfaces/paste';
-
-const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data: Paste = req.body;
+const getPaste = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { pasteid } = req.query;
 
   const p = new PasteModel();
-  const q = await p.createPaste(data);
+  // automatically join all strings if array
+  const q = await p.getPaste(Array.isArray(pasteid) ? pasteid.join() : pasteid);
 
   if (q) {
     return res.status(200).json(q);
@@ -21,4 +19,4 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(500).json({ error: 'Internal Server Error' });
 };
 
-export default methodHandler(createPaste, ['PUT', 'POST']);
+export default methodHandler(getPaste, ['GET']);

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
+import Router from 'next/router';
 
 import { nanoid } from 'nanoid';
 
@@ -51,8 +52,8 @@ export default function Home() {
       body: JSON.stringify(pasteData)
     })
       .then((res) => res.json())
-      .then((output) => {
-        console.log(output);
+      .then(() => {
+        Router.push(`/p/${pasteData.pasteId}`);
       })
       .catch(() => {
         console.error('problem');
