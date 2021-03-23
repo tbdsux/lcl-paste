@@ -3,12 +3,17 @@ import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import Router from 'next/router';
 
+import { useUser } from '@auth0/nextjs-auth0';
+
 import { nanoid } from 'nanoid';
 
 import Editor from '@monaco-editor/react';
 import { Paste } from '@utils/interfaces/paste';
 
 export default function Home() {
+  // user
+  const { user, error: userError, isLoading } = useUser();
+
   const codeEditor = useRef(null);
 
   const codeFilename = useRef<HTMLInputElement>(null);
@@ -62,7 +67,7 @@ export default function Home() {
 
   return (
     <Layout title="Welcome">
-      <Navigation />
+      <Navigation user={user} />
 
       <hr />
 
