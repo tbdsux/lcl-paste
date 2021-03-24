@@ -2,6 +2,7 @@
 export interface Paste {
   content: string;
   filename: string;
+  description: string;
   isPrivate: boolean;
   isCode: boolean;
   codeLanguage: null | string;
@@ -10,4 +11,5 @@ export interface Paste {
   user: null | string;
   willExpire: boolean;
   expiryDate: null | string;
+  createdDate: string;
 }
