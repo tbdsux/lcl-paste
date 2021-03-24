@@ -46,7 +46,11 @@ export default function Home() {
       codeLanguage: null,
       pasteId: nanoid(60),
       isOwnedByUser: user ? true : false,
-      user: user ? user.email : null,
+      user: {
+        email: user.email,
+        name: user.name,
+        photo: user.picture
+      },
       willExpire: false,
       expiryDate: null,
       createdDate: new Date().toUTCString()

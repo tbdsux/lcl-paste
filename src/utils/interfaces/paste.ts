@@ -8,8 +8,15 @@ export interface Paste {
   codeLanguage: null | string;
   pasteId: string;
   isOwnedByUser: boolean;
-  user: null | string;
+  user: null | PasteUserData;
   willExpire: boolean;
   expiryDate: null | string;
   createdDate: string;
+}
+
+// user paste basic data
+export interface PasteUserData {
+  email: string;
+  name: string;
+  photo: string;
 }
