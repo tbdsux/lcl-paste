@@ -22,4 +22,16 @@ export class PasteModel {
       .then((res: PasteQueryResponse) => res.data)
       .catch(() => undefined);
   }
+
+  // get latest pastes
+  async getLatestPastes() {
+    return adminClient
+      .query(
+        q.Map(
+          q.Paginate(q.Match(q.Index('latestPublicPastesByDate'), false)),
+          q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'ref'], q.Get(q.Var('ref')))
+        )
+      )
+      .catch(() => undefined);
+  }
 }

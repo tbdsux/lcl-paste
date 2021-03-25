@@ -9,7 +9,6 @@ import { nanoid } from 'nanoid';
 
 import Editor from '@monaco-editor/react';
 import { Paste } from '@utils/interfaces/paste';
-import { stringify } from 'postcss';
 
 export default function Home() {
   // user
@@ -46,11 +45,13 @@ export default function Home() {
       codeLanguage: null,
       pasteId: nanoid(60),
       isOwnedByUser: user ? true : false,
-      user: {
-        email: user.email,
-        name: user.name,
-        photo: user.picture
-      },
+      user: user
+        ? {
+            email: user.email,
+            name: user.name,
+            photo: user.picture
+          }
+        : null,
       willExpire: false,
       expiryDate: null,
       createdDate: new Date().toUTCString()
