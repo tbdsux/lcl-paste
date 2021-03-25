@@ -2,12 +2,22 @@
 export interface Paste {
   content: string;
   filename: string;
+  description: string;
   isPrivate: boolean;
   isCode: boolean;
   codeLanguage: null | string;
   pasteId: string;
   isOwnedByUser: boolean;
-  user: null | string;
+  user: null | PasteUserData;
   willExpire: boolean;
   expiryDate: null | string;
+  createdDate: string;
+}
+
+// user paste basic data
+export interface PasteUserData {
+  sub: string;
+  subId: string;
+  name: string;
+  photo: string;
 }
