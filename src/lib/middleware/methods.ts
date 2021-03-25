@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 // methodHandler simple middleware that handles method not allowed responses
-const methodHandler = (
-  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>,
-  allowedMethods: string[]
-) => (req: NextApiRequest, res: NextApiResponse) => {
+const methodHandler = (handler: NextApiHandler<any>, allowedMethods: string[]) => (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
   if (!allowedMethods.includes(req.method)) {
     // if the client's request method is not in
     // the set `allowedMethods`, return error 405
