@@ -12,7 +12,7 @@ import { Paste } from '@utils/interfaces/paste';
 
 export default function Home() {
   // user
-  const { user, error: userError, isLoading } = useUser();
+  const { user } = useUser();
 
   const codeEditor = useRef(null);
 
@@ -76,7 +76,7 @@ export default function Home() {
 
   return (
     <Layout title="Welcome">
-      <Navigation user={user} />
+      <Navigation />
 
       <hr />
 

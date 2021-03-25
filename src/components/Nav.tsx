@@ -1,6 +1,9 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 
-export default function Navigation({ user }) {
+export default function Navigation() {
+  const { user } = useUser();
+
   return (
     <nav className="py-6 w-11/12 mx-auto flex items-center justify-between">
       <h1 className="text-2xl font-extrabold tracking-wide">

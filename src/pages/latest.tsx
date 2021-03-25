@@ -7,15 +7,12 @@ import { PasteQueryResponse } from '@utils/interfaces/query';
 import useSWR from 'swr';
 
 export default function Latest() {
-  // user
-  const { user, error: userError, isLoading } = useUser();
-
   // retrieve all posts
   const { data: pastes } = useSWR('/api/pastes/latest');
 
   return (
     <Layout title="Latest Pastes">
-      <Navigation user={user} />
+      <Navigation />
 
       <hr />
 
