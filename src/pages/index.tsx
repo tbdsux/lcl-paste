@@ -9,6 +9,7 @@ import { nanoid } from 'nanoid';
 
 import Editor from '@monaco-editor/react';
 import { Paste } from '@utils/interfaces/paste';
+import { getSubId } from '@utils/funcs';
 
 export default function Home() {
   // user
@@ -37,6 +38,7 @@ export default function Home() {
 
   const handleCreatePaste = () => {
     const pasteData: Paste = {
+      createdDate: new Date().toISOString(),
       content: codeEditor.current.getValue(),
       filename: codeFilename.current.value,
       description: codeDescription.current.value,
@@ -48,14 +50,13 @@ export default function Home() {
       user: user
         ? {
             sub: user.sub,
-            subId: user.sub.split('|')[1],
+            subId: getSubId(user.sub),
             name: user.name,
             photo: user.picture
           }
         : null,
       willExpire: false,
-      expiryDate: null,
-      createdDate: new Date().toUTCString()
+      expiryDate: null
     };
 
     // contact api

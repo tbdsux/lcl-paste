@@ -34,4 +34,16 @@ export class PasteModel {
       )
       .catch(() => undefined);
   }
+
+  // get user's paste with subId
+  async getUserPastes(subId: string) {
+    return adminClient
+      .query(
+        q.Map(
+          q.Paginate(q.Match(q.Index('pastesByUser'), subId)),
+          q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'ref'], q.Get(q.Var('ref')))
+        )
+      )
+      .catch(() => undefined);
+  }
 }

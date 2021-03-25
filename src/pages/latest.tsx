@@ -30,13 +30,18 @@ export default function Latest() {
                   >
                     <div className="inline-flex">
                       <h4>
-                        {paste.data.filename} <span className="text-secondary-600">({paste.data.description})</span>
+                        {paste.data.filename}{' '}
+                        <span className="text-secondary-600">
+                          {paste.data.description ? `(${paste.data.description})` : null}
+                        </span>
                       </h4>
                     </div>
                     <div className="inline-flex items-center">
                       <span className="text-sm text-secondary-400 ml-8">
                         @{paste.data.user ? paste.data.user.name : 'anonymous'}{' '}
-                        <span className="text-xs text-secondary-300">[{paste.data.createdDate}]</span>
+                        <span className="text-xs text-secondary-300">
+                          [{new Date(paste.data.createdDate).toUTCString()}]
+                        </span>
                       </span>
                     </div>
                   </a>
