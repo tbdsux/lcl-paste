@@ -2,17 +2,12 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import { useUser } from '@auth0/nextjs-auth0';
-
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 
 import Highlight from 'react-highlight';
 
 export default function ViewPaste() {
-  // user
-  const { user, error: userError, isLoading } = useUser();
-
   const router = useRouter();
   const { pasteid } = router.query;
 
@@ -32,7 +27,7 @@ export default function ViewPaste() {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.1/styles/a11y-light.css" />
       </Head>
 
-      <Navigation user={user} />
+      <Navigation />
 
       <hr />
 
