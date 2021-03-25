@@ -16,7 +16,8 @@ export interface Paste {
 
 // user paste basic data
 export interface PasteUserData {
-  email: string;
+  sub: string;
+  subId: string;
   name: string;
   photo: string;
 }

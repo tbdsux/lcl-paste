@@ -47,7 +47,8 @@ export default function Home() {
       isOwnedByUser: user ? true : false,
       user: user
         ? {
-            email: user.email,
+            sub: user.sub,
+            subId: user.sub.split('|')[1],
             name: user.name,
             photo: user.picture
           }
