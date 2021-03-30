@@ -5,3 +5,5 @@ export interface PasteQueryResponse {
   ts: number;
   data: Paste;
 }
+
+export type RawPasteResp = { content: string; filename: string };

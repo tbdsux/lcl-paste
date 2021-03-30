@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
@@ -32,7 +33,20 @@ export default function ViewPaste() {
       <hr />
 
       <div className="w-5/6 mx-auto my-8">
-        <div className="py-2 text-secondary-700">{paste.filename}</div>
+        <div className="py-2 flex items-center justify-between">
+          <div>
+            <h4 className="text-primary-500 text-lg font-bold tracking-wide">{paste.filename}</h4>
+            <p className="ml-2 text-secondary-500 mt-1">{paste.description}</p>
+          </div>
+          <Link href={`/api/raw/${paste.pasteId}/${paste.filename}`}>
+            <a
+              className="bg-secondary-400 hover:bg-secondary-500 text-white py-1 px-3 rounded-md text-sm tracking-wide"
+              target="_blank"
+            >
+              raw
+            </a>
+          </Link>
+        </div>
         <div className="border border-secondary-200 p-4 rounded-md">
           <Highlight className="text text-sm">{paste.content}</Highlight>
         </div>

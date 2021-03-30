@@ -1,6 +1,6 @@
 import { q, adminClient } from '../fauna';
 import { Paste } from '@utils/interfaces/paste';
-import { PasteQueryResponse } from '@utils/interfaces/query';
+import { PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
 
 // main paste model
 export class PasteModel {
@@ -44,6 +44,19 @@ export class PasteModel {
           q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'ref'], q.Get(q.Var('ref')))
         )
       )
+      .catch(() => undefined);
+  }
+
+  // get pasteid raw content
+  async getRawPasteContentOnly(id: string) {
+    return adminClient
+      .query(q.Get(q.Match(q.Index('pasteByID_onlyContent'), id)))
+      .then((res: PasteQueryResponse) => {
+        return <RawPasteResp>{
+          content: res.data.content,
+          filename: res.data.filename
+        };
+      })
       .catch(() => undefined);
   }
 }
