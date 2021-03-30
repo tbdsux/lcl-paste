@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import Router from 'next/router';
@@ -6,10 +6,13 @@ import Router from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import { nanoid } from 'nanoid';
+import _ from 'lodash';
 
 import Editor from '@monaco-editor/react';
 import { Paste } from '@utils/interfaces/paste';
 import { getSubId } from '@utils/funcs';
+
+import * as languages from '@lib/languages';
 
 export default function Home() {
   // user
@@ -20,6 +23,8 @@ export default function Home() {
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
   const codeDescription = useRef<HTMLInputElement>(null);
+  const [codeLanguage, setCodeLanguage] = useState<string>('text'); // text is initial language
+  const [isCode, setIsCode] = useState<boolean>(false);
 
   const handleEditorBeforeMount = (monaco) => {
     // definee custom theme
@@ -43,8 +48,8 @@ export default function Home() {
       filename: codeFilename.current.value,
       description: codeDescription.current.value,
       isPrivate: codePrivate.current.checked,
-      isCode: false,
-      codeLanguage: null,
+      isCode: isCode,
+      codeLanguage: codeLanguage,
       pasteId: nanoid(60),
       isOwnedByUser: user ? true : false,
       user: user
@@ -76,6 +81,19 @@ export default function Home() {
       });
   };
 
+  const handleGetFileExt = (e: ChangeEvent<HTMLInputElement>) => {
+    const filename = e.target.value;
+    const file_split = filename.split('.', -1);
+
+    const lang = languages[file_split[file_split.length - 1]];
+    if (lang) {
+      // set file language
+      setCodeLanguage(lang.name);
+      // determine if code
+      lang.type == 'programming' ? setIsCode(true) : null;
+    }
+  };
+
   return (
     <Layout title="Welcome">
       <Navigation />
@@ -92,6 +110,7 @@ export default function Home() {
               </label>
               <input
                 ref={codeFilename}
+                onChange={_.debounce(handleGetFileExt, 500)}
                 type="text"
                 placeholder="filename.txt"
                 className="border border-secondary-300 rounded-md focus:outline-none focus:border-primary-400 py-2 px-3 tracking-wide w-full"
@@ -124,7 +143,8 @@ export default function Home() {
           </label>
           <Editor
             height="70vh"
-            defaultLanguage="text"
+            // defaultLanguage="text"
+            language={codeLanguage}
             defaultValue="// enter something in here"
             beforeMount={handleEditorBeforeMount}
             onMount={(editor, monaco) => {

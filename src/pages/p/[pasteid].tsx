@@ -25,7 +25,7 @@ export default function ViewPaste() {
   return (
     <Layout title={paste.filename}>
       <Head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.1/styles/a11y-light.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/vs.css" />
       </Head>
 
       <Navigation />
@@ -48,7 +48,7 @@ export default function ViewPaste() {
           </Link>
         </div>
         <div className="border border-secondary-200 p-4 rounded-md">
-          <Highlight className="text text-sm">{paste.content}</Highlight>
+          <Highlight className={`text-sm ${paste.codeLanguage}`}>{paste.content}</Highlight>
         </div>
       </div>
     </Layout>
