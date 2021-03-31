@@ -1,5 +1,6 @@
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Navigation() {
   const { user } = useUser();
@@ -26,8 +27,10 @@ export default function Navigation() {
             </li>
             <li className="pl-8 inline-flex items-center border-l">
               {/* basic user info */}
-              <img src={user.picture} className="h-10 w-10 rounded-full" />
-              <span className="ml-2 text-secondary-700">{user.name}</span>
+              <Image src={user.picture} height="40" width="40" className="rounded-full" />
+              <Link href="/user">
+                <a className="ml-2 text-secondary-700">{user.name}</a>
+              </Link>
               {/* logout button */}
               <a href="/api/auth/logout" className="ml-4 text-secondary-400 hover:text-secondary-500" title="Logout">
                 <div className="h-8 w-8">
