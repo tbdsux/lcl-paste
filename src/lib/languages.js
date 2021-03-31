@@ -1,3 +1,5 @@
+// source taken from: https://gist.github.com/aymen-mouelhi/82c93fbcd25f091f2c13faa5e0d61760
+
 module.exports = {
   1: { name: 'groff', type: 'markup' },
   2: { name: 'groff', type: 'markup' },
