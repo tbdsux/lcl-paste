@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import useSWR from 'swr';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import Router from 'next/router';
 
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
@@ -9,6 +10,22 @@ import { PasteQueryResponse } from '@utils/interfaces/query';
 
 export default withPageAuthRequired(function UserPastes() {
   const { data: pastes } = useSWR('/api/user/pastes');
+
+  // basic delete function
+  // TODO: add more improvements and better handling
+  const handleRemovePaste = (id: string) => {
+    fetch(`/api/pastes/delete/${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => {
+        if (res.ok) {
+          // successfully removed
+        } else {
+          // show error notification here
+        }
+      })
+      .catch((e) => console.error(e));
+  };
 
   return (
     <Layout title="User Pastes">
@@ -64,7 +81,11 @@ export default withPageAuthRequired(function UserPastes() {
                         </svg>
                       </a>
                     </Link>
-                    <button className="h-6 w-6 mx-1 hover:text-primary-500" title="Delete paste">
+                    <button
+                      onClick={() => handleRemovePaste(paste.ref['@ref'].id)}
+                      className="h-6 w-6 mx-1 hover:text-primary-500"
+                      title="Delete paste"
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                           strokeLinecap="round"

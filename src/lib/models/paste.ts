@@ -78,4 +78,9 @@ export class PasteModel {
         undefined;
       });
   }
+
+  // delete paste
+  async deletePasteByRef(id: string) {
+    return adminClient.query(q.Delete(q.Ref(q.Collection('pastes'), id))).catch(() => undefined);
+  }
 }
