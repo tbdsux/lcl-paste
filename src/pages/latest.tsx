@@ -40,7 +40,11 @@ export default function Latest() {
                       <span className="text-sm text-secondary-400 ml-8">
                         @{paste.data.user ? paste.data.user.name : 'anonymous'}{' '}
                         <span className="text-xs text-secondary-300">
-                          [{new Date(paste.data.createdDate).toUTCString()}]
+                          [
+                          {paste.data.updated
+                            ? `${new Date(paste.data.updatedDate).toUTCString()}-updated`
+                            : new Date(paste.data.createdDate).toUTCString()}
+                          ]
                         </span>
                       </span>
                     </div>

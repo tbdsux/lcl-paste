@@ -1,5 +1,5 @@
 import { q, adminClient } from '../fauna';
-import { Paste } from '@utils/interfaces/paste';
+import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
 
 // main paste model
@@ -19,6 +19,14 @@ export class PasteModel {
   async getPaste(id: string) {
     return adminClient
       .query(q.Get(q.Match(q.Index('pasteByID'), id)))
+      .then((res: PasteQueryResponse) => res.data)
+      .catch(() => undefined);
+  }
+
+  // get paste by it's ref id
+  async getPasteByRef(id: string) {
+    return adminClient
+      .query(q.Get(q.Ref(q.Collection('pastes'), id)))
       .then((res: PasteQueryResponse) => res.data)
       .catch(() => undefined);
   }
@@ -58,5 +66,16 @@ export class PasteModel {
         };
       })
       .catch(() => undefined);
+  }
+
+  // update paste
+  async updatePaste(id: string, data: UpdatePaste) {
+    return adminClient
+      .query(q.Update(q.Ref(q.Collection('pastes'), id), { data: data }))
+      .then((r: PasteQueryResponse) => r.data)
+      .catch((e) => {
+        console.error(e);
+        undefined;
+      });
   }
 }
