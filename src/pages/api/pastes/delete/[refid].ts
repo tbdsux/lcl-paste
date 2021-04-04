@@ -13,11 +13,11 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
   const q = await p.deletePasteByRef(autoString(refid));
 
   if (q) {
-    console.log(q);
-    return res.status(200).json(q);
+    // redirect back to user's paste if successfully deleted
+    res.redirect('/user/pastes');
+  } else {
+    res.status(404).json({ error: 'Not Found' });
   }
-
-  return res.status(404).json({ error: 'Not Found' });
 };
 
 export default methodHandler(getPasteRef, ['DELETE']);

@@ -4,11 +4,11 @@ type PasteUserActionsProps = { refid: string; pasteid: string };
 
 export const UserActions = ({ refid, pasteid }: PasteUserActionsProps) => {
   const handleUpdatePaste = () => {
-    Router.push(`/user/update/${refid}/${pasteid}`);
+    Router.push(`/user/pastes/update/${refid}/${pasteid}`);
   };
 
   const handleRemovePaste = () => {
-    Router.push(`/api/pastes/delete/${refid}`);
+    Router.push(`/user/pastes/delete/${refid}`);
   };
 
   return (
