@@ -1,6 +1,6 @@
 import { q, adminClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
+import { MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
 
 // main paste model
 export class PasteModel {
@@ -40,6 +40,7 @@ export class PasteModel {
           q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'ref'], q.Get(q.Var('ref')))
         )
       )
+      .then((res: MultipleRespPastes) => res.data)
       .catch((e) => console.error(e));
   }
 

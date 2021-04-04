@@ -15,3 +15,5 @@ export interface ApiQueryResponse extends QueryResponse {
 }
 
 export type RawPasteResp = { content: string; filename: string };
+
+export type MultipleRespPastes = { data: PasteQueryResponse[] };
