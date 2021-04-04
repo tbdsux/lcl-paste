@@ -1,3 +1,5 @@
+import { PasteQueryResponse } from './query';
+
 // paste info data
 export interface Paste {
   content: string;
@@ -28,6 +30,16 @@ export interface UpdatePaste {
   updated?: boolean;
   updatedDate?: string;
 }
+
+export type PastesSwrResponse = {
+  data?: PasteQueryResponse[];
+  error?: any;
+};
+
+export type SinglePasteSwrResponse = {
+  data?: PasteQueryResponse;
+  error?: any;
+};
 
 // user paste basic data
 export interface PasteUserData {

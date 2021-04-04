@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function Navigation() {
+const Navigation = memo(() => {
   const { user } = useUser();
 
   return (
@@ -56,4 +57,6 @@ export default function Navigation() {
       </ul>
     </nav>
   );
-}
+});
+
+export default Navigation;

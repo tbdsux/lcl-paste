@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useCallback } from 'react';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import Router from 'next/router';
@@ -29,7 +29,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
   const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
-  const handleEditorBeforeMount = (monaco) => {
+  const handleEditorBeforeMount = useCallback((monaco) => {
     // definee custom theme
     monaco.editor.defineTheme('lcl-theme', {
       base: 'vs',
@@ -42,7 +42,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         'editor.lineHighlightBorder': '#00000000'
       }
     });
-  };
+  }, []);
 
   const handleCreatePaste = () => {
     let pasteData: Paste | UpdatePaste = {};

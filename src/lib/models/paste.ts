@@ -40,7 +40,7 @@ export class PasteModel {
           q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'ref'], q.Get(q.Var('ref')))
         )
       )
-      .catch(() => undefined);
+      .catch((e) => console.error(e));
   }
 
   // get user's paste with subId

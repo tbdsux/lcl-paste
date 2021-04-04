@@ -10,6 +10,9 @@ type SessionProps = { user: UserProfile };
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   let data: Paste | UpdatePaste;
 
+  const d = req.query;
+  console.log(d);
+
   data = <UpdatePaste>{
     updated: true
   };
