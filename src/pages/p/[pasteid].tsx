@@ -16,7 +16,7 @@ export default function ViewPaste() {
   const { data: paste, error } = useSWR(pasteid ? `/api/pastes/get/${pasteid}` : null);
 
   if (!paste) {
-    return <Loading title="User Pastes" />;
+    return <Loading title="Loading Paste..." />;
   }
 
   if (error) {

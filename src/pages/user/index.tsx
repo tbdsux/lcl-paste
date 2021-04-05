@@ -36,7 +36,7 @@ export default withPageAuthRequired(function UserPage() {
   };
 
   if (!data) {
-    return <Loading title="User Pastes" />;
+    return <Loading title="User Profile" />;
   }
 
   return (

@@ -15,7 +15,7 @@ export default withPageAuthRequired(function UserPage() {
   const { data: paste, error } = useSWR(refid ? `/api/pastes/get/ref/${refid}` : null);
 
   if (!paste) {
-    return <Loading title="User Pastes" />;
+    return <Loading title="Update Paste" />;
   }
 
   if (error) {
@@ -26,5 +26,11 @@ export default withPageAuthRequired(function UserPage() {
     return <Error statusCode={404} />;
   }
 
-  return <>{paste && <MainEditor title={paste.filename} update={true} data={paste} refid={autoString(refid)} />}</>;
+  return (
+    <>
+      {paste && (
+        <MainEditor title={`${paste.filename} - Update`} update={true} data={paste} refid={autoString(refid)} />
+      )}
+    </>
+  );
 });
