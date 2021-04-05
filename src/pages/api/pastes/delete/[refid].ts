@@ -14,7 +14,7 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (q) {
     // redirect back to user's paste if successfully deleted
-    res.redirect('/user/pastes');
+    res.status(200).json({ success: 'Paste is successfully removed' });
   } else {
     res.status(404).json({ error: 'Not Found' });
   }
