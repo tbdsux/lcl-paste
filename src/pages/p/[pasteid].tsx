@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
+import { Loading } from '@components/Loading';
 
 import Highlight from 'react-highlight';
 
@@ -15,7 +16,7 @@ export default function ViewPaste() {
   const { data: paste, error } = useSWR(pasteid ? `/api/pastes/get/${pasteid}` : null);
 
   if (!paste) {
-    return <div>Loading...</div>;
+    return <Loading title="User Pastes" />;
   }
 
   if (error) {

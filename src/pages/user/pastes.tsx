@@ -4,6 +4,7 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import { BlockPasteInfo } from '@components/pastes/Block';
+import { Loading } from '@components/Loading';
 
 import { PasteQueryResponse } from '@utils/interfaces/query';
 import { PastesSwrResponse } from '@utils/interfaces/paste';
@@ -12,7 +13,7 @@ export default withPageAuthRequired(function UserPastes() {
   const { data: pastes }: PastesSwrResponse = useSWR('/api/user/pastes');
 
   if (!pastes) {
-    return <p>Loading...</p>;
+    return <Loading title="User Pastes" />;
   }
 
   return (

@@ -4,6 +4,8 @@ import useSWR from 'swr';
 import Error from 'next/error';
 
 import MainEditor from '@components/Editor';
+import { Loading } from '@components/Loading';
+
 import { autoString } from '@utils/funcs';
 
 export default withPageAuthRequired(function UserPage() {
@@ -13,7 +15,7 @@ export default withPageAuthRequired(function UserPage() {
   const { data: paste, error } = useSWR(refid ? `/api/pastes/get/ref/${refid}` : null);
 
   if (!paste) {
-    return <div>Loading...</div>;
+    return <Loading title="User Pastes" />;
   }
 
   if (error) {

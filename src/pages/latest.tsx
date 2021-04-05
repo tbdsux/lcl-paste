@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import { BlockPasteInfo } from '@components/pastes/Block';
+import { Loading } from '@components/Loading';
 
 import { PasteQueryResponse } from '@utils/interfaces/query';
 import { PastesSwrResponse } from '@utils/interfaces/paste';
@@ -12,7 +13,7 @@ export default function Latest() {
   const { data: pastes }: PastesSwrResponse = useSWR('/api/pastes/latest');
 
   if (!pastes) {
-    return <p>Loading...</p>;
+    return <Loading title="Latest Pastes" />;
   }
 
   return (

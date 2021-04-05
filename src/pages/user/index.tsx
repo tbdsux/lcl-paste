@@ -4,6 +4,7 @@ import useSWR from 'swr';
 
 import Layout from '@components/Layout';
 import Nav from '@components/Nav';
+import { Loading } from '@components/Loading';
 
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
@@ -33,6 +34,10 @@ export default withPageAuthRequired(function UserPage() {
       })
       .catch((e) => console.error(e));
   };
+
+  if (!data) {
+    return <Loading title="User Pastes" />;
+  }
 
   return (
     <Layout title={`${user.name} - User`}>
