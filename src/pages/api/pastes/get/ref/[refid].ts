@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
-
-// middleware
 import methodHandler from '@lib/middleware/methods';
+
 import { autoString } from '@utils/funcs';
 
 const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,4 +19,4 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(404).json({ error: 'Not Found' });
 };
 
-export default methodHandler(getPasteRef, ['GET']);
+export default methodHandler(withApiAuthRequired(getPasteRef), ['GET']);

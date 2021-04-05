@@ -1,11 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
-
-// middleware
 import methodHandler from '@lib/middleware/methods';
-
-// interfaces
 import { Paste } from '@utils/interfaces/paste';
 
 const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,8 +14,7 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
   if (q) {
     return res.status(200).json(q);
   }
-
   return res.status(500).json({ error: 'Internal Server Error' });
 };
 
-export default methodHandler(createPaste, ['PUT', 'POST']);
+export default methodHandler(withApiAuthRequired(createPaste), ['PUT', 'POST']);

@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
-
-// middleware
 import methodHandler from '@lib/middleware/methods';
 import { autoString } from '@utils/funcs';
 
@@ -14,10 +13,9 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (q) {
     // redirect back to user's paste if successfully deleted
-    res.status(200).json({ success: 'Paste is successfully removed' });
-  } else {
-    res.status(404).json({ error: 'Not Found' });
+    return res.status(200).json({ success: 'Paste is successfully removed' });
   }
+  return res.status(404).json({ error: 'Not Found' });
 };
 
-export default methodHandler(getPasteRef, ['DELETE']);
+export default methodHandler(withApiAuthRequired(getPasteRef), ['DELETE']);
