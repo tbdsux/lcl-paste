@@ -1,10 +1,14 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useHasMounted } from '@lib/hooks/useHasMounted';
 
 const Navigation = memo(() => {
-  const { user } = useUser();
+  const hasMounted = useHasMounted();
+  const { user, isLoading } = useUser();
+
+  if (!hasMounted || isLoading) return null;
 
   return (
     <nav className="py-6 w-11/12 mx-auto flex items-center justify-between">
