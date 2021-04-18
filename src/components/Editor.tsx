@@ -93,6 +93,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         codeLanguage: codeLanguage,
         pasteId: pasteId,
         isOwnedByUser: user ? true : false,
+        ownedByUsername: user ? user.name : '',
         willExpire: false,
         expiryDate: null
       };
@@ -130,11 +131,13 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
 
   // check if paste is owned by user,
   // if not, return a 403 error
-  if (update) {
-    if (user.sub !== data.user.sub) {
-      return <Error statusCode={403} />;
-    }
-  }
+
+  // TODO::
+  // if (update) {
+  //   if (user.sub !== data.user.sub) {
+  //     return <Error statusCode={403} />;
+  //   }
+  // }
 
   return (
     <Layout title={title}>
