@@ -2,7 +2,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import { PasteUserData } from '@utils/interfaces/paste';
 
 type PasteDetailsProps = {
-  user: PasteUserData;
+  username: string;
   createdDate: string;
   isPrivate?: boolean;
   updated?: boolean;
@@ -10,7 +10,7 @@ type PasteDetailsProps = {
   isUserPage: boolean;
 };
 
-export const Details = ({ user, createdDate, isPrivate, updated, updatedDate, isUserPage }: PasteDetailsProps) => {
+export const Details = ({ username, createdDate, isPrivate, updated, updatedDate, isUserPage }: PasteDetailsProps) => {
   const date = `[${updated ? `${new Date(updatedDate).toUTCString()}-updated` : new Date(createdDate).toUTCString()}]`;
 
   return (
@@ -22,7 +22,7 @@ export const Details = ({ user, createdDate, isPrivate, updated, updatedDate, is
         </div>
       ) : (
         <span className="text-sm text-secondary-400 ml-8">
-          @{user ? user.name : 'anonymous'} <span className="text-xs text-secondary-300">{date}</span>
+          @{username ? username : 'anonymous'} <span className="text-xs text-secondary-300">{date}</span>
         </span>
       )}
     </>

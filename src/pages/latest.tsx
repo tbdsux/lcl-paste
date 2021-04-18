@@ -30,7 +30,6 @@ export default function Latest() {
             {pastes.map((paste: PasteQueryResponse) => (
               <>
                 <BlockPasteInfo key={paste.data.pasteId} paste={paste} isUserPage={false} />
-                {JSON.stringify(paste)}
               </>
             ))}
           </ul>

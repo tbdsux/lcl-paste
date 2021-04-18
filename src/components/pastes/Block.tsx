@@ -21,7 +21,7 @@ export const BlockPasteInfo = ({ paste, isUserPage }: PasteBlockProps) => {
           <Info filename={paste.data.filename} description={paste.data.description} />
           <div className="w-1/2 justify-end inline-flex items-center text-secondary-500">
             <Details
-              user={paste.data.user}
+              username={paste.data.ownedByUsername}
               createdDate={paste.data.createdDate}
               updated={paste.data.updated}
               isPrivate={paste.data.isPrivate}
