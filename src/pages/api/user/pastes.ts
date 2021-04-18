@@ -8,12 +8,10 @@ import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 type SessionProps = { user: UserProfile };
 
 const getUserPastes = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user }: SessionProps = getSession(req, res);
-
   const p = new PasteModel(useTokenAPI(req, res));
-  const q = await p.getUserPastes(getSubId(user.sub));
+  const q = await p.getUserPastes();
 
-  return res.status(200).json(q ? q.data : { error: 'internal error' });
+  return res.status(200).json(q ? q.data : []);
 };
 
 export default methodHandler(withApiAuthRequired(getUserPastes), ['GET']);

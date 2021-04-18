@@ -77,8 +77,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       if (isPrivate != data.isPrivate) {
         pasteData.isPrivate = isPrivate;
       }
-
-      console.log(pasteData);
       // end update only specific fields
     } else {
       // generate id
@@ -95,14 +93,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         codeLanguage: codeLanguage,
         pasteId: pasteId,
         isOwnedByUser: user ? true : false,
-        user: user
-          ? {
-              sub: user.sub,
-              subId: getSubId(user.sub),
-              name: user.name,
-              photo: user.picture
-            }
-          : null,
         willExpire: false,
         expiryDate: null
       };

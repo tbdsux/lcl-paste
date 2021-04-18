@@ -2,23 +2,28 @@ import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
 import { Client } from 'faunadb';
+import { getSession } from '@auth0/nextjs-auth0';
 
 // main paste model
 export class PasteModel {
-  token: string
-  client: Client
+  token: string;
+  client: Client;
 
   constructor(token: string) {
-    this.token = token
-    this.client = getClient(token)
+    this.token = token;
+    this.client = getClient(token);
   }
 
   // create a new paste
-  async createPaste(data: Paste) {
+  async createPaste(data: Paste, isUser: boolean) {
+    console.log(this.token);
     return this.client
       .query(
         q.Create(q.Collection('pastes'), {
-          data: data
+          data: {
+            ...data,
+            user: isUser ? q.CurrentIdentity() : {}
+          }
         })
       )
       .catch(() => undefined);
@@ -54,15 +59,18 @@ export class PasteModel {
   }
 
   // get user's paste with subId
-  async getUserPastes(subId: string) {
+  async getUserPastes() {
     return this.client
       .query(
         q.Map(
-          q.Paginate(q.Match(q.Index('pastesByUser'), subId)),
-          q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'ref'], q.Get(q.Var('ref')))
+          q.Paginate(q.Match(q.Index('pastes_by_userRef'), q.CurrentIdentity())),
+          q.Lambda('ref', q.Get(q.Var('ref')))
         )
       )
-      .catch(() => undefined);
+      .catch((e) => {
+        console.error(e);
+        return undefined;
+      });
   }
 
   // get pasteid raw content

@@ -10,7 +10,7 @@ export interface Paste {
   codeLanguage: null | string;
   pasteId: string;
   isOwnedByUser: boolean;
-  user: null | PasteUserData;
+  user?: null | PasteUserData;
   willExpire: boolean;
   expiryDate: null | string;
   createdDate: string;

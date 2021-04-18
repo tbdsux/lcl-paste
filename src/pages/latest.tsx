@@ -28,7 +28,10 @@ export default function Latest() {
 
           <ul className="mt-6">
             {pastes.map((paste: PasteQueryResponse) => (
-              <BlockPasteInfo key={paste.data.pasteId} paste={paste} isUserPage={false} />
+              <>
+                <BlockPasteInfo key={paste.data.pasteId} paste={paste} isUserPage={false} />
+                {JSON.stringify(paste)}
+              </>
             ))}
           </ul>
         </div>

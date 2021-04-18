@@ -7,8 +7,9 @@ import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { SessionProps, UserCustomSessionProps } from '@utils/interfaces/user';
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user }: SessionProps = getSession(req, res);
-  res.json(user ? user : {});
+  const session = getSession(req, res);
+  console.log(session);
+  res.end(session);
 
   // let data: Paste | UpdatePaste;
 
