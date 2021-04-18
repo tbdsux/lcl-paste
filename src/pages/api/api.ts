@@ -4,20 +4,24 @@ import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
 import { getSubId } from '@utils/funcs';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
+import { UserCustomSessionProps } from '@utils/interfaces/user';
 
-type SessionProps = { user: UserProfile };
+type SessionProps = { user: UserCustomSessionProps };
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  let data: Paste | UpdatePaste;
+  const { user }: SessionProps = getSession(req, res);
+  res.json(user);
 
-  const d = req.query;
-  console.log(d);
+  // let data: Paste | UpdatePaste;
 
-  data = <UpdatePaste>{
-    updated: true
-  };
+  // const d = req.query;
+  // console.log(d);
 
-  res.json(data);
+  // data = <UpdatePaste>{
+  //   updated: true
+  // };
+
+  // res.json(data);
 };
 
 export default api;
