@@ -4,13 +4,11 @@ import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
 import { getSubId } from '@utils/funcs';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { UserCustomSessionProps } from '@utils/interfaces/user';
-
-type SessionProps = { user: UserCustomSessionProps };
+import { SessionProps, UserCustomSessionProps } from '@utils/interfaces/user';
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { user }: SessionProps = getSession(req, res);
-  res.json(user);
+  res.json(user ? user : {});
 
   // let data: Paste | UpdatePaste;
 

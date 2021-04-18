@@ -6,11 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session, state) => {
   return await CreateUserIfNotExists(session.user).then(async () => {
     const token = await obtainFaunaDBToken(session.user.sub);
-
     session.user.token = token;
-
-    console.log(session);
-
     return session;
   });
 };

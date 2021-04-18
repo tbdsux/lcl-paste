@@ -1,12 +1,21 @@
-import { q, adminClient } from '../fauna';
+import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
+import { Client } from 'faunadb';
 
 // main paste model
 export class PasteModel {
+  token: string
+  client: Client
+
+  constructor(token: string) {
+    this.token = token
+    this.client = getClient(token)
+  }
+
   // create a new paste
   async createPaste(data: Paste) {
-    return adminClient
+    return this.client
       .query(
         q.Create(q.Collection('pastes'), {
           data: data
@@ -17,7 +26,7 @@ export class PasteModel {
 
   // retrieve paste from id string
   async getPaste(id: string) {
-    return adminClient
+    return this.client
       .query(q.Get(q.Match(q.Index('pasteByID'), id)))
       .then((res: PasteQueryResponse) => res.data)
       .catch(() => undefined);
@@ -25,7 +34,7 @@ export class PasteModel {
 
   // get paste by it's ref id
   async getPasteByRef(id: string) {
-    return adminClient
+    return this.client
       .query(q.Get(q.Ref(q.Collection('pastes'), id)))
       .then((res: PasteQueryResponse) => res.data)
       .catch(() => undefined);
@@ -33,7 +42,7 @@ export class PasteModel {
 
   // get latest pastes
   async getLatestPastes() {
-    return adminClient
+    return this.client
       .query(
         q.Map(
           q.Paginate(q.Match(q.Index('latestPublicPastesByDate'), false)),
@@ -46,7 +55,7 @@ export class PasteModel {
 
   // get user's paste with subId
   async getUserPastes(subId: string) {
-    return adminClient
+    return this.client
       .query(
         q.Map(
           q.Paginate(q.Match(q.Index('pastesByUser'), subId)),
@@ -58,7 +67,7 @@ export class PasteModel {
 
   // get pasteid raw content
   async getRawPasteContentOnly(id: string) {
-    return adminClient
+    return this.client
       .query(q.Get(q.Match(q.Index('pasteByID_onlyContent'), id)))
       .then((res: PasteQueryResponse) => {
         return <RawPasteResp>{
@@ -71,7 +80,7 @@ export class PasteModel {
 
   // update paste
   async updatePaste(id: string, data: UpdatePaste) {
-    return adminClient
+    return this.client
       .query(q.Update(q.Ref(q.Collection('pastes'), id), { data: data }))
       .then((r: PasteQueryResponse) => r.data)
       .catch((e) => {
@@ -82,6 +91,6 @@ export class PasteModel {
 
   // delete paste
   async deletePasteByRef(id: string) {
-    return adminClient.query(q.Delete(q.Ref(q.Collection('pastes'), id))).catch(() => undefined);
+    return this.client.query(q.Delete(q.Ref(q.Collection('pastes'), id))).catch(() => undefined);
   }
 }

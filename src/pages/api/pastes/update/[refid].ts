@@ -5,12 +5,15 @@ import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 import { UpdatePaste } from '@utils/interfaces/paste';
 import { autoString } from '@utils/funcs';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
+  const token = useTokenAPI(req, res);
+
   const data: UpdatePaste = req.body;
   const { refid } = req.query;
 
-  const p = new PasteModel();
+  const p = new PasteModel(token);
   const q = await p.updatePaste(autoString(refid), data);
 
   if (q) {

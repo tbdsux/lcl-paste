@@ -5,11 +5,12 @@ import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 
 import { autoString } from '@utils/funcs';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
   const { refid } = req.query;
 
-  const p = new PasteModel();
+  const p = new PasteModel(useTokenAPI(req, res));
   const q = await p.getPasteByRef(autoString(refid));
 
   if (q) {

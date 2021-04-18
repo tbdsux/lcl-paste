@@ -1,14 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 import { Paste } from '@utils/interfaces/paste';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
+  const token = useTokenAPI(req, res);
+
   const data: Paste = req.body;
 
-  const p = new PasteModel();
+  const p = new PasteModel(token);
   const q = await p.createPaste(data);
 
   if (q) {

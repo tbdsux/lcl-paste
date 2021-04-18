@@ -4,11 +4,12 @@ import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 
 import { autoString } from '@utils/funcs';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 const getPaste = async (req: NextApiRequest, res: NextApiResponse) => {
   const { pasteid } = req.query;
 
-  const p = new PasteModel();
+  const p = new PasteModel(useTokenAPI(req, res));
   // automatically join all strings if array
   const q = await p.getPaste(autoString(pasteid));
 
