@@ -19,17 +19,24 @@ export default withPageAuthRequired(function UserPage() {
   }
 
   if (error) {
+    // there was a problem with the request
     return <Error statusCode={404} />;
   }
 
-  if (paste.pasteId != pasteid) {
+  if (paste.data.pasteId != pasteid) {
+    // the pasteid in the url is not similar from the paste's pasteid
     return <Error statusCode={404} />;
+  }
+
+  if (!paste.isOwnedByCurrentUser) {
+    // the paste is not owned by the current user
+    return <Error statusCode={403} />;
   }
 
   return (
     <>
       {paste && (
-        <MainEditor title={`${paste.filename} - Update`} update={true} data={paste} refid={autoString(refid)} />
+        <MainEditor title={`${paste.filename} - Update`} update={true} data={paste.data} refid={autoString(refid)} />
       )}
     </>
   );

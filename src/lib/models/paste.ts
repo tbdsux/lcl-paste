@@ -1,7 +1,7 @@
 import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
-import { Client } from 'faunadb';
+import { Client, Expr } from 'faunadb';
 import { getSession } from '@auth0/nextjs-auth0';
 
 // main paste model
@@ -43,6 +43,10 @@ export class PasteModel {
       .query(q.Get(q.Ref(q.Collection('pastes'), id)))
       .then((res: PasteQueryResponse) => res.data)
       .catch(() => undefined);
+  }
+
+  async verifyPasteByUserRef(userRef: Expr) {
+    return this.client.query(q.Equals(userRef, q.CurrentIdentity()));
   }
 
   // get latest pastes

@@ -129,16 +129,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
     }
   };
 
-  // check if paste is owned by user,
-  // if not, return a 403 error
-
-  // TODO::
-  // if (update) {
-  //   if (user.sub !== data.user.sub) {
-  //     return <Error statusCode={403} />;
-  //   }
-  // }
-
   return (
     <Layout title={title}>
       <Navigation />
