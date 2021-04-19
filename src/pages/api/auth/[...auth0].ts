@@ -2,8 +2,9 @@
   NOTE: /api/auth/[...auth] -> nextjs-auth0 api router handler
 */
 
-import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
-import { obtainFaunaDBToken } from '@lib/models/userAuth';
+import { getSession, handleAuth, handleCallback, handleLogout } from '@auth0/nextjs-auth0';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { invalidateFaunaDBToken, obtainFaunaDBToken } from '@lib/models/userAuth';
 import { CreateUserIfNotExists } from '@lib/userExists';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -19,6 +20,22 @@ export default handleAuth({
   async callback(req: NextApiRequest, res: NextApiResponse) {
     try {
       await handleCallback(req, res, { afterCallback });
+    } catch (error) {
+      res.status(error.status || 500).end(error.message);
+    }
+  },
+  async logout(req, res) {
+    try {
+      const session = getSession(req, res);
+      if (session) {
+        const token = useTokenAPI(req, res);
+
+        let logout = await invalidateFaunaDBToken(token);
+        if (logout) {
+          logout = null;
+        }
+      }
+      await handleLogout(req, res);
     } catch (error) {
       res.status(error.status || 500).end(error.message);
     }
