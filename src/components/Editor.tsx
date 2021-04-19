@@ -22,6 +22,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
   const { user } = useUser();
 
   const codeEditor = useRef(null);
+  const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
 
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
@@ -200,8 +201,15 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
 
         <div className="flex items-center justify-end py-2">
           <button
-            onClick={handleCreatePaste}
-            className="py-2 px-8 rounded-full bg-primary-500 opacity-80 hover:opacity-100 text-white"
+            ref={btnCreateUpdateRef}
+            onClick={() => {
+              // change button text and disable
+              btnCreateUpdateRef.current.innerText = `${update ? 'Updating' : 'Creating'} Paste...`;
+              btnCreateUpdateRef.current.disabled = true;
+
+              handleCreatePaste();
+            }}
+            className="py-2 px-8 rounded-full bg-primary-500 opacity-80 hover:opacity-100 text-white disabled:opacity-60"
           >
             {update ? 'Update' : 'Create'} Paste
           </button>
