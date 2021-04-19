@@ -20,7 +20,7 @@ export default withPageAuthRequired(function UserPage() {
 
   if (error) {
     // there was a problem with the request
-    return <Error statusCode={404} />;
+    return <Error statusCode={500} />;
   }
 
   if (paste.data.pasteId != pasteid) {

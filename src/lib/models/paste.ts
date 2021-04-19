@@ -16,7 +16,6 @@ export class PasteModel {
 
   // create a new paste
   async createPaste(data: Paste, isUser: boolean) {
-    console.log(this.token);
     return this.client
       .query(
         q.Create(q.Collection('pastes'), {

@@ -1,3 +1,7 @@
+/*
+  NOTE: /api/pastes/update/[refid] -> endpoint for updating a paste.
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 

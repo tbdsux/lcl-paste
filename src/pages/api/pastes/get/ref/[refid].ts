@@ -1,5 +1,5 @@
 /*
-  Note: this api is meant to be acessed only by a logged in user.
+  NOTE: /api/pastes/get/ref/[refid] -> returns the paste data, if only the user is logged in.
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';

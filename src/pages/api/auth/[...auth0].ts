@@ -1,3 +1,7 @@
+/*
+  NOTE: /api/auth/[...auth] -> nextjs-auth0 api router handler
+*/
+
 import { handleAuth, handleCallback } from '@auth0/nextjs-auth0';
 import { obtainFaunaDBToken } from '@lib/models/userAuth';
 import { CreateUserIfNotExists } from '@lib/userExists';

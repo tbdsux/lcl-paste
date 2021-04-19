@@ -1,3 +1,7 @@
+/*
+  NOTE: /api/get/key -> api endpoint for generating a user token api
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired, getSession, UserProfile } from '@auth0/nextjs-auth0';
 import methodHandler from '@lib/middleware/methods';

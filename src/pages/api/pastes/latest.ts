@@ -1,3 +1,7 @@
+/*
+  NOTE: /api/pastes/latest -> returns all of the latest public pastes
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';

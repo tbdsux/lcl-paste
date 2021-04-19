@@ -1,5 +1,9 @@
+/*
+  NOTE: /api/pastes/create -> endpoint for creating a paste
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSession, Session, withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { getSession } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';

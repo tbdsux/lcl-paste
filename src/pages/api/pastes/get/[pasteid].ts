@@ -1,3 +1,7 @@
+/*
+  NOTE: /api/pastes/get/[pasteid] -> returns the paste's data using the pasteId
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { PasteModel } from '@lib/models/paste';

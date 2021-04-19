@@ -1,11 +1,12 @@
+/*
+  NOTE: /api/user/pastes -> returns the current user's pastes
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired, getSession, UserProfile } from '@auth0/nextjs-auth0';
+import { withApiAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
-import { getSubId } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
-
-type SessionProps = { user: UserProfile };
 
 const getUserPastes = async (req: NextApiRequest, res: NextApiResponse) => {
   const p = new PasteModel(useTokenAPI(req, res));
