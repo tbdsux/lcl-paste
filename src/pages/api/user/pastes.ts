@@ -1,18 +1,18 @@
+/*
+  NOTE: /api/user/pastes -> returns the current user's pastes
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired, getSession, UserProfile } from '@auth0/nextjs-auth0';
+import { withApiAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
-import { getSubId } from '@utils/funcs';
-
-type SessionProps = { user: UserProfile };
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 const getUserPastes = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user }: SessionProps = getSession(req, res);
+  const p = new PasteModel(useTokenAPI(req, res));
+  const q = await p.getUserPastes();
 
-  const p = new PasteModel();
-  const q = await p.getUserPastes(getSubId(user.sub));
-
-  return res.status(200).json(q ? q.data : { error: 'internal error' });
+  return res.status(200).json(q ? q.data : []);
 };
 
 export default methodHandler(withApiAuthRequired(getUserPastes), ['GET']);

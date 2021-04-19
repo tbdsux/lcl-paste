@@ -77,8 +77,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       if (isPrivate != data.isPrivate) {
         pasteData.isPrivate = isPrivate;
       }
-
-      console.log(pasteData);
       // end update only specific fields
     } else {
       // generate id
@@ -95,14 +93,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         codeLanguage: codeLanguage,
         pasteId: pasteId,
         isOwnedByUser: user ? true : false,
-        user: user
-          ? {
-              sub: user.sub,
-              subId: getSubId(user.sub),
-              name: user.name,
-              photo: user.picture
-            }
-          : null,
+        ownedByUsername: user ? user.name : '',
         willExpire: false,
         expiryDate: null
       };
@@ -137,14 +128,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       lang.type == 'programming' ? setIsCode(true) : null;
     }
   };
-
-  // check if paste is owned by user,
-  // if not, return a 403 error
-  if (update) {
-    if (user.sub !== data.user.sub) {
-      return <Error statusCode={403} />;
-    }
-  }
 
   return (
     <Layout title={title}>

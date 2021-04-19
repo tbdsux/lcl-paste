@@ -1,14 +1,20 @@
+/*
+  NOTE: /api/pastes/delete/[refid] -> deletes the paste using it's refId
+*/
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+
 import { autoString } from '@utils/funcs';
 
 const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
   const { refid } = req.query;
 
-  const p = new PasteModel();
+  const p = new PasteModel(useTokenAPI(req, res));
   const q = await p.deletePasteByRef(autoString(refid));
 
   if (q) {
