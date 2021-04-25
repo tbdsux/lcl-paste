@@ -2,7 +2,6 @@ import { useState, useRef, ChangeEvent, useCallback } from 'react';
 import Layout from '@components/Layout';
 import Navigation from '@components/Nav';
 import Router from 'next/router';
-import Error from 'next/error';
 
 import { useUser } from '@auth0/nextjs-auth0';
 
@@ -14,6 +13,9 @@ import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { getSubId } from '@utils/funcs';
 
 import * as languages from '@lib/languages';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 type EditorProps = { title: string; update?: boolean; refid?: string; data?: Paste };
 
@@ -100,6 +102,9 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       };
     }
 
+    // notify
+    onCreateNotify(update ? "Updating paste... " : "Creating paste... ");
+
     // contact api
     fetch(`${update ? `/api/pastes/update/${refid}` : '/api/pastes/create'}`, {
       method: 'PUT',
@@ -113,6 +118,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         Router.push(`/p/${update ? data.pasteId : pasteId}`);
       })
       .catch(() => {
+        onErrorNotify(); // show notif
         console.error('problem');
       });
   };
@@ -130,8 +136,23 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
     }
   };
 
+  // react toastify
+  const onErrorNotify = () => toast.error('There was a problem...');
+  const onCreateNotify = (message: string) => toast.info(message);
+
   return (
     <Layout title={title}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+      />
       <Navigation />
 
       <hr />
