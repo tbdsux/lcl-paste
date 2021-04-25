@@ -10,7 +10,7 @@ import { PasteQueryResponse } from '@utils/interfaces/query';
 import { PastesSwrResponse } from '@utils/interfaces/paste';
 
 export default withPageAuthRequired(function UserPastes() {
-  const { data: pastes }: PastesSwrResponse = useSWR('/api/user/pastes');
+  const { data: pastes }: PastesSwrResponse = useSWR('/api/pastes/user');
 
   if (!pastes) {
     return <Loading title="User Pastes" />;
