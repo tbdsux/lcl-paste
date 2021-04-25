@@ -5,10 +5,8 @@ import Image from 'next/image';
 import { useHasMounted } from '@lib/hooks/useHasMounted';
 
 const Navigation = memo(() => {
-  const hasMounted = useHasMounted();
-  const { user, isLoading } = useUser();
-
-  if (!hasMounted || isLoading) return null;
+  const mounted = useHasMounted();
+  const { user } = useUser();
 
   return (
     <nav className="py-6 w-11/12 mx-auto flex items-center justify-between">
@@ -23,7 +21,7 @@ const Navigation = memo(() => {
             <a className="hover:text-primary-600">Latest</a>
           </Link>
         </li>
-        {user ? (
+        {user && mounted ? (
           <>
             <li className="mx-6">
               <Link href="/user/pastes">
