@@ -7,20 +7,17 @@ import MainEditor from '@components/Editor';
 import { Loading } from '@components/Loading';
 
 import { autoString } from '@utils/funcs';
+import Layout from '@components/Layout';
+import Navigation from '@components/Nav';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();
   const { refid, pasteid } = router.query;
 
-  const { data: paste, error } = useSWR(refid ? `/api/pastes/get/ref/${refid}` : null);
+  const { data: paste } = useSWR(refid ? `/api/pastes/get/ref/${refid}` : null);
 
   if (!paste) {
     return <Loading title="Update Paste" />;
-  }
-
-  if (error) {
-    // there was a problem with the request
-    return <Error statusCode={500} />;
   }
 
   if (paste.data.pasteId != pasteid) {
@@ -34,10 +31,11 @@ export default withPageAuthRequired(function UserPage() {
   }
 
   return (
-    <>
-      {paste && (
-        <MainEditor title={`${paste.filename} - Update`} update={true} data={paste.data} refid={autoString(refid)} />
-      )}
-    </>
+    <Layout title={`${paste.data.filename} - Update`}>
+      <Navigation />
+      <hr />
+
+      {paste.data && <MainEditor update={true} data={paste.data} refid={autoString(refid)} />}
+    </Layout>
   );
 });

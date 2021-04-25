@@ -17,9 +17,9 @@ import * as languages from '@lib/languages';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 
-type EditorProps = { title: string; update?: boolean; refid?: string; data?: Paste };
+type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
-export default function MainEditor({ title, update, refid, data }: EditorProps) {
+const MainEditor = ({ update, refid, data }: EditorProps) => {
   // user
   const { user } = useUser();
 
@@ -103,7 +103,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
     }
 
     // notify
-    onCreateNotify(update ? "Updating paste... " : "Creating paste... ");
+    onCreateNotify(update ? 'Updating paste... ' : 'Creating paste... ');
 
     // contact api
     fetch(`${update ? `/api/pastes/update/${refid}` : '/api/pastes/create'}`, {
@@ -123,7 +123,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       });
   };
 
-  const handleGetFileExt = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleGetFileExt = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const filename = e.target.value;
     const file_split = filename.split('.', -1);
 
@@ -134,14 +134,14 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
       // determine if code
       lang.type == 'programming' ? setIsCode(true) : null;
     }
-  };
+  }, []);
 
   // react toastify
   const onErrorNotify = () => toast.error('There was a problem...');
   const onCreateNotify = (message: string) => toast.info(message);
 
   return (
-    <Layout title={title}>
+    <>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -153,9 +153,6 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
         draggable={false}
         pauseOnHover
       />
-      <Navigation />
-
-      <hr />
 
       <div className="w-5/6 mx-auto my-8">
         {/* paste options */}
@@ -203,7 +200,7 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
           <Editor
             height="70vh"
             // defaultLanguage="text"
-            language={data ? data.codeLanguage : codeLanguage}
+            language={codeLanguage}
             defaultValue={data ? data.content : '// enter something in here'}
             beforeMount={handleEditorBeforeMount}
             onMount={(editor, monaco) => {
@@ -236,6 +233,8 @@ export default function MainEditor({ title, update, refid, data }: EditorProps) 
           </button>
         </div>
       </div>
-    </Layout>
+    </>
   );
-}
+};
+
+export default MainEditor;
