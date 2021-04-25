@@ -16,6 +16,7 @@ import * as languages from '@lib/languages';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import { mutate } from 'swr';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
@@ -115,6 +116,8 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     })
       .then((res) => res.json())
       .then(() => {
+        mutate(`/api/pastes/get/ref/${refid}`);
+        mutate('/api/pastes/latest');
         Router.push(`/p/${update ? data.pasteId : pasteId}`);
       })
       .catch(() => {
