@@ -133,9 +133,11 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const lang = languages[file_split[file_split.length - 1]];
     if (lang) {
       // set file language
+      // languages.js is minimized for just `prose` and `programming`
       setCodeLanguage(lang.name);
-      // determine if code
-      lang.type == 'programming' ? setIsCode(true) : null;
+    } else {
+      // fallback to text if none
+      setCodeLanguage('text');
     }
   }, []);
 
