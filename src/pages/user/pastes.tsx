@@ -27,8 +27,8 @@ export default withPageAuthRequired(function UserPastes() {
           <h3 className="font-bold tracking-wide text-xl">My Latest Pastes</h3>
 
           <ul className="mt-6">
-            {pastes.map((paste: PasteQueryResponse) => (
-              <BlockPasteInfo key={paste.data.pasteId} paste={paste} isUserPage={true} />
+            {pastes.map((paste: PasteQueryResponse, index) => (
+              <BlockPasteInfo key={index} paste={paste} isUserPage={true} />
             ))}
           </ul>
         </div>

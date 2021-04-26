@@ -27,10 +27,8 @@ export default function Latest() {
           <h3 className="font-bold tracking-wide text-xl">Latest</h3>
 
           <ul className="mt-6">
-            {pastes.map((paste: PasteQueryResponse) => (
-              <>
-                <BlockPasteInfo key={paste.data.pasteId} paste={paste} isUserPage={false} />
-              </>
+            {pastes.map((paste: PasteQueryResponse, index) => (
+              <BlockPasteInfo key={index} paste={paste} isUserPage={false} />
             ))}
           </ul>
         </div>
