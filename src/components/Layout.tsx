@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Head from 'next/head';
+import { Footer } from './Footer';
 
 type LayoutProps = {
   children: ReactNode;
@@ -15,7 +16,10 @@ export default function Layout({ children, title }: LayoutProps) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
-      <main className="antialiased">{children}</main>
+      <main className="antialiased">
+        {children}
+        <Footer></Footer>
+      </main>
     </>
   );
 }
