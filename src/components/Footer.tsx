@@ -21,7 +21,9 @@ const Footer = () => {
             </ul>
             <ul>
               <li>
-                <ExternalLinkButton href="https://github.com/TheBoringDude/lcl-paste">Github</ExternalLinkButton>
+                <ExternalLinkButton href="https://github.com/TheBoringDude/lcl-paste" title="Goto Github Repo">
+                  Github
+                </ExternalLinkButton>
               </li>
             </ul>
           </div>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { AnchorHTMLAttributes, ReactNode } from 'react';
 
 interface LinkProps {
   href: string;
@@ -8,19 +8,21 @@ interface LinkProps {
 }
 
 interface LinkButtonProps extends LinkProps {}
-interface ExternalLinkButtonProps extends LinkProps {}
+interface ExternalLinkButtonProps extends AnchorHTMLAttributes<LinkProps> {}
 
 const LinkButton = ({ href, className, children }: LinkButtonProps) => {
   return (
     <Link href={href}>
-      <a className={`${className} text-secondary-800 hover:text-primary-500`}>{children}</a>
+      <a className={`${className} text-secondary-800 hover:text-primary-500`} title={children.toString()}>
+        {children}
+      </a>
     </Link>
   );
 };
 
-const ExternalLinkButton = ({ href, className, children }: ExternalLinkButtonProps) => {
+const ExternalLinkButton = ({ href, className, children, title }: ExternalLinkButtonProps) => {
   return (
-    <a href={href} className={`${className} text-secondary-800 hover:text-primary-500`} target="_blank">
+    <a href={href} title={title} className={`${className} text-secondary-800 hover:text-primary-500`} target="_blank">
       {children}
     </a>
   );

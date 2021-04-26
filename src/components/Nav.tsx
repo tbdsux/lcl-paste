@@ -3,6 +3,7 @@ import { useUser } from '@auth0/nextjs-auth0';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useHasMounted } from '@lib/hooks/useHasMounted';
+import { LinkButton } from './shared/link';
 
 const Navigation = memo(() => {
   const mounted = useHasMounted();
@@ -12,21 +13,17 @@ const Navigation = memo(() => {
     <nav className="py-6 w-11/12 mx-auto flex items-center justify-between">
       <h1 className="text-2xl font-extrabold tracking-wide">
         <Link href="/">
-          <a>Local Paste</a>
+          <a title="Return Home">Local Paste</a>
         </Link>
       </h1>
       <ul className="inline-flex items-center text-lg text-secondary-600">
         <li className="mx-6">
-          <Link href="/latest">
-            <a className="hover:text-primary-600">Latest</a>
-          </Link>
+          <LinkButton href="/latest">Latest</LinkButton>
         </li>
         {user && mounted ? (
           <>
             <li className="mx-6">
-              <Link href="/user/pastes">
-                <a className="hover:text-primary-600">Pastes</a>
-              </Link>
+              <LinkButton href="/user/pastes">Pastes</LinkButton>
             </li>
             <li className="pl-8 inline-flex items-center border-l">
               {/* basic user info */}
@@ -52,7 +49,9 @@ const Navigation = memo(() => {
         ) : (
           <li className="ml-6">
             <Link href="/api/auth/login">
-              <a className="py-2 px-8 bg-primary-500 hover:bg-primary-600 text-white">Login</a>
+              <a title="User Login" className="py-2 px-8 bg-primary-500 hover:bg-primary-600 text-white">
+                Login
+              </a>
             </Link>
           </li>
         )}
