@@ -1,7 +1,10 @@
 import { UserProfile } from '@auth0/nextjs-auth0';
-import { adminClient, q } from './fauna';
+import { ApiProps, ApiRefProps } from '@utils/interfaces/api';
+import { sealAPI } from './api-seal';
+import { adminClient, getClient, q } from './fauna';
+import { obtainFaunaDBToken } from './models/userAuth';
 
-const { If, Exists, Match, Index, Create, Collection } = q;
+const { If, Exists, Match, Index, Create, Collection, CurrentIdentity, Get } = q;
 
 const CreateUserIfNotExists = (user: UserProfile) => {
   return adminClient.query(
@@ -19,4 +22,33 @@ const CreateUserIfNotExists = (user: UserProfile) => {
   );
 };
 
-export { CreateUserIfNotExists };
+const CreateApiKeyIfNotExists = async (token: string, usersub: string): Promise<string> => {
+  // (was supposed to be) CurrentIdentity won't work for this case since
+  //  token changes every user login.
+  const exists = await adminClient
+    .query(Get(Match(Index('apiByUserSub'), usersub)))
+    .then((r: ApiRefProps) => r.data.key)
+    .catch(() => undefined);
+
+  if (exists) {
+    return exists;
+  }
+
+  const tk = await obtainFaunaDBToken(usersub);
+  const api = sealAPI(tk);
+
+  return await adminClient
+    .query(
+      Create(Collection('apis'), {
+        data: <ApiProps>{
+          owner: CurrentIdentity(),
+          user: usersub,
+          key: api
+        }
+      })
+    )
+    .then(() => api)
+    .catch(() => '');
+};
+
+export { CreateUserIfNotExists, CreateApiKeyIfNotExists };

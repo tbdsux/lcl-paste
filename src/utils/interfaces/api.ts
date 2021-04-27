@@ -1,6 +1,15 @@
-import { UserProfile } from '@auth0/nextjs-auth0';
+import { Expr } from 'faunadb';
 
-export interface Api {
-  token: string;
-  user: UserProfile;
+interface ApiProps {
+  owner: Object | Expr; // a reference
+  user: string; // user.sub
+  key: string;
 }
+
+interface ApiRefProps {
+  ref: Object;
+  ts: number;
+  data: ApiProps;
+}
+
+export type { ApiProps, ApiRefProps };

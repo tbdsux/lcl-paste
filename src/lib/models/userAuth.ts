@@ -9,7 +9,7 @@ type GetTokenRespProps = {
   secret: string;
 };
 
-const obtainFaunaDBToken = async (user: string) => {
+const obtainFaunaDBToken = async (user: string): Promise<string | undefined> => {
   return adminClient
     .query(
       q.Create(q.Tokens(), {
@@ -17,7 +17,10 @@ const obtainFaunaDBToken = async (user: string) => {
       })
     )
     .then((res: GetTokenRespProps) => res?.secret) // return only the secret
-    .catch((e) => console.error(e));
+    .catch((e) => {
+      console.error(e);
+      return undefined;
+    });
 };
 
 const invalidateFaunaDBToken = async (token: string) => {

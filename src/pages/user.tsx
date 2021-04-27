@@ -1,42 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
-import useSWR from 'swr';
-
 import Layout from '@components/Layout';
-import { Loading } from '@components/Loading';
 
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 export default withPageAuthRequired(function UserPage() {
   const { user } = useUser();
+  const api = typeof user.api_key === 'string' ? user.api_key : '';
 
   const btnCopy = useRef<HTMLButtonElement>(null);
-  const btnGet = useRef<HTMLButtonElement>(null);
-
-  const [api, setApi] = useState<string>(null);
-  const { data } = useSWR('/api/get/key');
-
-  useEffect(() => {
-    if (data) {
-      setApi(data.api);
-    }
-  }, [data]);
-
-  const getApi = () => {
-    btnGet.current.innerHTML = 'Generating...';
-    fetch(`/api/get/key`, {
-      method: 'GET'
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setApi(data.api);
-      })
-      .catch((e) => console.error(e));
-  };
-
-  if (!data) {
-    return <Loading title="User Profile" />;
-  }
 
   return (
     <Layout title={`${user.name} - User`}>
@@ -49,34 +21,23 @@ export default withPageAuthRequired(function UserPage() {
           </div>
         </div>
 
-        {data && (
-          <div className="mt-4">
-            <h3>Api Key: </h3>
-            <section className="py-2 px-4 bg-secondary-100 rounded-md flex items-center justify-between">
-              <p>{api}</p>
-              {api ? (
-                <button
-                  ref={btnCopy}
-                  onClick={() => {
-                    btnCopy.current.innerHTML = 'Copied';
-                    navigator.clipboard.writeText(api);
-                  }}
-                  className="py-1 px-4 rounded-full bg-secondary-500 hover:bg-secondary-600 text-white"
-                >
-                  Copy
-                </button>
-              ) : (
-                <button
-                  ref={btnGet}
-                  onClick={getApi}
-                  className="py-1 px-4 rounded-full bg-secondary-500 hover:bg-secondary-600 text-white"
-                >
-                  Get
-                </button>
-              )}
-            </section>
-          </div>
-        )}
+        <div className="mt-4">
+          <h3>Api Key: </h3>
+          <section className="py-2 px-4 bg-secondary-100 rounded-md flex items-center justify-between">
+            <p>{api}</p>
+            <button
+              ref={btnCopy}
+              onClick={() => {
+                btnCopy.current.innerHTML = 'Copied';
+                navigator.clipboard.writeText(api);
+              }}
+              className="py-1 px-4 rounded-full bg-secondary-500 hover:bg-secondary-600 text-white"
+            >
+              Copy
+            </button>
+          </section>
+          <p className="text-xl py-4 text-primary-500">NOTE!: Api keys are not yet usable...</p>
+        </div>
       </section>
     </Layout>
   );
