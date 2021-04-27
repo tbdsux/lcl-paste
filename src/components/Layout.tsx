@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Head from 'next/head';
 import { Footer } from './Footer';
+import Navigation from './Nav';
 
 type LayoutProps = {
   children: ReactNode;
@@ -17,8 +18,13 @@ export default function Layout({ children, title }: LayoutProps) {
       </Head>
 
       <main className="antialiased">
+        <Navigation />
+        <hr />
+
         {children}
-        <Footer></Footer>
+
+        <hr />
+        <Footer />
       </main>
     </>
   );

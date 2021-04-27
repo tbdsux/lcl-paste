@@ -8,7 +8,6 @@ import { Loading } from '@components/Loading';
 
 import { autoString } from '@utils/funcs';
 import Layout from '@components/Layout';
-import Navigation from '@components/Nav';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();
@@ -32,9 +31,6 @@ export default withPageAuthRequired(function UserPage() {
 
   return (
     <Layout title={`${paste.data.filename} - Update`}>
-      <Navigation />
-      <hr />
-
       {paste.data && <MainEditor update={true} data={paste.data} refid={autoString(refid)} />}
     </Layout>
   );

@@ -3,7 +3,6 @@ import Image from 'next/image';
 import useSWR from 'swr';
 
 import Layout from '@components/Layout';
-import Nav from '@components/Nav';
 import { Loading } from '@components/Loading';
 
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
@@ -41,10 +40,6 @@ export default withPageAuthRequired(function UserPage() {
 
   return (
     <Layout title={`${user.name} - User`}>
-      <Nav />
-
-      <hr />
-
       <section className="w-4/5 mx-auto py-12">
         <div className="flex items-center justify-center border rounded-md border-secondary-200 shadow p-8">
           <Image src={user.picture} height="200" width="200" className="rounded-full" />
