@@ -16,14 +16,18 @@ const Navigation = memo(() => {
           <a title="Return Home">Local Paste</a>
         </Link>
       </h1>
-      <ul className="inline-flex items-center text-lg text-secondary-600">
+      <ul className="inline-flex items-center text-secondary-600">
         <li className="mx-6">
-          <LinkButton href="/latest">Latest</LinkButton>
+          <LinkButton href="/latest" className="font-bold tracking-wider">
+            Latest
+          </LinkButton>
         </li>
         {user && mounted ? (
           <>
             <li className="mx-6">
-              <LinkButton href="/user/pastes">Pastes</LinkButton>
+              <LinkButton href="/user/pastes" className="font-bold tracking-wider">
+                Pastes
+              </LinkButton>
             </li>
             <li className="pl-8 inline-flex items-center border-l">
               {/* basic user info */}
