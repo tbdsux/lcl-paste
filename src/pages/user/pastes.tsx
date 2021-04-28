@@ -23,7 +23,9 @@ export default withPageAuthRequired(function UserPastes() {
 
           <ul className="mt-6">
             {pastes.map((paste: PasteQueryResponse, index) => (
-              <BlockPasteInfo key={index} paste={paste} isUserPage={true} />
+              <section key={index}>
+                <BlockPasteInfo paste={paste} isUserPage={true} /> <hr className="border-secondary-100 my-1" />
+              </section>
             ))}
           </ul>
         </div>

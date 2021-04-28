@@ -5,7 +5,7 @@ type LoadingProps = { title: string };
 export const Loading = ({ title }: LoadingProps) => {
   return (
     <Layout title={title}>
-      <p>Loading...</p>
+      <p className="my-32 text-center">Loading...</p>
     </Layout>
   );
 };
