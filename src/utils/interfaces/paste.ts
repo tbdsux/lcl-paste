@@ -1,3 +1,4 @@
+import { Expr } from 'faunadb';
 import { PasteQueryResponse } from './query';
 
 // paste info data
@@ -11,7 +12,7 @@ export interface Paste {
   pasteId: string;
   isOwnedByUser: boolean;
   ownedByUsername: string;
-  user?: Object;
+  user?: Expr | Object;
   willExpire: boolean;
   expiryDate: null | string;
   createdDate: string;

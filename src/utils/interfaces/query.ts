@@ -1,4 +1,5 @@
 import { Paste } from './paste';
+import { UserDataProps } from './user';
 
 interface QueryResponse {
   ref: Object;
@@ -12,3 +13,11 @@ export interface PasteQueryResponse extends QueryResponse {
 export type RawPasteResp = { content: string; filename: string };
 
 export type MultipleRespPastes = { data: PasteQueryResponse[] };
+
+// query responses
+interface GetPasteReponse {
+  paste: Paste;
+  user: UserDataProps;
+}
+
+export type { GetPasteReponse };

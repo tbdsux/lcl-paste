@@ -1,7 +1,7 @@
 import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
-import { Client, Expr } from 'faunadb';
+import { GetPasteReponse, MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
+import { Client, Expr, Get } from 'faunadb';
 import { getSession } from '@auth0/nextjs-auth0';
 
 // main paste model
@@ -29,10 +29,23 @@ export class PasteModel {
   }
 
   // retrieve paste from id string
-  async getPaste(id: string) {
+  async getPaste(id: string): Promise<GetPasteReponse | undefined> {
     return this.client
-      .query(q.Get(q.Match(q.Index('pasteByID'), id)))
-      .then((res: PasteQueryResponse) => res.data)
+      .query(
+        q.Let(
+          {
+            pasteDoc: q.Get(q.Match(q.Index('pasteByID'), id))
+          },
+          {
+            paste: q.Select('data', q.Var('pasteDoc')),
+            user: q.If(
+              q.Select(['data', 'isOwnedByUser'], q.Var('pasteDoc')),
+              q.Select('data', q.Get(q.Select(['data', 'user'], q.Var('pasteDoc')))),
+              null
+            )
+          }
+        )
+      )
       .catch(() => undefined);
   }
 
