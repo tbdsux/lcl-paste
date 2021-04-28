@@ -16,6 +16,7 @@ export type MultipleRespPastes = { data: PasteQueryResponse[] };
 
 // query responses
 interface GetPasteReponse {
+  pasteRefId?: number;
   paste: Paste;
   user: UserDataProps;
 }

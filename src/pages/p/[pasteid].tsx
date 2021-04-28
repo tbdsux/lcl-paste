@@ -16,6 +16,7 @@ export default function ViewPaste() {
   const router = useRouter();
   const { pasteid } = router.query;
 
+  // get response
   const { data, error } = useSWR<GetPasteReponse>(pasteid ? `/api/pastes/get/${pasteid}` : null);
 
   if (!data) {
@@ -39,8 +40,8 @@ export default function ViewPaste() {
             <p className="ml-2 text-secondary-500 mt-1">{data.paste.description}</p>
           </div>
           <div className="inline-flex text-sm">
-            {user.sub == data.user?.user && (
-              <Link href="/">
+            {user && user?.sub == data.user?.user && (
+              <Link href={`/user/pastes/update/${data.pasteRefId}/${data.paste.pasteId}`}>
                 <a className="mr-2 bg-primary-400 hover:bg-primary-500 p-1 text-white rounded-md">update</a>
               </Link>
             )}
