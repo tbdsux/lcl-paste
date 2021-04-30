@@ -13,10 +13,10 @@ export default withPageAuthRequired(function UserPage() {
   return (
     <Layout title={`${user.name} - User`}>
       <section className="w-4/5 mx-auto py-12">
-        <div className="flex items-center justify-center border rounded-md border-secondary-200 shadow p-8">
+        <div className="flex flex-col md:flex-row items-center justify-center border rounded-md border-secondary-200 shadow p-8">
           <Image src={user.picture} height="200" width="200" className="rounded-full" />
-          <div className="ml-8">
-            <h3 className="text-5xl font-black tracking-wide mb-2 text-primary-500">{user.name}</h3>
+          <div className="ml-0 md:ml-8 mt-2 md:mt-0">
+            <h3 className="text-4xl md:text-5xl font-black tracking-wide mb-2 text-primary-500">{user.name}</h3>
             <p className="bg-secondary-400 p-1 text-white text-right">@{user.sub.split('|')[0]}</p>
           </div>
         </div>
@@ -24,7 +24,7 @@ export default withPageAuthRequired(function UserPage() {
         <div className="mt-4">
           <h3>Api Key: </h3>
           <section className="py-2 px-4 bg-secondary-100 rounded-md flex items-center justify-between">
-            <p>{api}</p>
+            <p className="overflow-x-scroll mr-2">{api}</p>
             <button
               ref={btnCopy}
               onClick={() => {

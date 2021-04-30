@@ -15,11 +15,11 @@ export const BlockPasteInfo = ({ paste, isUserPage }: PasteBlockProps) => {
     >
       <Link href={`/p/${paste.data.pasteId}`}>
         <a
-          className="col-span-11 border border-secondary-200 py-3 px-6 flex items-center justify-between rounded hover:border-primary-500"
+          className="col-span-11 border border-secondary-200 py-3 px-6 flex flex-col md:flex-row items-start md:items-center justify-between rounded hover:border-primary-500"
           title="View paste"
         >
           <Info filename={paste.data.filename} description={paste.data.description} />
-          <div className="w-1/2 justify-end inline-flex items-center text-secondary-500">
+          <div className="w-full md:w-1/2 mt-1 md:mt-0 justify-end inline-flex items-center text-secondary-500">
             <Details
               username={paste.data.ownedByUsername}
               createdDate={paste.data.createdDate}

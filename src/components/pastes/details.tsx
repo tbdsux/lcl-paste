@@ -21,8 +21,8 @@ export const Details = ({ username, createdDate, isPrivate, updated, updatedDate
           <span className="text-xs">{date}</span>
         </div>
       ) : (
-        <span className="text-sm text-secondary-400 ml-8">
-          @{username ? username : 'anonymous'} <span className="text-xs text-secondary-300">{date}</span>
+        <span className="text-sm text-secondary-400 md:ml-8 inline-flex flex-col md:flex-row items-end md:items-center">
+          @{username ? username : 'anonymous'} <span className="ml-1 text-xs text-secondary-300">{date}</span>
         </span>
       )}
     </>

@@ -162,7 +162,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       <div className="w-5/6 mx-auto my-8">
         {/* paste options */}
         <div className="mb-3">
-          <div className="flex items-center justify-between py-2">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-2">
             <div className="inline-flex flex-col">
               <label htmlFor="code-filename" className="text-sm text-secondary-600 lowercase">
                 Filename
@@ -177,7 +177,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
               />
             </div>
 
-            <div>
+            <div className="my-2 md:my-0">
               <input type="checkbox" className="h-4 w-4" ref={codePrivate} defaultChecked={data?.isPrivate} />
               <span className="ml-2 text-secondary-600 lowercase" title="Your paste will not be shown in latest.">
                 Make Private
