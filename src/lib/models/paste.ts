@@ -1,8 +1,15 @@
 import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { GetPasteReponse, MultipleRespPastes, PasteQueryResponse, RawPasteResp } from '@utils/interfaces/query';
-import { Client, Expr, Get } from 'faunadb';
+import {
+  GetPasteResponse,
+  MultipleRespPastes,
+  PasteQueryResponse,
+  QueryErrorResponse,
+  RawPasteResp
+} from '@utils/interfaces/query';
+import { Client, errors, Expr, FaunaHttpErrorResponseContent, Get } from 'faunadb';
 import { getSession } from '@auth0/nextjs-auth0';
+import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
 
 // main paste model
 export class PasteModel {
@@ -29,7 +36,7 @@ export class PasteModel {
   }
 
   // retrieve paste from id string
-  async getPaste(id: string): Promise<GetPasteReponse | undefined> {
+  async getPaste(id: string): Promise<ApiGetPasteResponse | QueryErrorResponse> {
     return this.client
       .query(
         q.Let(
@@ -47,9 +54,19 @@ export class PasteModel {
           }
         )
       )
-      .catch((e) => {
-        console.error(e);
-        return undefined;
+      .then((r: GetPasteResponse) => {
+        return {
+          error: false,
+          data: r,
+          code: 200
+        };
+      })
+      .catch((e: errors.FaunaHTTPError) => {
+        return <QueryErrorResponse>{
+          error: true,
+          description: e.description,
+          code: e.requestResult.statusCode
+        };
       });
   }
 

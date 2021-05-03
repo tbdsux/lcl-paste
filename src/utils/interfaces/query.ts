@@ -6,19 +6,35 @@ interface QueryResponse {
   ts: number;
 }
 
-export interface PasteQueryResponse extends QueryResponse {
+interface PasteQueryResponse extends QueryResponse {
   data: Paste;
 }
 
-export type RawPasteResp = { content: string; filename: string };
+type RawPasteResp = { content: string; filename: string };
 
-export type MultipleRespPastes = { data: PasteQueryResponse[] };
+type MultipleRespPastes = { data: PasteQueryResponse[] };
 
 // query responses
-interface GetPasteReponse {
+interface GetPasteResponse {
   id?: number;
   paste: Paste;
   user: UserDataProps;
 }
 
-export type { GetPasteReponse };
+interface BaseQuery {
+  error: boolean;
+  code: number;
+}
+
+interface QueryErrorResponse extends BaseQuery {
+  description: string;
+}
+
+export type {
+  GetPasteResponse,
+  PasteQueryResponse,
+  RawPasteResp,
+  MultipleRespPastes,
+  QueryErrorResponse,
+  BaseQuery as ApiBaseQueryResponse
+};
