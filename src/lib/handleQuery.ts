@@ -2,10 +2,12 @@ import { ApiBaseQueryResponse, QueryErrorResponse } from '@utils/interfaces/quer
 import { errors } from 'faunadb';
 
 const getQueryError = (e: errors.FaunaHTTPError): QueryErrorResponse => {
+  const r = e.requestResult;
+
   return {
     error: true,
     description: e.description,
-    code: e.requestResult.statusCode
+    code: r ? r.statusCode : 500
   };
 };
 

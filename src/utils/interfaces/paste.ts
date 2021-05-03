@@ -20,7 +20,7 @@ export interface Paste {
 }
 
 export interface UpdatePaste {
-  filename: string;
+  filename?: string;
   content?: string;
   description?: string;
   isPrivate?: boolean;

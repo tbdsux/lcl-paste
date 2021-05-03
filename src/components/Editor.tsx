@@ -1,25 +1,19 @@
 import { useState, useRef, ChangeEvent, useCallback } from 'react';
-import Layout from '@components/Layout';
-import Navigation from '@components/Nav';
 import Router from 'next/router';
 
-import { useUser } from '@auth0/nextjs-auth0';
-
-import { nanoid } from 'nanoid';
-import _ from 'lodash';
-
-import Editor from '@monaco-editor/react';
-import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { getSubId } from '@utils/funcs';
-
-import * as languages from '@lib/languages';
-
-import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { mutate } from 'swr';
+import { useUser } from '@auth0/nextjs-auth0';
+import _ from 'lodash';
+import Editor from '@monaco-editor/react';
+
+import { Paste, UpdatePaste } from '@utils/interfaces/paste';
+import { getCodeLanguage } from '@lib/code';
+
 import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
-import { getCodeLanguage } from '@lib/code';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 

@@ -15,7 +15,6 @@ const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session,
     session.user.token = token;
     session.user.api_key = api_key;
 
-    console.log(token);
     return session;
   });
 };
@@ -32,7 +31,6 @@ export default handleAuth({
     try {
       const session = getSession(req, res);
       if (session) {
-        console.log(session.user);
         let logout = await invalidateFaunaDBToken(session.user.token);
         if (logout) {
           logout = null;

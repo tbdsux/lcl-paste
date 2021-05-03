@@ -16,9 +16,6 @@ export type ApiGetPasteResponse = GetPasteByIdQuery;
 const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse>) => {
   const { pasteid } = req.query;
 
-  const token = useTokenAPI(req, res);
-  console.log(token);
-
   const p = new PasteModel(useTokenAPI(req, res));
 
   // automatically join all strings if array
