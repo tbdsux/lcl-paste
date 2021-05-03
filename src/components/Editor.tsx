@@ -1,22 +1,19 @@
 import { useState, useRef, ChangeEvent, useCallback } from 'react';
-import Layout from '@components/Layout';
-import Navigation from '@components/Nav';
 import Router from 'next/router';
 
-import { useUser } from '@auth0/nextjs-auth0';
-
-import { nanoid } from 'nanoid';
-import _ from 'lodash';
-
-import Editor from '@monaco-editor/react';
-import { Paste, UpdatePaste } from '@utils/interfaces/paste';
-import { getSubId } from '@utils/funcs';
-
-import * as languages from '@lib/languages';
-
-import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { mutate } from 'swr';
+import { useUser } from '@auth0/nextjs-auth0';
+import _ from 'lodash';
+import Editor from '@monaco-editor/react';
+
+import { Paste, UpdatePaste } from '@utils/interfaces/paste';
+import { getCodeLanguage } from '@lib/code';
+
+import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
+import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
@@ -31,7 +28,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const codePrivate = useRef<HTMLInputElement>(null);
   const codeDescription = useRef<HTMLInputElement>(null);
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
-  const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
+  // const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
   const handleEditorBeforeMount = useCallback((monaco) => {
     // definee custom theme
@@ -51,8 +48,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const handleCreatePaste = () => {
     let pasteData: Paste | UpdatePaste = {};
 
-    let pasteId: string;
-
     const content: string = codeEditor.current.getValue();
     const filename: string = codeFilename.current.value;
     const description: string = codeDescription.current.value;
@@ -63,17 +58,17 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       pasteData.updatedDate = new Date().toISOString();
 
       // update only specific fields (if changed)
-      if (isCode != data.isCode) {
-        pasteData.isCode = isCode;
-      }
-      if (codeLanguage != data.codeLanguage) {
-        pasteData.codeLanguage = codeLanguage;
-      }
+      // if (isCode != data.isCode) {
+      //   pasteData.isCode = isCode;
+      // }
+      // if (codeLanguage != data.codeLanguage) {
+      //   pasteData.codeLanguage = codeLanguage;
+      // }
+
+      pasteData.filename = filename; // persist filename
+
       if (content != data.content) {
         pasteData.content = content;
-      }
-      if (filename != data.filename) {
-        pasteData.filename = filename;
       }
       if (description != data.description) {
         pasteData.description = description;
@@ -83,9 +78,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       }
       // end update only specific fields
     } else {
-      // generate id
-      pasteId = nanoid(60);
-
       // get all fields
       pasteData = {
         createdDate: new Date().toISOString(),
@@ -93,11 +85,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         filename: filename,
         description: description,
         isPrivate: isPrivate,
-        isCode: isCode,
-        codeLanguage: codeLanguage,
-        pasteId: pasteId,
-        isOwnedByUser: user ? true : false,
-        ownedByUsername: user ? user.name : '',
+        // isCode: isCode,
+        // codeLanguage: codeLanguage,
+        // isOwnedByUser: user ? true : false,
+        // ownedByUsername: user ? user.name : '',
         willExpire: false,
         expiryDate: null
       };
@@ -115,10 +106,14 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       body: JSON.stringify(pasteData)
     })
       .then((res) => res.json())
-      .then(() => {
-        mutate(`/api/pastes/get/ref/${refid}`);
+      .then((r: ApiCreatePasteResponse | ApiUpdatePasteResponse) => {
+        const pid = update ? data.pasteId : r.data.pasteId;
+        if (update) {
+          mutate(`/api/pastes/get/ref/${refid}`);
+          mutate(`/api/pastes/get/${pid}`);
+        }
         mutate('/api/pastes/latest');
-        Router.push(`/p/${update ? data.pasteId : pasteId}`);
+        Router.push(`/p/${pid}`);
       })
       .catch(() => {
         onErrorNotify(); // show notif
@@ -128,17 +123,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
 
   const handleGetFileExt = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const filename = e.target.value;
-    const file_split = filename.split('.', -1);
-
-    const lang = languages[file_split[file_split.length - 1]];
-    if (lang) {
-      // set file language
-      // languages.js is minimized for just `prose` and `programming`
-      setCodeLanguage(lang.name);
-    } else {
-      // fallback to text if none
-      setCodeLanguage('text');
-    }
+    setCodeLanguage(getCodeLanguage(filename));
   }, []);
 
   // react toastify

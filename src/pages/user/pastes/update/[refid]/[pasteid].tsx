@@ -8,12 +8,13 @@ import { Loading } from '@components/Loading';
 
 import { autoString } from '@utils/funcs';
 import Layout from '@components/Layout';
+import { ApiGetPasteRefResponse } from 'pages/api/pastes/get/ref/[refid]';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();
   const { refid, pasteid } = router.query;
 
-  const { data: paste } = useSWR(refid ? `/api/pastes/get/ref/${refid}` : null);
+  const { data: paste } = useSWR<ApiGetPasteRefResponse>(refid ? `/api/pastes/get/ref/${refid}` : null);
 
   if (!paste) {
     return <Loading title="Update Paste" />;
@@ -27,6 +28,10 @@ export default withPageAuthRequired(function UserPage() {
   if (!paste.isOwnedByCurrentUser) {
     // the paste is not owned by the current user
     return <Error statusCode={403} />;
+  }
+
+  if (paste.error) {
+    return <Error statusCode={paste.code} />
   }
 
   return (

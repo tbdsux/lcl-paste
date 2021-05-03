@@ -3,27 +3,34 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 
 import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { ApiBaseQueryResponse, QueryErrorResponse } from '@utils/interfaces/query';
+import { Paste } from '@utils/interfaces/paste';
+import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
-const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
+export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
+  isOwnedByCurrentUser?: boolean;
+}
+
+const getPasteRef = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteRefResponse>) => {
   const { refid } = req.query;
 
   const p = new PasteModel(useTokenAPI(req, res));
   const q = await p.getPasteByRef(autoString(refid));
 
-  if (q) {
-    const isOwnedByCurrentUser = await p.verifyPasteByUserRef(q.user);
-
-    return res.status(200).json({ isOwnedByCurrentUser, data: q });
+  if (q.error) {
+    res.status(q.code).json(q);
+    return;
   }
 
-  return res.status(404).json({ error: 'Not Found' });
+  const isOwnedByCurrentUser = await p.verifyPasteByUserRef(q.data.user);
+
+  res.status(200).json({ ...q, isOwnedByCurrentUser });
 };
 
-export default methodHandler(withApiAuthRequired(getPasteRef), ['GET']);
+export default methodHandler(withCustomSessionHandler(getPasteRef), ['GET']);

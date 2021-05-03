@@ -4,7 +4,7 @@ import { sealAPI } from './api-seal';
 import { adminClient, getClient, q } from './fauna';
 import { obtainFaunaDBToken } from './models/userAuth';
 
-const { If, Exists, Match, Index, Create, Collection, CurrentIdentity, Get } = q;
+const { If, Exists, Match, Index, Create, Collection, Get, Select } = q;
 
 const CreateUserIfNotExists = (user: UserProfile) => {
   return adminClient.query(
@@ -30,9 +30,7 @@ const CreateApiKeyIfNotExists = async (token: string, usersub: string): Promise<
     .then((r: ApiRefProps) => r.data.key)
     .catch(() => undefined);
 
-  if (exists) {
-    return exists;
-  }
+  if (exists) return exists;
 
   const tk = await obtainFaunaDBToken(usersub);
   const api = sealAPI(tk);
@@ -41,14 +39,17 @@ const CreateApiKeyIfNotExists = async (token: string, usersub: string): Promise<
     .query(
       Create(Collection('apis'), {
         data: <ApiProps>{
-          owner: CurrentIdentity(),
+          owner: Select('ref', Get(Match(Index('user_by_id'), usersub))),
           user: usersub,
           key: api
         }
       })
     )
     .then(() => api)
-    .catch(() => '');
+    .catch((e) => {
+      console.error(e);
+      return '';
+    });
 };
 
 export { CreateUserIfNotExists, CreateApiKeyIfNotExists };

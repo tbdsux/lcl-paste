@@ -3,7 +3,6 @@
 */
 
 import { getSession, handleAuth, handleCallback, handleLogout } from '@auth0/nextjs-auth0';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { invalidateFaunaDBToken, obtainFaunaDBToken } from '@lib/models/userAuth';
 import { CreateApiKeyIfNotExists, CreateUserIfNotExists } from '@lib/userExists';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -15,6 +14,7 @@ const afterCallback = async (req: NextApiRequest, res: NextApiResponse, session,
 
     session.user.token = token;
     session.user.api_key = api_key;
+
     return session;
   });
 };
@@ -31,9 +31,7 @@ export default handleAuth({
     try {
       const session = getSession(req, res);
       if (session) {
-        const token = useTokenAPI(req, res);
-
-        let logout = await invalidateFaunaDBToken(token);
+        let logout = await invalidateFaunaDBToken(session.user.token);
         if (logout) {
           logout = null;
         }

@@ -9,27 +9,19 @@ import methodHandler from '@lib/middleware/methods';
 
 import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
-import { isTokenPublic } from '@lib/isToken';
+import { GetPasteByIdQuery, QueryErrorResponse } from '@utils/interfaces/query';
 
-const getPaste = async (req: NextApiRequest, res: NextApiResponse) => {
+export type ApiGetPasteResponse = GetPasteByIdQuery;
+
+const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse>) => {
   const { pasteid } = req.query;
-
-  const token = useTokenAPI(req, res);
 
   const p = new PasteModel(useTokenAPI(req, res));
 
   // automatically join all strings if array
   const q = await p.getPaste(autoString(pasteid));
 
-  if (q) {
-    // remove the refid if using the public token
-    if (isTokenPublic(token)) {
-      delete q.pasteRefId;
-    }
-
-    return res.status(200).json(q);
-  }
-  return res.status(500).json({ error: 'Internal Server Error' });
+  res.status(q.code).json(q);
 };
 
 export default methodHandler(getPaste, ['GET']);

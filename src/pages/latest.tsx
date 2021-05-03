@@ -5,14 +5,19 @@ import { BlockPasteInfo } from '@components/pastes/Block';
 import { Loading } from '@components/Loading';
 
 import { PasteQueryResponse } from '@utils/interfaces/query';
-import { PastesSwrResponse } from '@utils/interfaces/paste';
+import { ApiGetLatestResponse } from './api/pastes/latest';
+import Error from 'next/error';
 
 export default function Latest() {
   // retrieve all posts
-  const { data: pastes }: PastesSwrResponse = useSWR('/api/pastes/latest');
+  const { data: pastes } = useSWR<ApiGetLatestResponse>('/api/pastes/latest');
 
   if (!pastes) {
     return <Loading title="Latest Pastes" />;
+  }
+
+  if (pastes.error) {
+    return <Error statusCode={pastes.code} />;
   }
 
   return (
@@ -22,7 +27,7 @@ export default function Latest() {
           <h3 className="font-bold tracking-wide text-xl">Latest</h3>
 
           <ul className="mt-6">
-            {pastes.map((paste: PasteQueryResponse, index) => (
+            {pastes.data.map((paste: PasteQueryResponse, index) => (
               <BlockPasteInfo key={index} paste={paste} isUserPage={false} />
             ))}
           </ul>

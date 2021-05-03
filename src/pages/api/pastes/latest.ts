@@ -6,14 +6,17 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { GetLatestPastesQuery, QueryErrorResponse } from '@utils/interfaces/query';
 
-const getLatest = async (req: NextApiRequest, res: NextApiResponse) => {
+export type ApiGetLatestResponse = GetLatestPastesQuery;
+
+const getLatest = async (req: NextApiRequest, res: NextApiResponse<ApiGetLatestResponse>) => {
   const token = useTokenAPI(req, res);
 
   const p = new PasteModel(token);
   const q = await p.getLatestPastes();
 
-  return res.status(200).json(q ? q : { error: 'internal error' });
+  res.status(q.code).json(q);
 };
 
 export default methodHandler(getLatest, ['GET']);
