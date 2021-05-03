@@ -6,7 +6,6 @@ import { BlockPasteInfo } from '@components/pastes/Block';
 import { Loading } from '@components/Loading';
 
 import { PasteQueryResponse } from '@utils/interfaces/query';
-import { PastesSwrResponse } from '@utils/interfaces/paste';
 import { ApiGetUserPastes } from 'pages/api/pastes/user';
 import Error from 'next/error';
 
