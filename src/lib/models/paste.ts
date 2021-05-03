@@ -1,10 +1,11 @@
 import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import {
+  GetLatestPastesQuery,
   GetPasteByIdQuery,
   GetPasteByRefQuery,
   GetPasteResponse,
-  MultipleRespPastes,
+  MultiplePastesQuery,
   PasteQueryResponse,
   QueryErrorResponse,
   RawPasteResp
@@ -95,7 +96,7 @@ export class PasteModel {
   }
 
   // get latest pastes
-  async getLatestPastes() {
+  async getLatestPastes(): Promise<GetLatestPastesQuery | QueryErrorResponse> {
     return this.client
       .query(
         q.Map(
@@ -103,8 +104,20 @@ export class PasteModel {
           q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'ref'], q.Get(q.Var('ref')))
         )
       )
-      .then((res: MultipleRespPastes) => res.data)
-      .catch((e) => console.error(e));
+      .then((res: MultiplePastesQuery) => {
+        return {
+          error: false,
+          code: 200,
+          data: res.data
+        };
+      })
+      .catch((e: errors.FaunaHTTPError) => {
+        return {
+          error: true,
+          description: e.description,
+          code: e.requestResult.statusCode
+        };
+      });
   }
 
   // get user's paste with subId

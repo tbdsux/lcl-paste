@@ -10,9 +10,11 @@ interface PasteQueryResponse extends QueryResponse {
   data: Paste;
 }
 
-type RawPasteResp = { content: string; filename: string };
+type MultiplePastesQuery = {
+  data: PasteQueryResponse[];
+};
 
-type MultipleRespPastes = { data: PasteQueryResponse[] };
+type RawPasteResp = { content: string; filename: string };
 
 // query responses
 interface GetPasteResponse {
@@ -40,14 +42,19 @@ interface GetPasteByRefQuery extends BaseQuery {
   data: Paste;
 }
 
+interface GetLatestPastesQuery extends BaseQuery {
+  data: PasteQueryResponse[];
+}
+
 // EXPORT
 export type {
   GetPasteResponse,
   PasteQueryResponse,
   RawPasteResp,
-  MultipleRespPastes,
+  GetLatestPastesQuery,
   QueryErrorResponse,
   BaseQuery as ApiBaseQueryResponse,
   GetPasteByIdQuery,
-  GetPasteByRefQuery
+  GetPasteByRefQuery,
+  MultiplePastesQuery
 };
