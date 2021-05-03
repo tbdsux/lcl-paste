@@ -3,11 +3,11 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetUserPastesQuery } from '@utils/interfaces/query';
+import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
 export type ApiGetUserPastes = GetUserPastesQuery;
 
@@ -18,4 +18,4 @@ const getUserPastes = async (req: NextApiRequest, res: NextApiResponse<ApiGetUse
   res.status(q.code).json(q);
 };
 
-export default methodHandler(withApiAuthRequired(getUserPastes), ['GET']);
+export default methodHandler(withCustomSessionHandler(getUserPastes), ['GET']);

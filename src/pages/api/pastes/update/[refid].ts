@@ -3,7 +3,6 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
@@ -12,6 +11,7 @@ import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { UpdatePasteQuery } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
+import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
 export type ApiUpdatePasteResponse = UpdatePasteQuery;
 
@@ -32,4 +32,4 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
   res.status(q.code).json(q);
 };
 
-export default methodHandler(withApiAuthRequired(updatePaste), ['PUT', 'POST']);
+export default methodHandler(withCustomSessionHandler(updatePaste), ['PUT', 'POST']);
