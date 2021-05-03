@@ -37,7 +37,7 @@ export class PasteModel {
             pasteDoc: q.Get(q.Match(q.Index('pasteByID'), id))
           },
           {
-            pasteRefId: q.Select(['ref', 'id'], q.Var('pasteDoc')),
+            id: q.Select(['ref', 'id'], q.Var('pasteDoc')),
             paste: q.Select('data', q.Var('pasteDoc')),
             user: q.If(
               q.Select(['data', 'isOwnedByUser'], q.Var('pasteDoc')),

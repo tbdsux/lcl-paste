@@ -41,7 +41,7 @@ export default function ViewPaste() {
           </div>
           <div className="inline-flex text-sm">
             {user && user?.sub == data.user?.user && (
-              <Link href={`/user/pastes/update/${data.pasteRefId}/${data.paste.pasteId}`}>
+              <Link href={`/user/pastes/update/${data.id}/${data.paste.pasteId}`}>
                 <a className="mr-2 bg-primary-400 hover:bg-primary-500 p-1 text-white rounded-md">update</a>
               </Link>
             )}
