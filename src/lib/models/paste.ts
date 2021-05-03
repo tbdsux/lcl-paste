@@ -47,7 +47,10 @@ export class PasteModel {
           }
         )
       )
-      .catch(() => undefined);
+      .catch((e) => {
+        console.error(e);
+        return undefined;
+      });
   }
 
   // get paste by it's ref id

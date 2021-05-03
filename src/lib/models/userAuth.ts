@@ -24,7 +24,8 @@ const obtainFaunaDBToken = async (user: string): Promise<string | undefined> => 
 };
 
 const invalidateFaunaDBToken = async (token: string) => {
-  return await getClient(token).query(q.Logout(true));
+  // NOTE: setting to true will logout all tokens (with the defined user api key)
+  return await getClient(token).query(q.Logout(false));
 };
 
 export { obtainFaunaDBToken, invalidateFaunaDBToken };

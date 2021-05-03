@@ -15,6 +15,7 @@ const getPaste = async (req: NextApiRequest, res: NextApiResponse) => {
   const { pasteid } = req.query;
 
   const token = useTokenAPI(req, res);
+  console.log(token);
 
   const p = new PasteModel(useTokenAPI(req, res));
 
@@ -29,6 +30,7 @@ const getPaste = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res.status(200).json(q);
   }
+  console.log(q);
   return res.status(500).json({ error: 'Internal Server Error' });
 };
 

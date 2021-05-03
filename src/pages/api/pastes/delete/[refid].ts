@@ -3,13 +3,13 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 import { autoString } from '@utils/funcs';
+import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
 const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
   const { refid } = req.query;
@@ -19,9 +19,12 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (q) {
     // redirect back to user's paste if successfully deleted
-    return res.status(200).json({ success: 'Paste is successfully removed' });
+    res.status(200).json({ success: 'Paste is successfully removed' });
+    return;
   }
-  return res.status(404).json({ error: 'Not Found' });
+
+  //TODO::
+  res.status(404).json({ error: 'Not Found' });
 };
 
-export default methodHandler(withApiAuthRequired(getPasteRef), ['DELETE']);
+export default methodHandler(withCustomSessionHandler(getPasteRef), ['DELETE']);
