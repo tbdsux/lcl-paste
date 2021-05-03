@@ -38,7 +38,7 @@ export class PasteModel {
           }
         })
       )
-      .then((r: PasteQueryResponse) => getQuery<PasteQueryResponse>(r))
+      .then((r: PasteQueryResponse) => getQuery<Paste>(r.data))
       .catch((e: errors.FaunaHTTPError) => getQueryError(e));
   }
 

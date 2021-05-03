@@ -1,5 +1,4 @@
 import { Expr } from 'faunadb';
-import { PasteQueryResponse } from './query';
 
 // paste info data
 export interface Paste {
@@ -7,22 +6,22 @@ export interface Paste {
   filename: string;
   description: string;
   isPrivate: boolean;
-  isCode: boolean;
-  codeLanguage: null | string;
-  pasteId: string;
+  isCode?: boolean;
+  codeLanguage?: null | string;
+  pasteId?: string;
   isOwnedByUser: boolean;
   ownedByUsername: string;
   user?: Expr | Object;
-  willExpire: boolean;
-  expiryDate: null | string;
+  willExpire?: boolean;
+  expiryDate?: null | string;
   createdDate: string;
   updated?: boolean;
   updatedDate?: string;
 }
 
 export interface UpdatePaste {
+  filename: string;
   content?: string;
-  filename?: string;
   description?: string;
   isPrivate?: boolean;
   isCode?: boolean;
@@ -32,16 +31,6 @@ export interface UpdatePaste {
   updated?: boolean;
   updatedDate?: string;
 }
-
-export type PastesSwrResponse = {
-  data?: PasteQueryResponse[];
-  error?: any;
-};
-
-export type SinglePasteSwrResponse = {
-  data?: PasteQueryResponse;
-  error?: any;
-};
 
 // user paste basic data
 export interface PasteUserData {

@@ -57,7 +57,7 @@ interface UpdatePasteQuery extends BaseQuery<Paste> {}
 interface DeletePasteQuery extends BaseQuery<null> {}
 
 // api/pastes/create
-interface CreatePasteQuery extends BaseQuery<PasteQueryResponse> {}
+interface CreatePasteQuery extends BaseQuery<Paste> {}
 
 // EXPORT
 export type {
