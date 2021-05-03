@@ -14,7 +14,10 @@ type MultiplePastesQuery = {
   data: PasteQueryResponse[];
 };
 
-type RawPasteResp = { content: string; filename: string };
+interface RawPaste {
+  content: string;
+  filename: string;
+}
 
 // query responses
 interface GetPasteResponse {
@@ -23,38 +26,53 @@ interface GetPasteResponse {
   user: UserDataProps;
 }
 
-interface BaseQuery {
+interface BaseQuery<T> {
   error: boolean;
   code: number;
   description?: string;
-  data?: any;
+  data?: T;
 }
 
-interface QueryErrorResponse extends BaseQuery {}
+interface QueryErrorResponse extends BaseQuery<null> {}
 
 // api/pastes/get/[pasteid]
-interface GetPasteByIdQuery extends BaseQuery {
-  data: GetPasteResponse;
-}
+interface GetPasteByIdQuery extends BaseQuery<GetPasteResponse> {}
 
 // api/pastes/get/ref/[refid]
-interface GetPasteByRefQuery extends BaseQuery {
-  data: Paste;
-}
+interface GetPasteByRefQuery extends BaseQuery<Paste> {}
 
-interface GetLatestPastesQuery extends BaseQuery {
-  data: PasteQueryResponse[];
-}
+// api/pastest/latest
+interface GetLatestPastesQuery extends BaseQuery<PasteQueryResponse[]> {}
+
+// api/pastes/user
+interface GetUserPastesQuery extends GetLatestPastesQuery {}
+
+// api/raw/[pasteid]/[filename]
+interface GetRawPasteQuery extends BaseQuery<RawPaste> {}
+
+// /api/pastes/update/[refid]/[pasteid]
+interface UpdatePasteQuery extends BaseQuery<Paste> {}
+
+// api/pastes/delete/[refid]
+interface DeletePasteQuery extends BaseQuery<null> {}
+
+// api/pastes/create
+interface CreatePasteQuery extends BaseQuery<PasteQueryResponse> {}
 
 // EXPORT
 export type {
   GetPasteResponse,
   PasteQueryResponse,
-  RawPasteResp,
+  GetRawPasteQuery,
+  RawPaste,
   GetLatestPastesQuery,
   QueryErrorResponse,
   BaseQuery as ApiBaseQueryResponse,
   GetPasteByIdQuery,
   GetPasteByRefQuery,
-  MultiplePastesQuery
+  MultiplePastesQuery,
+  GetUserPastesQuery,
+  UpdatePasteQuery,
+  DeletePasteQuery,
+  CreatePasteQuery
 };

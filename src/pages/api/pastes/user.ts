@@ -7,12 +7,15 @@ import { withApiAuthRequired, UserProfile } from '@auth0/nextjs-auth0';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { GetUserPastesQuery } from '@utils/interfaces/query';
 
-const getUserPastes = async (req: NextApiRequest, res: NextApiResponse) => {
+export type ApiGetUserPastes = GetUserPastesQuery;
+
+const getUserPastes = async (req: NextApiRequest, res: NextApiResponse<ApiGetUserPastes>) => {
   const p = new PasteModel(useTokenAPI(req, res));
   const q = await p.getUserPastes();
 
-  return res.status(200).json(q ? q.data : []);
+  res.status(q.code).json(q);
 };
 
 export default methodHandler(withApiAuthRequired(getUserPastes), ['GET']);

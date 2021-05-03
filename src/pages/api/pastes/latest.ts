@@ -8,7 +8,7 @@ import { PasteModel } from '@lib/models/paste';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetLatestPastesQuery, QueryErrorResponse } from '@utils/interfaces/query';
 
-export type ApiGetLatestResponse = GetLatestPastesQuery | QueryErrorResponse;
+export type ApiGetLatestResponse = GetLatestPastesQuery;
 
 const getLatest = async (req: NextApiRequest, res: NextApiResponse<ApiGetLatestResponse>) => {
   const token = useTokenAPI(req, res);

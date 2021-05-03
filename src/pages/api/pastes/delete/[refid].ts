@@ -10,21 +10,17 @@ import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 
 import { autoString } from '@utils/funcs';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
+import { DeletePasteQuery } from '@utils/interfaces/query';
 
-const getPasteRef = async (req: NextApiRequest, res: NextApiResponse) => {
+export type ApiDeletePasteResponse = DeletePasteQuery;
+
+const deletePaste = async (req: NextApiRequest, res: NextApiResponse<ApiDeletePasteResponse>) => {
   const { refid } = req.query;
 
   const p = new PasteModel(useTokenAPI(req, res));
   const q = await p.deletePasteByRef(autoString(refid));
 
-  if (q) {
-    // redirect back to user's paste if successfully deleted
-    res.status(200).json({ success: 'Paste is successfully removed' });
-    return;
-  }
-
-  //TODO::
-  res.status(404).json({ error: 'Not Found' });
+  res.status(q.code).json(q);
 };
 
-export default methodHandler(withCustomSessionHandler(getPasteRef), ['DELETE']);
+export default methodHandler(withCustomSessionHandler(deletePaste), ['DELETE']);

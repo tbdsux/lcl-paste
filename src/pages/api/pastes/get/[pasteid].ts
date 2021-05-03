@@ -11,7 +11,7 @@ import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetPasteByIdQuery, QueryErrorResponse } from '@utils/interfaces/query';
 
-export type ApiGetPasteResponse = GetPasteByIdQuery | QueryErrorResponse;
+export type ApiGetPasteResponse = GetPasteByIdQuery;
 
 const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse>) => {
   const { pasteid } = req.query;

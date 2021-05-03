@@ -10,8 +10,11 @@ import methodHandler from '@lib/middleware/methods';
 import { UpdatePaste } from '@utils/interfaces/paste';
 import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { UpdatePasteQuery } from '@utils/interfaces/query';
 
-const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
+export type ApiUpdatePaste = UpdatePasteQuery;
+
+const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePaste>) => {
   const token = useTokenAPI(req, res);
 
   const data: UpdatePaste = req.body;
@@ -20,11 +23,7 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse) => {
   const p = new PasteModel(token);
   const q = await p.updatePaste(autoString(refid), data);
 
-  if (q) {
-    return res.status(200).json(q);
-  }
-
-  return res.status(500).json({ error: 'Internal Server Error' });
+  res.status(q.code).json(q);
 };
 
-export default methodHandler(withApiAuthRequired(createPaste), ['PUT', 'POST']);
+export default methodHandler(withApiAuthRequired(updatePaste), ['PUT', 'POST']);

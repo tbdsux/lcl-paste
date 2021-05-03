@@ -103,6 +103,8 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       };
     }
 
+    const pId = update ? data.pasteId : pasteId;
+
     // notify
     onCreateNotify(update ? 'Updating paste... ' : 'Creating paste... ');
 
@@ -116,9 +118,12 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     })
       .then((res) => res.json())
       .then(() => {
-        mutate(`/api/pastes/get/ref/${refid}`);
+        if (update) {
+          mutate(`/api/pastes/get/ref/${refid}`);
+          mutate(`/api/pastes/get/${pId}`);
+        }
         mutate('/api/pastes/latest');
-        Router.push(`/p/${update ? data.pasteId : pasteId}`);
+        Router.push(`/p/${pId}`);
       })
       .catch(() => {
         onErrorNotify(); // show notif

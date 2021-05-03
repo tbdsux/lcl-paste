@@ -13,12 +13,11 @@ import { ApiBaseQueryResponse, QueryErrorResponse } from '@utils/interfaces/quer
 import { Paste } from '@utils/interfaces/paste';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
-export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse {
-  isOwnedByCurrentUser: boolean;
-  data: Paste;
+export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
+  isOwnedByCurrentUser?: boolean;
 }
 
-const getPasteRef = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteRefResponse | QueryErrorResponse>) => {
+const getPasteRef = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteRefResponse>) => {
   const { refid } = req.query;
 
   const p = new PasteModel(useTokenAPI(req, res));
