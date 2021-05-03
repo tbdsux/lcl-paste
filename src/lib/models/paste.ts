@@ -1,15 +1,15 @@
 import { q, adminClient, getClient } from '../fauna';
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import {
+  GetPasteByIdQuery,
+  GetPasteByRefQuery,
   GetPasteResponse,
   MultipleRespPastes,
   PasteQueryResponse,
   QueryErrorResponse,
   RawPasteResp
 } from '@utils/interfaces/query';
-import { Client, errors, Expr, FaunaHttpErrorResponseContent, Get } from 'faunadb';
-import { getSession } from '@auth0/nextjs-auth0';
-import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
+import { Client, errors, Expr } from 'faunadb';
 
 // main paste model
 export class PasteModel {
@@ -36,7 +36,7 @@ export class PasteModel {
   }
 
   // retrieve paste from id string
-  async getPaste(id: string): Promise<ApiGetPasteResponse | QueryErrorResponse> {
+  async getPaste(id: string): Promise<GetPasteByIdQuery | QueryErrorResponse> {
     return this.client
       .query(
         q.Let(
@@ -71,14 +71,26 @@ export class PasteModel {
   }
 
   // get paste by it's ref id
-  async getPasteByRef(id: string) {
+  async getPasteByRef(id: string): Promise<GetPasteByRefQuery | QueryErrorResponse> {
     return this.client
       .query(q.Get(q.Ref(q.Collection('pastes'), id)))
-      .then((res: PasteQueryResponse) => res.data)
-      .catch(() => undefined);
+      .then((res: PasteQueryResponse) => {
+        return {
+          error: false,
+          code: 200,
+          data: res.data
+        };
+      })
+      .catch((e: errors.FaunaHTTPError) => {
+        return {
+          error: true,
+          description: e.description,
+          code: e.requestResult.statusCode
+        };
+      });
   }
 
-  async verifyPasteByUserRef(userRef: Expr) {
+  async verifyPasteByUserRef(userRef: Expr): Promise<boolean> {
     return this.client.query(q.Equals(userRef, q.CurrentIdentity()));
   }
 

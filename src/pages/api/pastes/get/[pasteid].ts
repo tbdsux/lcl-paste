@@ -9,15 +9,11 @@ import methodHandler from '@lib/middleware/methods';
 
 import { autoString } from '@utils/funcs';
 import { useTokenAPI } from '@lib/hooks/useTokenAPI';
-import { isTokenPublic } from '@lib/isToken';
-import { ApiBaseQueryResponse, GetPasteResponse, QueryErrorResponse } from '@utils/interfaces/query';
+import { GetPasteByIdQuery, QueryErrorResponse } from '@utils/interfaces/query';
 
-export interface ApiGetPasteResponse extends ApiBaseQueryResponse {
-  error: boolean;
-  data: GetPasteResponse;
-}
+export type ApiGetPasteResponse = GetPasteByIdQuery | QueryErrorResponse;
 
-const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse | QueryErrorResponse>) => {
+const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse>) => {
   const { pasteid } = req.query;
 
   const token = useTokenAPI(req, res);

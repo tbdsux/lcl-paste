@@ -24,17 +24,30 @@ interface GetPasteResponse {
 interface BaseQuery {
   error: boolean;
   code: number;
+  description?: string;
+  data?: any;
 }
 
-interface QueryErrorResponse extends BaseQuery {
-  description: string;
+interface QueryErrorResponse extends BaseQuery {}
+
+// api/pastes/get/[pasteid]
+interface GetPasteByIdQuery extends BaseQuery {
+  data: GetPasteResponse;
 }
 
+// api/pastes/get/ref/[refid]
+interface GetPasteByRefQuery extends BaseQuery {
+  data: Paste;
+}
+
+// EXPORT
 export type {
   GetPasteResponse,
   PasteQueryResponse,
   RawPasteResp,
   MultipleRespPastes,
   QueryErrorResponse,
-  BaseQuery as ApiBaseQueryResponse
+  BaseQuery as ApiBaseQueryResponse,
+  GetPasteByIdQuery,
+  GetPasteByRefQuery
 };
