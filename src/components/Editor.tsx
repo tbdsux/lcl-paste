@@ -80,7 +80,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     } else {
       // get all fields
       pasteData = {
-        createdDate: new Date().toISOString(),
         content: content,
         filename: filename,
         description: description,

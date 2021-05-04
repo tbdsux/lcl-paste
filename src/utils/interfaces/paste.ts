@@ -39,3 +39,22 @@ export interface PasteUserData {
   name: string;
   photo: string;
 }
+
+// fields need to be defined in req.body
+export interface ApiCreatePasteBody {
+  filename: string;
+  content: string;
+  description: null | string;
+  isPrivate: boolean;
+  //expiryDate?: string; TODO
+}
+
+// fields needed for req.body in update
+export interface ApiUpdatePasteBody {
+  pasteId: string;
+  filename: string;
+  content: string;
+  description: string;
+  isPrivate: boolean;
+  // expiryDate?: string; TODO
+}
