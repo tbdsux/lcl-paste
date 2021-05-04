@@ -43,11 +43,24 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
 const getUpdatePasteData = (req: NextApiRequest): ValidateCreateProps => {
   const d: ApiUpdateBarePasteBody = req.body;
 
-  const requiredFields = ['filename', 'content'];
+  const requiredFields = ['filename'];
   const { error, data } = checkRequiredField(d, requiredFields);
 
   if (error) {
     return data;
+  }
+
+  // object[key] -> returns undefined if key does not exist (maybe user did not update it?)
+  if (d.content === '' || d.content === null) {
+    return {
+      rdata: null,
+      ok: false,
+      err: {
+        error: true,
+        code: 400,
+        description: `'content' should not be blank.`
+      }
+    };
   }
 
   const rdata: ApiUpdatePasteBody = {
@@ -55,8 +68,8 @@ const getUpdatePasteData = (req: NextApiRequest): ValidateCreateProps => {
     updatedDate: new Date().toISOString(),
     filename: d.filename,
     content: d.content,
-    isPrivate: isDataBlank(d.isPrivate) ? false : d.isPrivate,
-    description: isDataBlank(d.description) ? '' : d.description
+    isPrivate: d.isPrivate,
+    description: d.description
   };
 
   return { rdata, ok: true };

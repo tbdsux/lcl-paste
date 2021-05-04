@@ -92,7 +92,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       .then((res) => res.json())
       .then((r: ApiCreatePasteResponse | ApiUpdatePasteResponse) => {
         if (r.error) {
-          onErrorNotify();
+          onErrorNotify(r.description);
+          // reset buttons
+          btnCreateUpdateRef.current.innerText = `${update ? 'Update' : 'Create'} Paste`;
+          btnCreateUpdateRef.current.disabled = false;
         } else {
           const pid = update ? data.pasteId : r.data.pasteId;
           if (update) {
@@ -115,7 +118,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   }, []);
 
   // react toastify
-  const onErrorNotify = () => toast.error('There was a problem...');
+  const onErrorNotify = (message: string = 'There was a problem...') => toast.error(message); // custom message
   const onCreateNotify = (message: string) => toast.info(message);
 
   return (

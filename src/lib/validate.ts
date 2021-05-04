@@ -13,6 +13,14 @@ const isDataBlank = <T>(data: T) => {
   return true;
 };
 
+const isDataNull = <T>(d: T) => {
+  if (d === null || d === undefined) {
+    return true;
+  }
+
+  return false;
+};
+
 const checkRequiredField = (d: object, requiredFields: string[]) => {
   for (let index = 0; index < requiredFields.length; index++) {
     const r = requiredFields[index];
@@ -39,4 +47,4 @@ const checkRequiredField = (d: object, requiredFields: string[]) => {
   };
 };
 
-export { isDataBlank, checkRequiredField };
+export { isDataBlank, isDataNull, checkRequiredField };

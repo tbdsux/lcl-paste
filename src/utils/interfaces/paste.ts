@@ -52,7 +52,7 @@ export interface ApiCreatePasteBody {
 // fields needed for req.body in update
 export interface ApiUpdateBarePasteBody {
   filename: string;
-  content: string;
+  content?: string;
   description: string;
   isPrivate: boolean;
 }
