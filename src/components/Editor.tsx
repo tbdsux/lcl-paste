@@ -54,17 +54,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const isPrivate: boolean = codePrivate.current.checked;
 
     if (update) {
-      pasteData.updated = true;
-      pasteData.updatedDate = new Date().toISOString();
-
-      // update only specific fields (if changed)
-      // if (isCode != data.isCode) {
-      //   pasteData.isCode = isCode;
-      // }
-      // if (codeLanguage != data.codeLanguage) {
-      //   pasteData.codeLanguage = codeLanguage;
-      // }
-
       pasteData.filename = filename; // persist filename
 
       if (content != data.content) {
@@ -84,10 +73,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         filename: filename,
         description: description,
         isPrivate: isPrivate,
-        // isCode: isCode,
-        // codeLanguage: codeLanguage,
-        // isOwnedByUser: user ? true : false,
-        // ownedByUsername: user ? user.name : '',
         willExpire: false,
         expiryDate: null
       };
@@ -106,13 +91,17 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     })
       .then((res) => res.json())
       .then((r: ApiCreatePasteResponse | ApiUpdatePasteResponse) => {
-        const pid = update ? data.pasteId : r.data.pasteId;
-        if (update) {
-          mutate(`/api/pastes/get/ref/${refid}`);
-          mutate(`/api/pastes/get/${pid}`);
+        if (r.error) {
+          onErrorNotify();
+        } else {
+          const pid = update ? data.pasteId : r.data.pasteId;
+          if (update) {
+            mutate(`/api/pastes/get/ref/${refid}`);
+            mutate(`/api/pastes/get/${pid}`);
+          }
+          mutate('/api/pastes/latest');
+          Router.push(`/p/${pid}`);
         }
-        mutate('/api/pastes/latest');
-        Router.push(`/p/${pid}`);
       })
       .catch(() => {
         onErrorNotify(); // show notif
