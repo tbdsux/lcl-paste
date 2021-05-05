@@ -50,15 +50,9 @@ export interface ApiCreatePasteBody {
 }
 
 // fields needed for req.body in update
-export interface ApiUpdateBarePasteBody {
-  filename: string;
+export interface ApiUpdatePasteBody {
+  filename?: string;
   content?: string;
   description: string;
   isPrivate: boolean;
-}
-
-export interface ApiUpdatePasteBody extends ApiUpdateBarePasteBody {
-  updated?: boolean;
-  updatedDate?: string;
-  // expiryDate?: string; TODO
 }

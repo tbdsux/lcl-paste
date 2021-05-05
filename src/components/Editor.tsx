@@ -45,6 +45,11 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     });
   }, []);
 
+  const resetButtonRef = () => {
+    btnCreateUpdateRef.current.innerText = `${update ? 'Update' : 'Create'} Paste`;
+    btnCreateUpdateRef.current.disabled = false;
+  };
+
   const handleCreatePaste = () => {
     let pasteData: Paste | UpdatePaste = {};
 
@@ -54,8 +59,9 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const isPrivate: boolean = codePrivate.current.checked;
 
     if (update) {
-      pasteData.filename = filename; // persist filename
-
+      if (filename != data.filename) {
+        pasteData.filename = filename;
+      }
       if (content != data.content) {
         pasteData.content = content;
       }
@@ -94,11 +100,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         if (r.error) {
           onErrorNotify(r.description);
           // reset buttons
-          btnCreateUpdateRef.current.innerText = `${update ? 'Update' : 'Create'} Paste`;
-          btnCreateUpdateRef.current.disabled = false;
+          resetButtonRef();
         } else {
           const pid = update ? data.pasteId : r.data.pasteId;
-          if (update) {
+          if (update && !r.description) {
             mutate(`/api/pastes/get/ref/${refid}`);
             mutate(`/api/pastes/get/${pid}`);
           }
@@ -106,9 +111,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
           Router.push(`/p/${pid}`);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        resetButtonRef();
         onErrorNotify(); // show notif
-        console.error('problem');
+        console.error(e);
       });
   };
 
