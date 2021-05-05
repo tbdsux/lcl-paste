@@ -44,7 +44,7 @@ export interface PasteUserData {
 export interface ApiCreatePasteBody {
   filename: string;
   content: string;
-  description: null | string;
+  description: string;
   isPrivate: boolean;
   //expiryDate?: string; TODO
 }

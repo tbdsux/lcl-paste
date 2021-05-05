@@ -3,8 +3,6 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from '@auth0/nextjs-auth0';
-
 import { nanoid } from 'nanoid';
 
 import { PasteModel } from '@lib/models/paste';
@@ -14,7 +12,9 @@ import { useTokenAPI } from '@lib/hooks/useTokenAPI';
 import { CreatePasteQuery, QueryErrorResponse } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
 import { getUser } from '@lib/hooks/getUser';
-import { isDataBlank } from '@lib/validate';
+import { schemaValidate } from '@lib/validate';
+import { ApiCreateBodySchema } from '@utils/schema/createBody';
+import { errParseBody } from '@lib/body-parse';
 
 export type ApiCreatePasteResponse = CreatePasteQuery;
 type ValidateCreateProps = { rdata: ApiCreatePasteBody; ok: boolean; err?: QueryErrorResponse };
@@ -22,7 +22,7 @@ type ValidateCreateProps = { rdata: ApiCreatePasteBody; ok: boolean; err?: Query
 // MAIN API
 const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePasteResponse>) => {
   // get and check `post data` first
-  const { rdata, ok, err } = getPostCreateData(req);
+  const { rdata, ok, err } = await getPostCreateData(req);
   if (!ok) {
     res.status(err.code).json(err);
     return;
@@ -38,6 +38,8 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
     pasteId: nanoid(50),
     isOwnedByUser: isUser,
     ownedByUsername: name,
+    willExpire: false,
+    expiryDate: null,
     ...rdata
   };
 
@@ -48,36 +50,16 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
 };
 
 // Getter and Validator for req.body
-const getPostCreateData = (req: NextApiRequest): ValidateCreateProps => {
+const getPostCreateData = async (req: NextApiRequest): Promise<ValidateCreateProps> => {
   const d: ApiCreatePasteBody = req.body;
+  console.log(d);
 
-  const requiredFields = ['filename', 'content'];
-  for (let index = 0; index < requiredFields.length; index++) {
-    const r = requiredFields[index];
-
-    if (isDataBlank(d[r])) {
-      return {
-        rdata: null,
-        ok: false,
-        err: {
-          error: true,
-          code: 400,
-          description: `'${r}' should not be blank.`
-        }
-      };
-    }
+  const r = await schemaValidate(ApiCreateBodySchema, d);
+  if (!r[0]) {
+    return errParseBody(r[1]);
   }
 
-  // refactor data
-  // this eleminates unnecessary datas to be included
-  const rdata: ApiCreatePasteBody = {
-    filename: d.filename,
-    content: d.content,
-    isPrivate: isDataBlank(d.isPrivate) ? false : d.isPrivate,
-    description: isDataBlank(d.description) ? '' : d.description
-  };
-
-  return { rdata, ok: true };
+  return { rdata: r[1], ok: true };
 };
 
 export default methodHandler(createPaste, ['PUT', 'POST']);

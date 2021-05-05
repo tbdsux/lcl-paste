@@ -14,6 +14,7 @@ import { getCodeLanguage } from '@lib/code';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 import { schemaValidate } from '@lib/validate';
 import { ApiUpdateBodySchema } from '@utils/schema/updateBody';
+import { errParseBody } from '@lib/body-parse';
 
 export type ApiUpdatePasteResponse = UpdatePasteQuery;
 type ValidateCreateProps = { rdata: ApiUpdatePasteBody; ok: boolean; err?: QueryErrorResponse };
@@ -45,34 +46,20 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
   res.status(q.code).json(q);
 };
 
+// validate data in here before continuing
 const getUpdatePasteData = async (req: NextApiRequest): Promise<ValidateCreateProps> => {
   const d: ApiUpdatePasteBody = req.body;
 
+  // invalid data || blank data
   if (!(typeof d === 'object') || JSON.stringify(d) === '{}') {
-    return {
-      rdata: null,
-      ok: false,
-      err: {
-        error: false,
-        code: 200,
-        description: 'Nothing was changed.'
-      }
-    };
+    return errParseBody('Nothing was changed.', 200);
   }
 
   // object[key] -> returns undefined if key does not exist (maybe user did not update it?)
   const r = await schemaValidate(ApiUpdateBodySchema, d);
 
   if (!r[0]) {
-    return {
-      rdata: null,
-      ok: false,
-      err: {
-        error: true,
-        code: 400,
-        description: r[1]
-      }
-    };
+    return errParseBody(r[1]);
   }
 
   return { rdata: d, ok: true };

@@ -83,7 +83,7 @@ const checkNotNull = (d: object, fields: string[]) => {
 const schemaValidate = async <T>(d: ObjectSchema<T>, val) => {
   return await d
     .validateAsync(val)
-    .then(() => [true, null])
+    .then((r) => [true, r])
     .catch((e) => [false, e.details[0].message]);
 };
 

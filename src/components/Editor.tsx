@@ -78,9 +78,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         content: content,
         filename: filename,
         description: description,
-        isPrivate: isPrivate,
-        willExpire: false,
-        expiryDate: null
+        isPrivate: isPrivate
+        // TODO::
+        // willExpire: false,
+        // expiryDate: null
       };
     }
 
