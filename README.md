@@ -6,13 +6,17 @@ Simple Paste [Bin] Manager App
 
 ## Development
 
-If you want to just run the frontend, run (use `yarn build` if you want to build):
+Run the development server.
 
     $ yarn dev
 
-In running both the frontend and the backend api, use the vercel cli.
+### TODO:
 
-    $ vercel dev
+- Make `expirations` work
+- Add auto setup for automatic `fork -> deploy`
+- Complete `api` endpoints
+- CLEANUP & REFACTOR CODES
+- ...more
 
 ## Environment Variables
 
