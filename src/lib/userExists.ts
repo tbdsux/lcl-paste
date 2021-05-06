@@ -1,7 +1,7 @@
 import { UserProfile } from '@auth0/nextjs-auth0';
 import { ApiProps, ApiRefProps } from '@utils/interfaces/api';
 import { sealAPI } from './api-seal';
-import { adminClient, getClient, q } from './fauna';
+import { adminClient, q } from './fauna';
 import { obtainFaunaDBToken } from './models/userAuth';
 
 const { If, Exists, Match, Index, Create, Collection, Get, Select } = q;

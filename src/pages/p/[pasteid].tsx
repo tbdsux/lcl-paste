@@ -2,15 +2,15 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import Error from 'next/error';
+import { useUser } from '@auth0/nextjs-auth0';
 
 import Layout from '@components/Layout';
 import { Loading } from '@components/Loading';
 
 import Highlight from 'react-highlight';
-import { useUser } from '@auth0/nextjs-auth0';
-import { GetPasteResponse, QueryErrorResponse } from '@utils/interfaces/query';
+
 import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
-import Error from 'next/error';
 
 export default function ViewPaste() {
   const { user } = useUser();
