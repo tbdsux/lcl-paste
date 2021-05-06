@@ -1,0 +1,18 @@
+CreateIndex({
+  name: "pastes_by_userRef",
+  source: Collection("pastes"),
+  terms: [
+    {
+      field: ["data", "user"]
+    }
+  ],
+  values: [
+    {
+      field: ["data", "createdDate"],
+      reverse: true
+    },
+    {
+      field: ["ref"]
+    }
+  ]
+})
