@@ -38,8 +38,12 @@ export default function ViewPaste() {
       <div className="w-5/6 mx-auto my-8">
         <div className="py-2 flex items-center justify-between">
           <div>
-            <h4 className="text-primary-500 text-lg font-bold tracking-wide">{paste.data.paste.filename}</h4>
-            <p className="ml-2 text-secondary-500 mt-1">{paste.data.paste.description}</p>
+            <h4 id="paste-filename" className="text-primary-500 text-lg font-bold tracking-wide">
+              {paste.data.paste.filename}
+            </h4>
+            <p id="paste-description" className="ml-2 text-secondary-500 mt-1">
+              {paste.data.paste.description}
+            </p>
           </div>
           <div className="inline-flex text-sm">
             {user && user?.sub == paste.data.user?.user && (

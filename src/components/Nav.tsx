@@ -28,7 +28,7 @@ const Navigation = memo(() => {
       </div>
       <ul className="hidden md:inline-flex mt-2 md:mt-0 items-center text-secondary-600">
         <li className="mx-6">
-          <LinkButton href="/latest" className="font-bold tracking-wider">
+          <LinkButton id="link-latest" href="/latest" className="font-bold tracking-wider">
             Latest
           </LinkButton>
         </li>
@@ -37,7 +37,7 @@ const Navigation = memo(() => {
       {open ? (
         <ul className={`md:hidden inline-flex flex-col mt-2 md:mt-0 items-center text-secondary-600`}>
           <li className="mx-6 my-1 md:my-0">
-            <LinkButton href="/latest" className="font-bold tracking-wider">
+            <LinkButton id="link-latest" href="/latest" className="font-bold tracking-wider">
               Latest
             </LinkButton>
           </li>

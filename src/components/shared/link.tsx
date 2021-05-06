@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { AnchorHTMLAttributes, ReactNode } from 'react';
 
 interface LinkProps {
+  id?: string;
   href: string;
   className?: string;
   children: ReactNode;
@@ -10,10 +11,10 @@ interface LinkProps {
 interface LinkButtonProps extends LinkProps {}
 interface ExternalLinkButtonProps extends AnchorHTMLAttributes<LinkProps> {}
 
-const LinkButton = ({ href, className, children }: LinkButtonProps) => {
+const LinkButton = ({ id, href, className, children }: LinkButtonProps) => {
   return (
     <Link href={href}>
-      <a className={`${className} text-secondary-800 hover:text-primary-500`} title={children.toString()}>
+      <a id={id} className={`${className} text-secondary-800 hover:text-primary-500`} title={children.toString()}>
         {children}
       </a>
     </Link>
