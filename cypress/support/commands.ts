@@ -23,3 +23,19 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('getToastMessage', (messages: string[]) => {
+  cy.get('.Toastify__toast-body').each((el, index, list) => {
+    cy.wrap(el).should('contain', messages[index]);
+  });
+});
+
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Get the `Toastify` messages popup
+     * @example cy.getToastMessage('"filename" should not be empty')
+     */
+    getToastMessage: (messages: string[]) => void;
+  }
+}

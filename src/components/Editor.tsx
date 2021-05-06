@@ -86,7 +86,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     }
 
     // notify
-    onCreateNotify(update ? 'Updating paste... ' : 'Creating paste... ');
+    onCreateNotify(update ? 'Updating paste...' : 'Creating paste...');
 
     // contact api
     fetch(`${update ? `/api/pastes/update/${refid}` : '/api/pastes/create'}`, {
@@ -207,6 +207,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
 
         <div className="flex items-center justify-end py-2">
           <button
+            id="create-update-btn"
             ref={btnCreateUpdateRef}
             onClick={() => {
               // change button text and disable
