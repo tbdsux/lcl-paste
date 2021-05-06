@@ -16,9 +16,9 @@ export const Details = ({ username, createdDate, isPrivate, updated, updatedDate
   return (
     <>
       {isUserPage ? (
-        <div className="mr-8">
-          <span className="bg-secondary-400 text-xs p-1 text-white mx-1">{isPrivate ? 'private' : 'public'}</span>
+        <div>
           <span className="text-xs">{date}</span>
+          <span className="bg-secondary-400 text-xs p-1 text-white ml-3">{isPrivate ? 'private' : 'public'}</span>
         </div>
       ) : (
         <span className="text-sm text-secondary-400 md:ml-8 inline-flex flex-col md:flex-row items-end md:items-center">

@@ -96,11 +96,14 @@ export class PasteModel {
       .query(
         q.Map(
           q.Paginate(q.Match(q.Index('pastes_by_userRef'), q.CurrentIdentity())),
-          q.Lambda('ref', q.Get(q.Var('ref')))
+          q.Lambda(['a', 'ref'], q.Get(q.Var('ref')))
         )
       )
       .then((res: MultiplePastesQuery) => getQuery<PasteQueryResponse[]>(res.data))
-      .catch((e) => getQueryError(e));
+      .catch((e) => {
+        console.error(e);
+        return getQueryError(e);
+      });
   }
 
   // get pasteid raw content
