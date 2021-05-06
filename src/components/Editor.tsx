@@ -151,6 +151,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 Filename
               </label>
               <input
+                id="paste-filename"
                 ref={codeFilename}
                 onChange={_.debounce(handleGetFileExt, 500)}
                 type="text"
@@ -161,7 +162,13 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
             </div>
 
             <div className="my-2 md:my-0">
-              <input type="checkbox" className="h-4 w-4" ref={codePrivate} defaultChecked={data?.isPrivate} />
+              <input
+                id="paste-privacy"
+                type="checkbox"
+                className="h-4 w-4"
+                ref={codePrivate}
+                defaultChecked={data?.isPrivate}
+              />
               <span className="ml-2 text-secondary-600 lowercase" title="Your paste will not be shown in latest.">
                 Make Private
               </span>
@@ -172,6 +179,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
               Short Description
             </label>
             <input
+              id="paste-description"
               type="text"
               ref={codeDescription}
               className="py-2 px-4 border tracking-wide rounded-md border-secondary-300 focus:outline-none focus:border-primary-400"

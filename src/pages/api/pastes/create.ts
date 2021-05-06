@@ -52,7 +52,6 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
 // Getter and Validator for req.body
 const getPostCreateData = async (req: NextApiRequest): Promise<ValidateCreateProps> => {
   const d: ApiCreatePasteBody = req.body;
-  console.log(d);
 
   const r = await schemaValidate(ApiCreateBodySchema, d);
   if (!r[0]) {
