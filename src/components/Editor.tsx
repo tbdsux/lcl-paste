@@ -18,9 +18,6 @@ import 'react-toastify/dist/ReactToastify.css';
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
 const MainEditor = ({ update, refid, data }: EditorProps) => {
-  // user
-  const { user } = useUser();
-
   const codeEditor = useRef(null);
   const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
 
@@ -197,7 +194,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
             height="70vh"
             // defaultLanguage="text"
             language={codeLanguage}
-            defaultValue={data ? data.content : '// enter something in here'}
+            defaultValue={data ? data.content : null}
             beforeMount={handleEditorBeforeMount}
             onMount={(editor, monaco) => {
               // pass ref
