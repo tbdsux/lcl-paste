@@ -1,3 +1,4 @@
+import { number } from 'joi';
 import { Paste } from './paste';
 import { UserDataProps } from './user';
 
@@ -59,6 +60,13 @@ interface DeletePasteQuery extends BaseQuery<null> {}
 // api/pastes/create
 interface CreatePasteQuery extends BaseQuery<Paste> {}
 
+// api/stats
+interface BaseStatsProps {
+  users: number;
+  pastes: number;
+}
+interface GetStatsQuery extends BaseQuery<BaseStatsProps> {}
+
 // EXPORT
 export type {
   GetPasteResponse,
@@ -74,5 +82,7 @@ export type {
   GetUserPastesQuery,
   UpdatePasteQuery,
   DeletePasteQuery,
-  CreatePasteQuery
+  CreatePasteQuery,
+  GetStatsQuery,
+  BaseStatsProps
 };
