@@ -1,4 +1,3 @@
-import { number } from 'joi';
 import { Paste } from './paste';
 import { UserDataProps } from './user';
 
