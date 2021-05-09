@@ -83,11 +83,14 @@ export class PasteModel {
       .query(
         q.Map(
           q.Paginate(q.Match(q.Index('latestPublicPastesByDate'), false)),
-          q.Lambda(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'ref'], q.Get(q.Var('ref')))
+          q.Lambda(['a', 'ref'], q.Get(q.Var('ref')))
         )
       )
       .then((res: MultiplePastesQuery) => getQuery<PasteQueryResponse[]>(res.data))
-      .catch((e: errors.FaunaHTTPError) => getQueryError(e));
+      .catch((e: errors.FaunaHTTPError) => {
+        console.error(e)
+        return getQueryError(e)
+      });
   }
 
   // get user's paste with subId
