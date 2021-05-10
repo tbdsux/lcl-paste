@@ -13,7 +13,7 @@ export interface Paste {
   ownedByUsername: string;
   user?: Expr | Object;
   willExpire?: boolean;
-  expiryDate?: null | string;
+  expiryDate?: string;
   createdDate: string;
   updated?: boolean;
   updatedDate?: string;
@@ -27,7 +27,7 @@ export interface UpdatePaste {
   isCode?: boolean;
   codeLanguage?: null | string;
   willExpire?: boolean;
-  expiryDate?: boolean;
+  expiryDate?: string;
   updated?: boolean;
   updatedDate?: string;
 }
@@ -46,13 +46,14 @@ export interface ApiCreatePasteBody {
   content: string;
   description: string;
   isPrivate: boolean;
-  //expiryDate?: string; TODO
+  expiryDate: string;
 }
 
 // fields needed for req.body in update
 export interface ApiUpdatePasteBody {
-  filename?: string;
-  content?: string;
+  filename: string;
+  content: string;
   description: string;
   isPrivate: boolean;
+  expiryDate: string;
 }

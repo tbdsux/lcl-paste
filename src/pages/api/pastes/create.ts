@@ -38,8 +38,7 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
     pasteId: nanoid(50),
     isOwnedByUser: isUser,
     ownedByUsername: name,
-    willExpire: false,
-    expiryDate: null,
+    willExpire: !!rdata.expiryDate,
     ...rdata
   };
 

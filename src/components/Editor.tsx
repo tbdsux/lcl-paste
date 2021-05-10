@@ -24,6 +24,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
   const codeDescription = useRef<HTMLInputElement>(null);
+  const codeExpiration = useRef<HTMLInputElement>();
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
   // const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
@@ -54,6 +55,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const filename: string = codeFilename.current.value;
     const description: string = codeDescription.current.value;
     const isPrivate: boolean = codePrivate.current.checked;
+    const expiryDate: string = new Date(codeExpiration.current.value).toISOString();
 
     if (update) {
       if (filename != data.filename) {
@@ -75,10 +77,8 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         content: content,
         filename: filename,
         description: description,
-        isPrivate: isPrivate
-        // TODO::
-        // willExpire: false,
-        // expiryDate: null
+        isPrivate: isPrivate,
+        expiryDate: expiryDate
       };
     }
 
@@ -171,18 +171,31 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col py-2">
-            <label htmlFor="code-desc" className="text-sm text-secondary-600 lowercase">
-              Short Description
-            </label>
-            <input
-              id="paste-description"
-              type="text"
-              ref={codeDescription}
-              className="py-2 px-4 border tracking-wide rounded-md border-secondary-300 focus:outline-none focus:border-primary-400"
-              placeholder="Enter some short description for your paste..."
-              defaultValue={data?.description}
-            />
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-2">
+            <div className="flex flex-col w-full">
+              <label htmlFor="code-desc" className="text-sm text-secondary-600 lowercase">
+                Short Description
+              </label>
+              <input
+                id="paste-description"
+                type="text"
+                ref={codeDescription}
+                className="py-2 px-4 border tracking-wide rounded-md border-secondary-300 focus:outline-none focus:border-primary-400"
+                placeholder="Enter some short description for your paste..."
+                defaultValue={data?.description}
+              />
+            </div>
+            <div className="flex flex-col ml-4">
+              <label htmlFor="paste-expiration" className="text-sm text-secondary-600 lowercase">
+                set expiration
+              </label>
+              <input
+                id="paste-expiration"
+                type="datetime-local"
+                ref={codeExpiration}
+                className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
+              />
+            </div>
           </div>
         </div>
 

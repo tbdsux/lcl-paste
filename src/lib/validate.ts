@@ -5,7 +5,10 @@ const schemaValidate = async <T>(d: ObjectSchema<T>, val) => {
   return await d
     .validateAsync(val)
     .then((r) => [true, r])
-    .catch((e) => [false, e.details[0].message]);
+    .catch((e) => {
+      console.error(e);
+      return [false, e.details[0].message];
+    });
 };
 
 export { schemaValidate };

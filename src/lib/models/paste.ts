@@ -35,11 +35,15 @@ export class PasteModel {
           data: {
             ...data,
             user: isUser ? q.CurrentIdentity() : {}
-          }
+          },
+          ttl: data.willExpire ? q.Time(data.expiryDate) : undefined
         })
       )
       .then((r: PasteQueryResponse) => getQuery<Paste>(r.data))
-      .catch((e: errors.FaunaHTTPError) => getQueryError(e));
+      .catch((e: errors.FaunaHTTPError) => {
+        console.error(e);
+        return getQueryError(e);
+      });
   }
 
   // retrieve paste from id string
@@ -88,8 +92,8 @@ export class PasteModel {
       )
       .then((res: MultiplePastesQuery) => getQuery<PasteQueryResponse[]>(res.data))
       .catch((e: errors.FaunaHTTPError) => {
-        console.error(e)
-        return getQueryError(e)
+        console.error(e);
+        return getQueryError(e);
       });
   }
 
