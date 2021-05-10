@@ -6,7 +6,7 @@ const ApiCreateBodySchema = Joi.object<ApiCreatePasteBody>({
   content: Joi.string().min(1).required(),
   description: Joi.string().allow('').default(false),
   isPrivate: Joi.boolean().default(false),
-  expiryDate: Joi.date().iso().min('now').default(null).raw()
+  expiryDate: Joi.date().iso().min('now').allow(null).raw()
 }).with('filename', 'content');
 
 export { ApiCreateBodySchema };

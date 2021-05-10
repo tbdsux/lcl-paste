@@ -3,9 +3,7 @@ import Router from 'next/router';
 
 import { toast, ToastContainer } from 'react-toastify';
 import { mutate } from 'swr';
-import { useUser } from '@auth0/nextjs-auth0';
 import _ from 'lodash';
-import Editor from '@monaco-editor/react';
 
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { getCodeLanguage } from '@lib/code';
@@ -14,12 +12,14 @@ import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { MonacoEditor } from './editor/monaco';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
 const MainEditor = ({ update, refid, data }: EditorProps) => {
-  const codeEditor = useRef(null);
   const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
+
+  const codeEditor = useRef(null);
 
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
@@ -28,21 +28,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
   // const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
-  const handleEditorBeforeMount = useCallback((monaco) => {
-    // definee custom theme
-    monaco.editor.defineTheme('lcl-theme', {
-      base: 'vs',
-      inherit: true,
-      rules: [{ foreground: '#52525b' }],
-      colors: {
-        'editor.foreground': '#52525b',
-        'editorLineNumber.foreground': '#d4d4d8',
-        'editor.lineHighlightBackground': '#00000000',
-        'editor.lineHighlightBorder': '#00000000'
-      }
-    });
-  }, []);
-
   const resetButtonRef = () => {
     btnCreateUpdateRef.current.innerText = `${update ? 'Update' : 'Create'} Paste`;
     btnCreateUpdateRef.current.disabled = false;
@@ -50,7 +35,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
 
   const handleCreatePaste = () => {
     let pasteData: Paste | UpdatePaste = {};
-
     const content: string = codeEditor.current.getValue();
     const filename: string = codeFilename.current.value;
     const description: string = codeDescription.current.value;
@@ -217,24 +201,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
           <label htmlFor="code-content" className="text-sm text-secondary-600 lowercase">
             Paste
           </label>
-          <Editor
-            height="70vh"
-            // defaultLanguage="text"
-            language={codeLanguage}
-            defaultValue={data ? data.content : null}
-            beforeMount={handleEditorBeforeMount}
-            onMount={(editor, monaco) => {
-              // pass ref
-              codeEditor.current = editor;
-            }}
-            wrapperClassName="border border-secondary-200 py-3 rounded-md"
-            options={{
-              minimap: {
-                enabled: false
-              }
-            }}
-            theme="lcl-theme"
-          />
+          <MonacoEditor codeEditor={codeEditor} codeLanguage={codeLanguage} content={data ? data.content : null} />
         </div>
 
         <div className="flex items-center justify-end py-2">
