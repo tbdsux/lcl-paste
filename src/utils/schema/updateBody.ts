@@ -6,7 +6,7 @@ const ApiUpdateBodySchema = Joi.object<ApiUpdatePasteBody>({
   content: Joi.string().min(1),
   description: Joi.string(),
   isPrivate: Joi.bool(),
-  expiryDate: Joi.date().min('now').raw()
+  expiryDate: Joi.date().min('now').allow(null).raw()
 });
 
 export { ApiUpdateBodySchema };

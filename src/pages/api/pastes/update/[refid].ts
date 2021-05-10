@@ -31,6 +31,7 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
 
   let data: UpdatePaste = {
     ...rdata,
+    willExpire: !!rdata.expiryDate,
     updated: true,
     updatedDate: new Date().toISOString()
   };

@@ -40,10 +40,7 @@ export class PasteModel {
         })
       )
       .then((r: PasteQueryResponse) => getQuery<Paste>(r.data))
-      .catch((e: errors.FaunaHTTPError) => {
-        console.error(e);
-        return getQueryError(e);
-      });
+      .catch((e: errors.FaunaHTTPError) => getQueryError(e));
   }
 
   // retrieve paste from id string
@@ -107,10 +104,7 @@ export class PasteModel {
         )
       )
       .then((res: MultiplePastesQuery) => getQuery<PasteQueryResponse[]>(res.data))
-      .catch((e) => {
-        console.error(e);
-        return getQueryError(e);
-      });
+      .catch((e) => getQueryError(e));
   }
 
   // get pasteid raw content
@@ -138,7 +132,12 @@ export class PasteModel {
   // update paste
   async updatePaste(id: string, data: UpdatePaste): Promise<UpdatePasteQuery> {
     return this._client
-      .query(q.Update(q.Ref(q.Collection('pastes'), id), { data: data }))
+      .query(
+        q.Update(q.Ref(q.Collection('pastes'), id), {
+          data: data,
+          ttl: data.willExpire ? q.Time(data.expiryDate) : null
+        })
+      )
       .then((r: PasteQueryResponse) => getQuery<Paste>(r.data))
       .catch((e: errors.FaunaHTTPError) => getQueryError(e));
   }

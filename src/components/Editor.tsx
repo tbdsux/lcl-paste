@@ -55,7 +55,9 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const filename: string = codeFilename.current.value;
     const description: string = codeDescription.current.value;
     const isPrivate: boolean = codePrivate.current.checked;
-    const expiryDate: string = new Date(codeExpiration.current.value).toISOString();
+    const expiryDate: string = codeExpiration.current.value
+      ? new Date(codeExpiration.current.value).toISOString()
+      : null;
 
     if (update) {
       if (filename != data.filename) {
@@ -69,6 +71,9 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       }
       if (isPrivate != data.isPrivate) {
         pasteData.isPrivate = isPrivate;
+      }
+      if (expiryDate != data.expiryDate) {
+        pasteData.expiryDate = expiryDate;
       }
       // end update only specific fields
     } else {
@@ -114,6 +119,14 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         onErrorNotify(); // show notif
         console.error(e);
       });
+  };
+
+  const convertDateForInput = (date: string) => {
+    if (date) {
+      const d = new Date(date);
+      const dd = date.split('T')[0];
+      return `${dd}T${d.getHours()}:${d.getMinutes()}`;
+    }
   };
 
   const handleGetFileExt = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +206,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 id="paste-expiration"
                 type="datetime-local"
                 ref={codeExpiration}
+                defaultValue={convertDateForInput(data?.expiryDate)}
                 className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
               />
             </div>
