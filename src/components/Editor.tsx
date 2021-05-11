@@ -155,7 +155,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
               />
             </div>
 
-            <div className="my-2 md:my-0">
+            <div className="my-2 md:my-0 inline-flex items-start">
               <input
                 id="paste-privacy"
                 type="checkbox"
@@ -163,7 +163,10 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 ref={codePrivate}
                 defaultChecked={data?.isPrivate}
               />
-              <span className="ml-2 text-secondary-600 lowercase" title="Your paste will not be shown in latest.">
+              <span
+                className="ml-2 text-secondary-600 lowercase text-sm"
+                title="Your paste will not be shown in latest."
+              >
                 Make Private
               </span>
             </div>
@@ -177,15 +180,24 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 id="paste-description"
                 type="text"
                 ref={codeDescription}
-                className="py-2 px-4 border tracking-wide rounded-md border-secondary-300 focus:outline-none focus:border-primary-400"
+                className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 focus:outline-none focus:border-primary-400"
                 placeholder="Enter some short description for your paste..."
                 defaultValue={data?.description}
               />
             </div>
-            <div className="flex flex-col ml-4">
-              <label htmlFor="paste-expiration" className="text-sm text-secondary-600 lowercase">
-                set expiration
-              </label>
+            <div className="flex flex-col w-56 lg:w-auto md:ml-4 py-2">
+              <div className="flex items-center justify-between">
+                <label htmlFor="paste-expiration" className="text-sm text-secondary-600 lowercase">
+                  Set Expiration
+                </label>
+                <button
+                  title="Remove expiration date"
+                  className="text-xs text-secondary-500 hover:underline"
+                  onClick={() => (codeExpiration.current.value = '')}
+                >
+                  clear
+                </button>
+              </div>
               <input
                 id="paste-expiration"
                 type="datetime-local"
