@@ -31,6 +31,7 @@ export default function ViewPaste() {
 
   const getPrivacy = paste.data.paste.isPrivate ? 'private' : 'public';
   const getUser = paste.data.paste.ownedByUsername ? paste.data.paste.ownedByUsername : 'anonymous';
+  const getExpiryDate = paste.data.paste.willExpire ? new Date(paste.data.paste.expiryDate).toLocaleString() : null;
 
   return (
     <Layout title={paste.data.paste.filename}>
@@ -66,7 +67,12 @@ export default function ViewPaste() {
             </div>
           </div>
           <hr className="my-4" />
-          <div className="p-4 rounded-md shadow-lg border border-secondary-200 relative">
+          {paste.data.paste.willExpire && user?.sub == paste.data.user?.user && (
+            <p className="text-secondary-400 text-sm text-right my-2">
+              expire in: <span className="underline">{getExpiryDate}</span>
+            </p>
+          )}
+          <div className="p-4 rounded-md shadow-2xl border border-secondary-200 relative">
             <div className="absolute top-1 right-1 inline-flex items-center">
               {/* redirect to carbon */}
               <a
