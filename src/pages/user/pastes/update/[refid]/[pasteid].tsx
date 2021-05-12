@@ -20,7 +20,7 @@ export default withPageAuthRequired(function UserPage() {
     return <Loading title="Update Paste" />;
   }
 
-  if (paste.data.pasteId != pasteid) {
+  if (paste.data?.pasteId != pasteid) {
     // the pasteid in the url is not similar from the paste's pasteid
     return <Error statusCode={404} />;
   }
@@ -31,7 +31,7 @@ export default withPageAuthRequired(function UserPage() {
   }
 
   if (paste.error) {
-    return <Error statusCode={paste.code} />
+    return <Error statusCode={paste.code} />;
   }
 
   return (
