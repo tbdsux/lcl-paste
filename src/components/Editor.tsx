@@ -119,7 +119,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   }, []);
 
   // react toastify
-  const onErrorNotify = (message: string = 'There was a problem...') => toast.error(message); // custom message
+  const onErrorNotify = (message = 'There was a problem...') => toast.error(message); // custom message
   const onCreateNotify = (message: string) => toast.info(message);
 
   return (
