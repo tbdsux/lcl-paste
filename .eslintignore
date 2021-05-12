@@ -1,9 +1,6 @@
 # tailwind config
 tailwind.config.js
 
-# cypress
-cypress
-
 # prettier
 !.prettierrc
 
