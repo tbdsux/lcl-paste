@@ -7,13 +7,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 8
   },
-  extends: ['eslint:recommended', 'plugin:cypress/recommended'],
+  extends: ['eslint:recommended'],
   rules: {
     'no-console': 'off'
   },
   overrides: [
     {
-      files: ['src/**/*.ts', 'src/**/*.tsx'],
+      files: ['src/**/*.ts', 'src/**/*.tsx', 'cypress/**/*.ts'],
       parser: '@typescript-eslint/parser',
       settings: {
         react: {
@@ -31,6 +31,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
+        'plugin:cypress/recommended',
         // 'plugin:jsx-a11y/recommended',
         'plugin:prettier/recommended'
       ],
