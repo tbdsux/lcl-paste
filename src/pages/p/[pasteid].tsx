@@ -79,7 +79,9 @@ export default function ViewPaste() {
                 title="Create Carbon Image"
                 className="text-primary-400 hover:text-primary-500"
                 target="_blank"
-                href={`https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=javascript&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=${encodeURI(
+                href={`https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=${
+                  paste.data.paste.codeLanguage
+                }&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=${encodeURI(
                   paste.data.paste.content
                 )}`}
                 rel="noreferrer"
