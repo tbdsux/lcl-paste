@@ -1,9 +1,9 @@
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { LinkButton } from './shared/link';
 import { UserNav } from './userNav';
 
-const Navigation = memo(() => {
+const Navigation = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -46,6 +46,6 @@ const Navigation = memo(() => {
       ) : null}
     </nav>
   );
-});
+};
 
 export default Navigation;
