@@ -1,6 +1,6 @@
 describe('Homepage', () => {
   beforeEach(() => {
-    cy.visit(Cypress.env('AppURL'));
+    cy.visit('/');
   });
 
   it('should display website name', () => {

@@ -4,17 +4,16 @@ const samplePaste = {
   content: "console.log('this is a test from cypress')"
 };
 
-let url: string;
-
 describe('Using the Editor', () => {
   beforeEach(() => {
-    cy.visit(Cypress.env('AppURL'));
+    cy.visit('/');
   });
 
   it('shows error if clicked `Create Paste` with no filename', () => {
     cy.get('#create-update-btn').click();
 
     // might be an anti-pattern but it works wahhaha
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(2000).getToastMessage(['Creating paste...', '"filename" is not allowed to be empty']);
   });
 
@@ -31,6 +30,7 @@ describe('Using the Editor', () => {
 
     cy.wait('@createPaste');
 
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(5000); // wait for redirecting
 
     cy.wait('@getPaste');
