@@ -13,7 +13,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/**/*.ts', 'src/**/*.tsx', 'cypress/**/*.ts'],
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
       parser: '@typescript-eslint/parser',
       settings: {
         react: {
@@ -31,7 +31,6 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:cypress/recommended',
         // 'plugin:jsx-a11y/recommended',
         'plugin:prettier/recommended'
       ],
@@ -50,6 +49,10 @@ module.exports = {
         //   }
         // ]
       }
+    },
+    {
+      files: ['cypress/**/*.ts'],
+      extends: ['plugin:cypress/recommended']
     }
   ]
 };

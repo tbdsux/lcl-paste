@@ -20,6 +20,6 @@
       "@utils/*": ["utils/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/lib/languages.js"],
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", "src/lib/languages.js"],
   "exclude": ["node_modules", "cypress", "fauna-queries"]
 }

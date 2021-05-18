@@ -1,6 +1,3 @@
-import { useUser } from '@auth0/nextjs-auth0';
-import { PasteUserData } from '@utils/interfaces/paste';
-
 type PasteDetailsProps = {
   username: string;
   createdDate: string;
@@ -16,7 +13,7 @@ export const Details = ({ username, createdDate, isPrivate, updated, updatedDate
   return (
     <>
       {isUserPage ? (
-        <div>
+        <div className="flex items-center justify-between">
           <span className="text-xs">{date}</span>
           <span className="bg-secondary-400 text-xs p-1 text-white ml-3">{isPrivate ? 'private' : 'public'}</span>
         </div>

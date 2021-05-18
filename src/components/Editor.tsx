@@ -136,7 +136,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         pauseOnHover
       />
 
-      <div className="w-11/12 xl:w-5/6 mx-auto p-8 shadow-lg my-8 border rounded-lg border-primary-300">
+      <div className="w-11/12 xl:w-5/6 mx-auto p-8 shadow-lg my-4 border rounded-lg border-primary-300">
         {/* paste options */}
         <div className="mb-3">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-2">

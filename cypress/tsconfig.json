@@ -5,5 +5,5 @@
     "allowJs": true,
     "types": ["cypress"]
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "plugins/index.js"]
 }
