@@ -19,10 +19,10 @@ export const RenderUserPastes = () => {
   }
 
   return (
-    <ul className="mt-6 grid grid-cols-2 gap-4">
+    <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-2 lg:gap-4">
       {pastes.data?.map((paste: PasteQueryResponse, index) => (
         <li
-          className="relative border-2 border-secondary-100 py-4 px-6 rounded hover:border-primary-300 flex flex-col"
+          className="relative border-2 border-secondary-200 py-4 px-6 rounded hover:border-primary-300 flex flex-col"
           key={index}
         >
           <Link href={`/p/${paste.data.pasteId}`}>
