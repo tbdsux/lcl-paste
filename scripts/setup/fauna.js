@@ -1,9 +1,11 @@
 const faunadb = require('faunadb');
 
-const client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET_KEY });
+const FaunaSecret = process.env.FAUNADB_SECRET_KEY;
+const client = new faunadb.Client({ secret: FaunaSecret });
 const q = faunadb.query;
 
 module.exports = {
   client,
-  q
+  q,
+  FaunaSecret
 };

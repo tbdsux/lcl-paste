@@ -1,6 +1,6 @@
 require('dotenv').config({ path: './.env.local' });
 
-const { q, client } = require('./fauna.js');
+const { q, client, FaunaSecret } = require('./fauna.js');
 const { Collections, Indexes, Roles } = require('./stuff.js');
 
 async function createCollections() {
@@ -46,6 +46,11 @@ async function createRoles() {
 }
 
 async function setup() {
+  // check if secret is blank or not
+  if (!FaunaSecret || FaunaSecret.includes(' ')) {
+    console.error('KeyError! Invalid `FAUNADB_SECRET_KEY`');
+  }
+
   await createCollections();
 
   await createIndexes();
