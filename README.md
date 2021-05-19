@@ -4,6 +4,22 @@ Simple Paste [Bin] Manager App
 
 ![App Screenshot](./screenshot.png)
 
+## Hosting
+
+### Deploy your own
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheBoringDude%2Flcl-paste.git&env=AUTH0_SECRET,AUTH0_BASE_URL,AUTH0_ISSUER_BASE_URL,AUTH0_CLIENT_ID,AUTH0_CLIENT_SECRET,FAUNADB_SECRET_KEY,FAUNADB_LCLPASTE_PUBLIC_KEY&envDescription=Keys%20needed%20by%20the%20application.)
+
+1. Click the Deploy button above to clone the project and automatically host your website in **Vercel**
+2. Clone your project fork to your computer
+3. Make sure to fill your `.env.local` to be similar to the template (`.env.local.template`)
+4. Ensure `FAUNADB_SECRET_KEY` is filled with your **Fauna Database Admin/Server Key**
+5. Run the following in your terminal. (**NOTE:** Errors are not fully handled by the setup script.)
+   ```bash
+   yarn setup:db
+   ```
+   - This will create the required **`collections`**, **`indexes`** and **`roles`**
+
 ## Development
 
 Run the development server.
@@ -12,7 +28,7 @@ Run the development server.
 
 ### TODO:
 
-- Make `expirations` work
+- ~Make `expirations` work~
 - Add auto setup for automatic `fork -> deploy`
 - Complete `api` endpoints
 - CLEANUP & REFACTOR CODES
@@ -49,10 +65,6 @@ FAUNADB_LCLPASTE_PUBLIC_KEY=
 - Tailwind
 - FaunaDB
 - Auth0 (NextJS SDK)
-
-### Deploy your own
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FTheBoringDude%2Flcl-paste.git&env=AUTH0_SECRET,AUTH0_BASE_URL,AUTH0_ISSUER_BASE_URL,AUTH0_CLIENT_ID,AUTH0_CLIENT_SECRET,FAUNADB_SECRET_KEY,FAUNADB_LCLPASTE_PUBLIC_KEY&envDescription=Keys%20needed%20by%20the%20application.)
 
 ##
 
