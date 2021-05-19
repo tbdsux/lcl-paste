@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "setup:db": "node scripts/setup/index.js",
     "test": "cypress open",
     "test:cli": "cypress run",
     "test:ci": "start-server-and-test dev http://localhost:3000 test:cli",
