@@ -1,29 +1,48 @@
 import useSWR from 'swr';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Error from 'next/error';
+import { GetServerSideProps } from 'next';
 import { useUser } from '@auth0/nextjs-auth0';
 
 import Layout from '@components/Layout';
-import { Loading } from '@components/Loading';
 
 import Highlight from 'react-highlight';
 
 import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
+import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { PasteModel } from '@lib/models/paste';
+import { autoString } from '@utils/funcs';
 
-export default function ViewPaste() {
+type ViewPasteProps = {
+  pasteid: string;
+  initialPaste: ApiGetPasteResponse;
+};
+
+export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async (context) => {
+  const { pasteid } = context.params;
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const p = new PasteModel(useTokenAPI(context.req, context.res));
+
+  // automatically join all strings if array
+  const q = await p.getPaste(autoString(pasteid));
+
+  return {
+    props: {
+      pasteid: autoString(pasteid),
+      initialPaste: JSON.parse(JSON.stringify(q))
+    }
+  };
+};
+
+export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
   const { user } = useUser();
 
-  const router = useRouter();
-  const { pasteid } = router.query;
-
   // get response
-  const { data: paste } = useSWR<ApiGetPasteResponse>(pasteid ? `/api/pastes/get/${pasteid}` : null);
-
-  if (!paste) {
-    return <Loading title="Loading Paste..." />;
-  }
+  const { data: paste } = useSWR<ApiGetPasteResponse>(pasteid ? `/api/pastes/get/${pasteid}` : null, {
+    initialData: initialPaste
+  });
 
   if (paste.error) {
     return <Error statusCode={paste.code} />;

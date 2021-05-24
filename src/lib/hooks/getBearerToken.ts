@@ -1,7 +1,8 @@
 import { unsealAPI } from '@lib/api-seal';
 import { NextApiRequest } from 'next';
+import { IncomingMessage } from 'node:http';
 
-export const getBearerToken = (req: NextApiRequest) => {
+export const getBearerToken = (req: IncomingMessage | NextApiRequest) => {
   const token = req.headers.authorization;
 
   if (!token) return null;
