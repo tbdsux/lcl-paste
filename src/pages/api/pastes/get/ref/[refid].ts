@@ -7,11 +7,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 
-import { autoString } from '@utils/funcs';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
-import { ApiBaseQueryResponse, QueryErrorResponse } from '@utils/interfaces/query';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
+import { ApiBaseQueryResponse } from '@utils/interfaces/query';
 import { Paste } from '@utils/interfaces/paste';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
+import { join } from 'lodash';
 
 export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
   isOwnedByCurrentUser?: boolean;
@@ -20,8 +20,8 @@ export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
 const getPasteRef = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteRefResponse>) => {
   const { refid } = req.query;
 
-  const p = new PasteModel(useTokenAPI(req, res));
-  const q = await p.getPasteByRef(autoString(refid));
+  const p = new PasteModel(getTokenAPI(req, res));
+  const q = await p.getPasteByRef(join(refid));
 
   if (q.error) {
     res.status(q.code).json(q);

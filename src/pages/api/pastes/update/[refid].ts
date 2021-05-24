@@ -7,14 +7,14 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 import { ApiUpdatePasteBody, UpdatePaste } from '@utils/interfaces/paste';
-import { autoString } from '@utils/funcs';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { QueryErrorResponse, UpdatePasteQuery } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 import { schemaValidate } from '@lib/validate';
 import { ApiUpdateBodySchema } from '@utils/schema/updateBody';
 import { errParseBody } from '@lib/body-parse';
+import { join } from 'lodash';
 
 export type ApiUpdatePasteResponse = UpdatePasteQuery;
 type ValidateCreateProps = { rdata: ApiUpdatePasteBody; ok: boolean; err?: QueryErrorResponse };
@@ -27,9 +27,9 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
   }
 
   const { refid } = req.query;
-  const token = useTokenAPI(req, res);
+  const token = getTokenAPI(req, res);
 
-  let data: UpdatePaste = {
+  const data: UpdatePaste = {
     ...rdata,
     willExpire: !!rdata.expiryDate,
     updated: true,
@@ -42,7 +42,7 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
   }
 
   const p = new PasteModel(token);
-  const q = await p.updatePaste(autoString(refid), data);
+  const q = await p.updatePaste(join(refid), data);
 
   res.status(q.code).json(q);
 };

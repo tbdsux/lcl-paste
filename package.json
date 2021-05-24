@@ -18,6 +18,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^1.2.0",
     "@monaco-editor/react": "^4.1.0",
+    "@ootiq/blank": "^0.0.4",
     "@types/lodash": "^4.14.168",
     "autoprefixer": "^10.2.5",
     "faunadb": "^4.1.1",

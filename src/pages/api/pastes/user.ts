@@ -5,14 +5,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import methodHandler from '@lib/middleware/methods';
 import { PasteModel } from '@lib/models/paste';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetUserPastesQuery } from '@utils/interfaces/query';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
 export type ApiGetUserPastes = GetUserPastesQuery;
 
 const getUserPastes = async (req: NextApiRequest, res: NextApiResponse<ApiGetUserPastes>) => {
-  const p = new PasteModel(useTokenAPI(req, res));
+  const p = new PasteModel(getTokenAPI(req, res));
   const q = await p.getUserPastes();
 
   res.status(q.code).json(q);

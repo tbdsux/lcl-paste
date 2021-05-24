@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid';
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
 import { ApiCreatePasteBody, Paste } from '@utils/interfaces/paste';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { CreatePasteQuery, QueryErrorResponse } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
 import { getUser } from '@lib/hooks/getUser';
@@ -28,7 +28,7 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
     return;
   }
 
-  const token = useTokenAPI(req, res);
+  const token = getTokenAPI(req, res);
   const { isUser, name } = await getUser(req, res);
 
   const data: Paste = {

@@ -5,14 +5,16 @@ import Error from 'next/error';
 import { GetServerSideProps } from 'next';
 import { useUser } from '@auth0/nextjs-auth0';
 
+import { jsonify } from '@ootiq/blank';
+
 import Layout from '@components/Layout';
 
 import Highlight from 'react-highlight';
 
 import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { PasteModel } from '@lib/models/paste';
-import { autoString } from '@utils/funcs';
+import { join } from 'lodash';
 
 type ViewPasteProps = {
   pasteid: string;
@@ -23,15 +25,15 @@ export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async (con
   const { pasteid } = context.params;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p = new PasteModel(useTokenAPI(context.req, context.res));
+  const p = new PasteModel(getTokenAPI(context.req, context.res));
 
   // automatically join all strings if array
-  const q = await p.getPaste(autoString(pasteid));
+  const q = await p.getPaste(join(pasteid));
 
   return {
     props: {
-      pasteid: autoString(pasteid),
-      initialPaste: JSON.parse(JSON.stringify(q))
+      pasteid: join(pasteid),
+      initialPaste: jsonify(q)
     }
   };
 };

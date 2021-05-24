@@ -6,19 +6,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { PasteModel } from '@lib/models/paste';
 import { GetRawPasteQuery } from '@utils/interfaces/query';
-import { useTokenAPI } from '@lib/hooks/useTokenAPI';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 
 // middleware
 import methodHandler from '@lib/middleware/methods';
-import { autoString } from '@utils/funcs';
+import { join } from 'lodash';
 
 type ApiGetRawPaste = GetRawPasteQuery;
 
 const getRawPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetRawPaste>) => {
   const { pasteid, filename } = req.query;
 
-  const p = new PasteModel(useTokenAPI(req, res));
-  const q = await p.getRawPasteContentOnly(autoString(pasteid), autoString(filename));
+  const p = new PasteModel(getTokenAPI(req, res));
+  const q = await p.getRawPasteContentOnly(join(pasteid), join(filename));
 
   if (q.error) {
     res.status(q.code).json(q);

@@ -254,6 +254,11 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@ootiq/blank@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ootiq/blank/-/blank-0.0.4.tgz#d22f3ac3770f65bf025907169c780ecb5e1f9c20"
+  integrity sha512-Hh1ej9Ak1kSsQFq/5pNCPPtG0UFID8pYseutqH3pH9VmrWOu786JWoKWhZaNntX7Z4dWnuU4CbLurNZuzKefGQ==
+
 "@opentelemetry/api@0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/api/-/api-0.14.0.tgz#4e17d8d2f1da72b19374efa7b6526aa001267cae"

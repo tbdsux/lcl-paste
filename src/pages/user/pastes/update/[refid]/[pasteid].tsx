@@ -5,10 +5,9 @@ import Error from 'next/error';
 
 import MainEditor from '@components/Editor';
 import { Loading } from '@components/Loading';
-
-import { autoString } from '@utils/funcs';
 import Layout from '@components/Layout';
 import { ApiGetPasteRefResponse } from 'pages/api/pastes/get/ref/[refid]';
+import { join } from 'lodash';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();
@@ -41,7 +40,7 @@ export default withPageAuthRequired(function UserPage() {
           Update <strong>{paste.data.filename}</strong>
         </p>
       </div>
-      {paste.data && <MainEditor update={true} data={paste.data} refid={autoString(refid)} />}
+      {paste.data && <MainEditor update={true} data={paste.data} refid={join(refid)} />}
     </Layout>
   );
 });

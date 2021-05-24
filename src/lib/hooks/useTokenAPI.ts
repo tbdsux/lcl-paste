@@ -5,7 +5,7 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import { getBearerToken } from './getBearerToken';
 
 // return the user token
-export const useTokenAPI = (req: IncomingMessage | NextApiRequest, res: ServerResponse | NextApiResponse) => {
+export const getTokenAPI = (req: IncomingMessage | NextApiRequest, res: ServerResponse | NextApiResponse) => {
   // prioritize authorization token
   if (req.headers.authorization) {
     const token = getBearerToken(req);
