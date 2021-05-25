@@ -3,9 +3,11 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import methodHandler from '@lib/middleware/methods';
-import { GetStatsQuery } from '@utils/interfaces/query';
 import { Stats } from '@lib/models/stats';
+
+import { GetStatsQuery } from '@utils/interfaces/query';
 
 export type ApiGetStats = GetStatsQuery;
 

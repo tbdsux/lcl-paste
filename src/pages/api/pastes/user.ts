@@ -9,9 +9,7 @@ import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetUserPastesQuery } from '@utils/interfaces/query';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 
-export type ApiGetUserPastes = GetUserPastesQuery;
-
-const getUserPastes = async (req: NextApiRequest, res: NextApiResponse<ApiGetUserPastes>) => {
+const getUserPastes = async (req: NextApiRequest, res: NextApiResponse<GetUserPastesQuery>) => {
   const p = new PasteModel(getTokenAPI(req, res));
   const q = await p.getUserPastes();
 

@@ -4,11 +4,10 @@ import Link from 'next/link';
 import { Info } from '@components/pastes/info';
 import { Details } from '@components/pastes/details';
 
-import { PasteQueryResponse } from '@utils/interfaces/query';
-import { ApiGetLatestResponse } from 'pages/api/pastes/latest';
+import { GetLatestPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
 
 export const RenderLatestPastes = () => {
-  const { data: pastes, error } = useSWR<ApiGetLatestResponse>('/api/pastes/latest');
+  const { data: pastes, error } = useSWR<GetLatestPastesQuery>('/api/pastes/latest');
 
   if (!pastes) {
     return <p className="mt-6">Loading...</p>;

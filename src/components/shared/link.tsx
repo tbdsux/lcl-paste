@@ -1,30 +1,31 @@
+import { AnchorHTMLAttributes } from 'react';
 import Link from 'next/link';
-import { AnchorHTMLAttributes, ReactNode } from 'react';
 
-interface LinkProps {
-  id?: string;
-  href: string;
-  className?: string;
-  children: ReactNode;
-}
-
-interface LinkButtonProps extends LinkProps {}
-interface ExternalLinkButtonProps extends AnchorHTMLAttributes<LinkProps> {}
-
-const LinkButton = ({ id, href, className, children }: LinkButtonProps) => {
+const LinkButton = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
   return (
-    <Link href={href}>
-      <a id={id} className={`${className} text-secondary-800 hover:text-primary-500`} title={children.toString()}>
-        {children}
+    <Link href={props.href}>
+      <a
+        id={props.id}
+        className={`${props.className} text-secondary-800 hover:text-primary-500`}
+        title={props.children.toString()}
+      >
+        {props.children}
       </a>
     </Link>
   );
 };
 
-const ExternalLinkButton = ({ href, className, children, title }: ExternalLinkButtonProps) => {
+const ExternalLinkButton = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
   return (
-    <a href={href} title={title} className={`${className} text-secondary-800 hover:text-primary-500`} target="_blank">
-      {children}
+    <a
+      {...props}
+      href={props.href}
+      title={props.title}
+      className={`${props.className} text-secondary-800 hover:text-primary-500`}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {props.children}
     </a>
   );
 };

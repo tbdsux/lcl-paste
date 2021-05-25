@@ -4,17 +4,19 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { joinString } from '@ootiq/blank';
+
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
-import { ApiUpdatePasteBody, UpdatePaste } from '@utils/interfaces/paste';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
-import { QueryErrorResponse, UpdatePasteQuery } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 import { schemaValidate } from '@lib/validate';
-import { ApiUpdateBodySchema } from '@utils/schema/updateBody';
 import { errParseBody } from '@lib/body-parse';
-import { joinString } from '@ootiq/blank';
+
+import { ApiUpdatePasteBody, UpdatePaste } from '@utils/interfaces/paste';
+import { QueryErrorResponse, UpdatePasteQuery } from '@utils/interfaces/query';
+import { ApiUpdateBodySchema } from '@utils/schema/updateBody';
 
 export type ApiUpdatePasteResponse = UpdatePasteQuery;
 type ValidateCreateProps = { rdata: ApiUpdatePasteBody; ok: boolean; err?: QueryErrorResponse };

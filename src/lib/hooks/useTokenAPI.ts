@@ -1,7 +1,9 @@
-import { getSession } from '@auth0/nextjs-auth0';
-import { SessionProps } from '@utils/interfaces/user';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { IncomingMessage, ServerResponse } from 'node:http';
+
+import { getSession } from '@auth0/nextjs-auth0';
+
+import { SessionProps } from '@utils/interfaces/user';
 import { getBearerToken } from './getBearerToken';
 
 // return the user token

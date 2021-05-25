@@ -1,8 +1,11 @@
 import { useState, useRef, ChangeEvent, useCallback } from 'react';
 import Router from 'next/router';
 
-import { toast, ToastContainer } from 'react-toastify';
 import { mutate } from 'swr';
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import _ from 'lodash';
 
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
@@ -11,7 +14,6 @@ import { getCodeLanguage } from '@lib/code';
 import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
 
-import 'react-toastify/dist/ReactToastify.css';
 import { MonacoEditor } from './editor/monaco';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };

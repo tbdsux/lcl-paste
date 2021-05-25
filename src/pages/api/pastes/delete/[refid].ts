@@ -13,9 +13,7 @@ import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 import { DeletePasteQuery } from '@utils/interfaces/query';
 
-export type ApiDeletePasteResponse = DeletePasteQuery;
-
-const deletePaste = async (req: NextApiRequest, res: NextApiResponse<ApiDeletePasteResponse>) => {
+const deletePaste = async (req: NextApiRequest, res: NextApiResponse<DeletePasteQuery>) => {
   const { refid } = req.query;
 
   const p = new PasteModel(getTokenAPI(req, res));

@@ -3,18 +3,20 @@
 */
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { nanoid } from 'nanoid';
 
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
-import { ApiCreatePasteBody, Paste } from '@utils/interfaces/paste';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
-import { CreatePasteQuery, QueryErrorResponse } from '@utils/interfaces/query';
 import { getCodeLanguage } from '@lib/code';
 import { getUser } from '@lib/hooks/getUser';
 import { schemaValidate } from '@lib/validate';
-import { ApiCreateBodySchema } from '@utils/schema/createBody';
+
 import { errParseBody } from '@lib/body-parse';
+import { CreatePasteQuery, QueryErrorResponse } from '@utils/interfaces/query';
+import { ApiCreateBodySchema } from '@utils/schema/createBody';
+import { ApiCreatePasteBody, Paste } from '@utils/interfaces/paste';
 
 export type ApiCreatePasteResponse = CreatePasteQuery;
 type ValidateCreateProps = { rdata: ApiCreatePasteBody; ok: boolean; err?: QueryErrorResponse };

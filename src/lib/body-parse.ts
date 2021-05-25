@@ -6,7 +6,7 @@ interface ErrParseBodyProps {
   err: QueryErrorResponse;
 }
 
-const errParseBody = (description: string, code: number = 400): ErrParseBodyProps => {
+const errParseBody = (description: string, code = 400): ErrParseBodyProps => {
   return {
     rdata: null,
     ok: false,

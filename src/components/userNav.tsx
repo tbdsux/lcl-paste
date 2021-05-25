@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { LinkButton } from './shared/link';
-
 import { useUser } from '@auth0/nextjs-auth0';
+
 import { useHasMounted } from '@lib/hooks/useHasMounted';
+
+import { LinkButton } from './shared/link';
 
 export const UserNav = () => {
   const { user } = useUser();

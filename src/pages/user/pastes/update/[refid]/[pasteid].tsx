@@ -1,13 +1,15 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import Error from 'next/error';
+
+import useSWR from 'swr';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { joinString } from '@ootiq/blank';
 
 import MainEditor from '@components/Editor';
 import { Loading } from '@components/Loading';
 import Layout from '@components/Layout';
+
 import { ApiGetPasteRefResponse } from 'pages/api/pastes/get/ref/[refid]';
-import { joinString } from '@ootiq/blank';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();

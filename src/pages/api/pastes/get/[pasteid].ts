@@ -4,16 +4,15 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { PasteModel } from '@lib/models/paste';
-import methodHandler from '@lib/middleware/methods';
-
-import { getTokenAPI } from '@lib/hooks/useTokenAPI';
-import { GetPasteByIdQuery } from '@utils/interfaces/query';
 import { joinString } from '@ootiq/blank';
 
-export type ApiGetPasteResponse = GetPasteByIdQuery;
+import { PasteModel } from '@lib/models/paste';
+import methodHandler from '@lib/middleware/methods';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 
-const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteResponse>) => {
+import { GetPasteByIdQuery } from '@utils/interfaces/query';
+
+const getPaste = async (req: NextApiRequest, res: NextApiResponse<GetPasteByIdQuery>) => {
   const { pasteid } = req.query;
 
   const p = new PasteModel(getTokenAPI(req, res));

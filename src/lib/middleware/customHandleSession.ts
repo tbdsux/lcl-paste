@@ -1,10 +1,12 @@
 // rebased from:: https://github.com/auth0/nextjs-auth0/blob/main/src/helpers/with-api-auth-required.ts
 
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+
 import { getSession } from '@auth0/nextjs-auth0';
+
 import { getBearerToken } from '@lib/hooks/getBearerToken';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { isTokenPublic } from '@lib/isToken';
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 /* this is a custom session handler */
 export const withCustomSessionHandler =

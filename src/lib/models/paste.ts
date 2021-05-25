@@ -1,4 +1,8 @@
+import { Client, errors, Expr } from 'faunadb';
+import { getQuery, getQueryError } from '@lib/handleQuery';
+
 import { q, getClient } from '../fauna';
+
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import {
   CreatePasteQuery,
@@ -14,16 +18,12 @@ import {
   RawPaste,
   UpdatePasteQuery
 } from '@utils/interfaces/query';
-import { Client, errors, Expr } from 'faunadb';
-import { getQuery, getQueryError } from '@lib/handleQuery';
 
 // main paste model
 export class PasteModel {
-  token: string;
   _client: Client;
 
   constructor(token: string) {
-    this.token = token;
     this._client = getClient(token);
   }
 

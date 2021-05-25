@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import Image from 'next/image';
-import Layout from '@components/Layout';
 
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
+
+import Layout from '@components/Layout';
 
 export default withPageAuthRequired(function UserPage() {
   const { user } = useUser();

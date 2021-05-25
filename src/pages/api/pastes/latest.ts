@@ -8,9 +8,7 @@ import { PasteModel } from '@lib/models/paste';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetLatestPastesQuery } from '@utils/interfaces/query';
 
-export type ApiGetLatestResponse = GetLatestPastesQuery;
-
-const getLatest = async (req: NextApiRequest, res: NextApiResponse<ApiGetLatestResponse>) => {
+const getLatest = async (req: NextApiRequest, res: NextApiResponse<GetLatestPastesQuery>) => {
   const token = getTokenAPI(req, res);
 
   const p = new PasteModel(token);

@@ -1,11 +1,12 @@
 // vased from:: https://github.com/TheBoringDude/nextjs-fauna-auth0/blob/main/src/fauna/models/user-model.ts
 
 import { adminClient, getClient, q } from '@lib/fauna';
+import { ObjectProps } from '@utils/interfaces/query';
 
 type GetTokenRespProps = {
-  ref: object;
+  ref: ObjectProps;
   ts: number;
-  instance: object;
+  instance: ObjectProps;
   secret: string;
 };
 

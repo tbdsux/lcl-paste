@@ -4,14 +4,15 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { joinString } from '@ootiq/blank';
+
 import { PasteModel } from '@lib/models/paste';
 import methodHandler from '@lib/middleware/methods';
-
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
+import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
+
 import { ApiBaseQueryResponse } from '@utils/interfaces/query';
 import { Paste } from '@utils/interfaces/paste';
-import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
-import { joinString } from '@ootiq/blank';
 
 export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
   isOwnedByCurrentUser?: boolean;

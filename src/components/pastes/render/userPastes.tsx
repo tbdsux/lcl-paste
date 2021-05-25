@@ -4,11 +4,10 @@ import Link from 'next/link';
 import { UserActions } from '@components/pastes/userActions';
 import { Details } from '@components/pastes/details';
 
-import { PasteQueryResponse } from '@utils/interfaces/query';
-import { ApiGetUserPastes } from 'pages/api/pastes/user';
+import { GetUserPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
 
 export const RenderUserPastes = () => {
-  const { data: pastes, error } = useSWR<ApiGetUserPastes>('/api/pastes/user');
+  const { data: pastes, error } = useSWR<GetUserPastesQuery>('/api/pastes/user');
 
   if (!pastes) {
     return <p className="mt-6">Loading...</p>;

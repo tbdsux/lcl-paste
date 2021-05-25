@@ -1,24 +1,24 @@
-import useSWR from 'swr';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Error from 'next/error';
-import { GetServerSideProps } from 'next';
-import { useUser } from '@auth0/nextjs-auth0';
 
-import { jsonify } from '@ootiq/blank';
+import useSWR from 'swr';
+import { useUser } from '@auth0/nextjs-auth0';
+import Highlight from 'react-highlight';
+
+import { jsonify, joinString } from '@ootiq/blank';
 
 import Layout from '@components/Layout';
 
-import Highlight from 'react-highlight';
-
-import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { PasteModel } from '@lib/models/paste';
-import { joinString } from '@ootiq/blank';
+
+import { GetPasteByIdQuery } from '@utils/interfaces/query';
 
 type ViewPasteProps = {
   pasteid: string;
-  initialPaste: ApiGetPasteResponse;
+  initialPaste: GetPasteByIdQuery;
 };
 
 export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async (context) => {
@@ -42,7 +42,7 @@ export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
   const { user } = useUser();
 
   // get response
-  const { data: paste } = useSWR<ApiGetPasteResponse>(pasteid ? `/api/pastes/get/${pasteid}` : null, {
+  const { data: paste } = useSWR<GetPasteByIdQuery>(pasteid ? `/api/pastes/get/${pasteid}` : null, {
     initialData: initialPaste
   });
 

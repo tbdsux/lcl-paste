@@ -4,13 +4,12 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { joinString } from '@ootiq/blank';
+
 import { PasteModel } from '@lib/models/paste';
 import { GetRawPasteQuery } from '@utils/interfaces/query';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
-
-// middleware
 import methodHandler from '@lib/middleware/methods';
-import { joinString } from '@ootiq/blank';
 
 type ApiGetRawPaste = GetRawPasteQuery;
 

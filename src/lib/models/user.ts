@@ -1,6 +1,7 @@
+import { Client } from 'faunadb';
+
 import { getClient, q } from '@lib/fauna';
 import { UserDataRefProps } from '@utils/interfaces/user';
-import { Client } from 'faunadb';
 
 export class UserModel {
   _client: Client;

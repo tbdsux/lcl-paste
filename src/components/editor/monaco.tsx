@@ -1,7 +1,8 @@
-import { MutableRefObject, useCallback, useRef } from 'react';
+import { MutableRefObject, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
 
 type MonacoEditorProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   codeEditor: MutableRefObject<any>;
   content: string;
   codeLanguage: string;
@@ -30,6 +31,7 @@ export const MonacoEditor = ({ codeEditor, content, codeLanguage }: MonacoEditor
       language={codeLanguage}
       defaultValue={content}
       beforeMount={handleEditorBeforeMount}
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onMount={(editor, monaco) => {
         // pass ref
         codeEditor.current = editor;
