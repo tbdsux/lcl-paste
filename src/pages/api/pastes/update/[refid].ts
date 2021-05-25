@@ -14,7 +14,7 @@ import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
 import { schemaValidate } from '@lib/validate';
 import { ApiUpdateBodySchema } from '@utils/schema/updateBody';
 import { errParseBody } from '@lib/body-parse';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 export type ApiUpdatePasteResponse = UpdatePasteQuery;
 type ValidateCreateProps = { rdata: ApiUpdatePasteBody; ok: boolean; err?: QueryErrorResponse };
@@ -42,7 +42,7 @@ const updatePaste = async (req: NextApiRequest, res: NextApiResponse<ApiUpdatePa
   }
 
   const p = new PasteModel(token);
-  const q = await p.updatePaste(join(refid), data);
+  const q = await p.updatePaste(joinString(refid), data);
 
   res.status(q.code).json(q);
 };

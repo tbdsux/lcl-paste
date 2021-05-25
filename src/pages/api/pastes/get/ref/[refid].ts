@@ -11,7 +11,7 @@ import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { ApiBaseQueryResponse } from '@utils/interfaces/query';
 import { Paste } from '@utils/interfaces/paste';
 import { withCustomSessionHandler } from '@lib/middleware/customHandleSession';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 export interface ApiGetPasteRefResponse extends ApiBaseQueryResponse<Paste> {
   isOwnedByCurrentUser?: boolean;
@@ -21,7 +21,7 @@ const getPasteRef = async (req: NextApiRequest, res: NextApiResponse<ApiGetPaste
   const { refid } = req.query;
 
   const p = new PasteModel(getTokenAPI(req, res));
-  const q = await p.getPasteByRef(join(refid));
+  const q = await p.getPasteByRef(joinString(refid));
 
   if (q.error) {
     res.status(q.code).json(q);

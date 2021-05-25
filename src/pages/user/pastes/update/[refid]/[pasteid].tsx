@@ -7,7 +7,7 @@ import MainEditor from '@components/Editor';
 import { Loading } from '@components/Loading';
 import Layout from '@components/Layout';
 import { ApiGetPasteRefResponse } from 'pages/api/pastes/get/ref/[refid]';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 export default withPageAuthRequired(function UserPage() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default withPageAuthRequired(function UserPage() {
           Update <strong>{paste.data.filename}</strong>
         </p>
       </div>
-      {paste.data && <MainEditor update={true} data={paste.data} refid={join(refid)} />}
+      {paste.data && <MainEditor update={true} data={paste.data} refid={joinString(refid)} />}
     </Layout>
   );
 });

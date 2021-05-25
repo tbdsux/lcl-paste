@@ -14,7 +14,7 @@ import Highlight from 'react-highlight';
 import { ApiGetPasteResponse } from 'pages/api/pastes/get/[pasteid]';
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { PasteModel } from '@lib/models/paste';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 type ViewPasteProps = {
   pasteid: string;
@@ -28,11 +28,11 @@ export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async (con
   const p = new PasteModel(getTokenAPI(context.req, context.res));
 
   // automatically join all strings if array
-  const q = await p.getPaste(join(pasteid));
+  const q = await p.getPaste(joinString(pasteid));
 
   return {
     props: {
-      pasteid: join(pasteid),
+      pasteid: joinString(pasteid),
       initialPaste: jsonify(q)
     }
   };
@@ -45,6 +45,8 @@ export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
   const { data: paste } = useSWR<ApiGetPasteResponse>(pasteid ? `/api/pastes/get/${pasteid}` : null, {
     initialData: initialPaste
   });
+
+  console.log(paste);
 
   if (paste.error) {
     return <Error statusCode={paste.code} />;

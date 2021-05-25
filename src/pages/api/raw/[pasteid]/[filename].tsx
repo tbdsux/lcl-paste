@@ -10,7 +10,7 @@ import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 
 // middleware
 import methodHandler from '@lib/middleware/methods';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 type ApiGetRawPaste = GetRawPasteQuery;
 
@@ -18,7 +18,7 @@ const getRawPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetRawPa
   const { pasteid, filename } = req.query;
 
   const p = new PasteModel(getTokenAPI(req, res));
-  const q = await p.getRawPasteContentOnly(join(pasteid), join(filename));
+  const q = await p.getRawPasteContentOnly(joinString(pasteid), joinString(filename));
 
   if (q.error) {
     res.status(q.code).json(q);

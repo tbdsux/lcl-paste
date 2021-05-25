@@ -63,7 +63,10 @@ export class PasteModel {
         )
       )
       .then((r: GetPasteResponse) => getQuery<GetPasteResponse>(r))
-      .catch((e: errors.FaunaHTTPError) => getQueryError(e));
+      .catch((e: errors.FaunaHTTPError) => {
+        console.error(e);
+        return getQueryError(e);
+      });
   }
 
   // get paste by it's ref id

@@ -9,7 +9,7 @@ import methodHandler from '@lib/middleware/methods';
 
 import { getTokenAPI } from '@lib/hooks/useTokenAPI';
 import { GetPasteByIdQuery } from '@utils/interfaces/query';
-import { join } from 'lodash';
+import { joinString } from '@ootiq/blank';
 
 export type ApiGetPasteResponse = GetPasteByIdQuery;
 
@@ -19,7 +19,7 @@ const getPaste = async (req: NextApiRequest, res: NextApiResponse<ApiGetPasteRes
   const p = new PasteModel(getTokenAPI(req, res));
 
   // automatically join all strings if array
-  const q = await p.getPaste(join(pasteid));
+  const q = await p.getPaste(joinString(pasteid));
 
   res.status(q.code).json(q);
 };
