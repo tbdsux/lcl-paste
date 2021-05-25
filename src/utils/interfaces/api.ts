@@ -1,13 +1,14 @@
 import { Expr } from 'faunadb';
+import { ObjectProps } from './query';
 
 interface ApiProps {
-  owner: Object | Expr; // a reference
+  owner: ObjectProps | Expr; // a reference
   user: string; // user.sub
   key: string;
 }
 
 interface ApiRefProps {
-  ref: Object;
+  ref: ObjectProps;
   ts: number;
   data: ApiProps;
 }

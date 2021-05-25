@@ -1,8 +1,13 @@
 import { Paste } from './paste';
 import { UserDataProps } from './user';
 
+type ObjectProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+};
+
 interface QueryResponse {
-  ref: Object;
+  ref: ObjectProps;
   ts: number;
 }
 
@@ -33,41 +38,42 @@ interface BaseQuery<T> {
   data?: T;
 }
 
-interface QueryErrorResponse extends BaseQuery<null> {}
+type QueryErrorResponse = BaseQuery<null>;
 
 // api/pastes/get/[pasteid]
-interface GetPasteByIdQuery extends BaseQuery<GetPasteResponse> {}
+type GetPasteByIdQuery = BaseQuery<GetPasteResponse>;
 
 // api/pastes/get/ref/[refid]
-interface GetPasteByRefQuery extends BaseQuery<Paste> {}
+type GetPasteByRefQuery = BaseQuery<Paste>;
 
 // api/pastest/latest
-interface GetLatestPastesQuery extends BaseQuery<PasteQueryResponse[]> {}
+type GetLatestPastesQuery = BaseQuery<PasteQueryResponse[]>;
 
 // api/pastes/user
-interface GetUserPastesQuery extends GetLatestPastesQuery {}
+type GetUserPastesQuery = GetLatestPastesQuery;
 
 // api/raw/[pasteid]/[filename]
-interface GetRawPasteQuery extends BaseQuery<RawPaste> {}
+type GetRawPasteQuery = BaseQuery<RawPaste>;
 
 // /api/pastes/update/[refid]/[pasteid]
-interface UpdatePasteQuery extends BaseQuery<Paste> {}
+type UpdatePasteQuery = BaseQuery<Paste>;
 
 // api/pastes/delete/[refid]
-interface DeletePasteQuery extends BaseQuery<null> {}
+type DeletePasteQuery = BaseQuery<null>;
 
 // api/pastes/create
-interface CreatePasteQuery extends BaseQuery<Paste> {}
+type CreatePasteQuery = BaseQuery<Paste>;
 
 // api/stats
 interface BaseStatsProps {
   users: number;
   pastes: number;
 }
-interface GetStatsQuery extends BaseQuery<BaseStatsProps> {}
+type GetStatsQuery = BaseQuery<BaseStatsProps>;
 
 // EXPORT
 export type {
+  ObjectProps,
   GetPasteResponse,
   PasteQueryResponse,
   GetRawPasteQuery,
