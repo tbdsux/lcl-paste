@@ -1,8 +1,10 @@
+/* THIS NEEDS RE-WORK */
+
 import { useRouter } from 'next/router';
 
 import { mutate } from 'swr';
-
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+
 import { DeletePasteQuery } from '@utils/interfaces/query';
 
 export default withPageAuthRequired(function DeletePaste() {

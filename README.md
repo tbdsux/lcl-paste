@@ -29,6 +29,7 @@ Run the development server.
 ### TODO:
 
 - ~Make `expirations` work~
+- Improve paste deletion
 - Add auto setup for automatic `fork -> deploy`
 - Complete `api` endpoints
 - CLEANUP & REFACTOR CODES
