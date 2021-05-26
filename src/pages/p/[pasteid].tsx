@@ -11,24 +11,18 @@ import { jsonify, joinString } from '@ootiq/blank';
 
 import Layout from '@components/Layout';
 
-import { getTokenAPI } from '@lib/hooks/useTokenAPI';
-import { PasteModel } from '@lib/models/paste';
-
 import { GetPasteByIdQuery } from '@utils/interfaces/query';
+import { GetPasteHandler } from '@functions/getPaste';
 
 type ViewPasteProps = {
   pasteid: string;
   initialPaste: GetPasteByIdQuery;
 };
 
-export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async (context) => {
-  const { pasteid } = context.params;
+export const getServerSideProps: GetServerSideProps<ViewPasteProps> = async ({ req, res, params }) => {
+  const { pasteid } = params;
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const p = new PasteModel(getTokenAPI(context.req, context.res));
-
-  // automatically join all strings if array
-  const q = await p.getPaste(joinString(pasteid));
+  const q = await GetPasteHandler(req, res, joinString(pasteid));
 
   return {
     props: {
