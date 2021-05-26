@@ -1,31 +1,41 @@
-/* THIS NEEDS RE-WORK */
-
-import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import Router from 'next/router';
 
 import { mutate } from 'swr';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
+import { joinString } from '@ootiq/blank';
+
 import { DeletePasteQuery } from '@utils/interfaces/query';
+import { RemovePasteHandler } from '@functions/removePaste';
 
-export default withPageAuthRequired(function DeletePaste() {
-  const router = useRouter();
-  const { refid } = router.query;
+type DeletePastePageProps = {
+  q: DeletePasteQuery;
+};
 
-  if (refid) {
-    fetch(`/api/pastes/delete/${refid}`, {
-      method: 'DELETE'
-    })
-      .then((r) => r.json())
-      .then((data: DeletePasteQuery) => {
-        if (!data.error) {
-          mutate(`/api/pastes/latest`);
-          mutate('/api/pastes/user');
-          router.push('/user/pastes');
-        } else {
-          // there was an error during deletion
-        }
-      });
+export default function DeletePaste({ q }: DeletePastePageProps) {
+  if (q.error) {
+    // there was a problem during deletion
+    return <p>there was a problem while trying to remove the paste</p>;
   }
 
-  return null; // just a blank page
+  // mutate -> then, redirect
+  mutate('/api/pastes/user').then(() => {
+    Router.push('/user/pastes');
+  });
+  return null;
+}
+
+export const getServerSideProps: GetServerSideProps = withPageAuthRequired({
+  getServerSideProps: async ({ req, res, params }) => {
+    const { refid } = params;
+
+    const q = await RemovePasteHandler(req, res, joinString(refid));
+
+    return {
+      props: {
+        q
+      }
+    };
+  }
 });
