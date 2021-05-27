@@ -8,13 +8,17 @@ const Navigation = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="py-6 w-11/12 mx-auto flex flex-col md:flex-row items-center justify-between">
+    <nav className="py-4 w-11/12 mx-auto flex flex-col md:flex-row items-center justify-between">
       <div className="w-full md:w-auto flex items-center justify-between">
-        <h1 className="text-2xl font-extrabold tracking-wide">
-          <Link href="/">
-            <a title="Return Home">Local Paste</a>
-          </Link>
-        </h1>
+        <Link href="/">
+          <a title="Return Home">
+            <h1 className="text-xl font-extrabold tracking-wide">
+              Local <span className="text-primary-500">Paste</span>
+            </h1>
+            <p className="text-sm text-secondary-400 tracking-wide">a simple paste(bin) manager</p>
+          </a>
+        </Link>
+
         <button className="h-6 w-6 md:hidden" onClick={() => setOpen(open ? false : true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

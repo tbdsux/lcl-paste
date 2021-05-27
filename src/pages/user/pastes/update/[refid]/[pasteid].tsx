@@ -38,8 +38,8 @@ export default withPageAuthRequired(function UserPage() {
   return (
     <Layout title={`${paste.data.filename} - Update`}>
       <div className="w-5/6 mx-auto mt-8">
-        <p className="tracking-wide text-primary-500 text-lg">
-          Update <strong>{paste.data.filename}</strong>
+        <p className="tracking-wide text-primary-500 opacity-90 text-lg font-bold">
+          Update <strong className="bg-secondary-100 py-1 px-2 rounded-lg">{paste.data.filename}</strong>
         </p>
       </div>
       {paste.data && <MainEditor update={true} data={paste.data} refid={joinString(refid)} />}

@@ -22,15 +22,17 @@ export const UserNav = () => {
               Pastes
             </LinkButton>
           </li>
-          <li className="pl-8 my-1 md:my-0 inline-flex items-center border-l">
+          <li className="pl-8 my-1 md:my-0 inline-flex items-center border-l text-sm">
             {/* basic user info */}
-            <Image src={user.picture} height="40" width="40" className="rounded-full" />
             <Link href="/user">
-              <a className="ml-2 text-secondary-700">{user.name}</a>
+              <a title="Goto User Page" className="text-secondary-600 hover:text-primary-500 inline-flex items-center">
+                <Image src={user.picture} height="30" width="30" className="rounded-full" />
+                <span className="ml-2">{user.name}</span>
+              </a>
             </Link>
             {/* logout button */}
             <a href="/api/auth/logout" className="ml-4 text-secondary-400 hover:text-primary-500" title="Logout">
-              <div className="h-7 w-7">
+              <div className="h-6 w-6">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
