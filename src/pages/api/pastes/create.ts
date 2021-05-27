@@ -55,11 +55,11 @@ const getPostCreateData = async (req: NextApiRequest): Promise<ValidateCreatePro
   const d: ApiCreatePasteBody = req.body;
 
   const r = await schemaValidate(ApiCreateBodySchema, d);
-  if (!r[0]) {
-    return errParseBody(r[1]);
+  if (r.error) {
+    return errParseBody(r.message);
   }
 
-  return { rdata: r[1], ok: true };
+  return { rdata: r.result, ok: true };
 };
 
 export default methodHandler(createPaste, ['PUT', 'POST']);

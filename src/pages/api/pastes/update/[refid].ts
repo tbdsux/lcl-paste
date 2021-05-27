@@ -61,8 +61,8 @@ const getUpdatePasteData = async (req: NextApiRequest): Promise<ValidateCreatePr
   // object[key] -> returns undefined if key does not exist (maybe user did not update it?)
   const r = await schemaValidate(ApiUpdateBodySchema, d);
 
-  if (!r[0]) {
-    return errParseBody(r[1]);
+  if (r.error) {
+    return errParseBody(r.message);
   }
 
   return { rdata: d, ok: true };
