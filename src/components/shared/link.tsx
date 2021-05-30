@@ -21,7 +21,9 @@ const ExternalLinkButton = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
       {...props}
       href={props.href}
       title={props.title}
-      className={`${props.className} text-secondary-800 hover:text-primary-500`}
+      className={`${props.className} hover:text-primary-500 ${
+        !props.className?.includes('text-secondary-') && 'text-secondary-800'
+      }`}
       target="_blank"
       rel="noreferrer"
     >
