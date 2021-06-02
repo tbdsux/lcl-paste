@@ -25,14 +25,14 @@ export default withPageAuthRequired(function UserPage() {
         <div className="mt-4">
           <h3>Api Key: </h3>
           <section className="py-2 px-4 bg-secondary-100 rounded-md flex items-center justify-between">
-            <p className="overflow-x-scroll mr-2">{api}</p>
+            <p className="overflow-x-auto mr-2 text-sm">{api}</p>
             <button
               ref={btnCopy}
               onClick={() => {
                 btnCopy.current.innerHTML = 'Copied';
                 navigator.clipboard.writeText(api);
               }}
-              className="py-1 px-4 rounded-full bg-secondary-500 hover:bg-secondary-600 text-white"
+              className="py-1 px-4 rounded-full bg-secondary-500 hover:bg-secondary-600 text-white text-xs"
             >
               Copy
             </button>
