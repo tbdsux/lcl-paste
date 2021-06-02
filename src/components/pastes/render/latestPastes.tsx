@@ -6,8 +6,12 @@ import { Details } from '@components/pastes/details';
 
 import { GetLatestPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
 
-export const RenderLatestPastes = () => {
-  const { data: pastes, error } = useSWR<GetLatestPastesQuery>('/api/pastes/latest');
+type RenderLatestPastesProps = {
+  initialPastes: GetLatestPastesQuery;
+};
+
+export const RenderLatestPastes = ({ initialPastes }: RenderLatestPastesProps) => {
+  const { data: pastes, error } = useSWR<GetLatestPastesQuery>('/api/pastes/latest', { initialData: initialPastes });
 
   if (!pastes) {
     return <p className="mt-6">Loading...</p>;
