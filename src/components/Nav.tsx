@@ -33,7 +33,7 @@ const Navigation = () => {
       </div>
       <ul className="hidden md:inline-flex mt-2 md:mt-0 items-center text-secondary-600">
         <li className="mx-6">
-          <LinkButton id="link-latest" href="/latest" className="font-bold tracking-wider">
+          <LinkButton id="link-latest" href="/latest">
             Latest
           </LinkButton>
         </li>
@@ -42,7 +42,7 @@ const Navigation = () => {
       {open ? (
         <ul className={`md:hidden inline-flex flex-col mt-2 md:mt-0 items-center text-secondary-600`}>
           <li className="mx-6 my-1 md:my-0">
-            <LinkButton id="link-latest" href="/latest" className="font-bold tracking-wider">
+            <LinkButton id="link-latest" href="/latest">
               Latest
             </LinkButton>
           </li>

@@ -1,4 +1,5 @@
-import { LinkButton, ExternalLinkButton } from './shared/link';
+import Link from 'next/link';
+import { ExternalLinkButton } from './shared/link';
 
 const Footer = () => {
   return (
@@ -23,7 +24,9 @@ const Footer = () => {
 
           <ul className="my-2 md:my-0">
             <li>
-              <LinkButton href="/latest">Latest</LinkButton>
+              <Link href="/latest">
+                <a className="text-sm text-secondary-600 tracking-wider">Latest</a>
+              </Link>
             </li>
           </ul>
           <ul className="my-2 md:my-0 text-sm">

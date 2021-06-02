@@ -56,14 +56,14 @@ export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/vs.css" />
       </Head>
 
-      <div className="w-5/6 mx-auto my-8">
+      <div className="w-5/6 mx-auto my-12">
         <div className="p-6 border border-primary-300 rounded-lg">
           <div className="pb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between">
             <div>
               <h4 id="paste-filename" className="text-primary-500 text-lg font-bold tracking-wider">
                 {paste.data.paste.filename}
               </h4>
-              <p id="paste-description" className="ml-2 text-secondary-500 mt-1 tracking-wide">
+              <p id="paste-description" className="ml-2 text-secondary-500 mt-1 tracking-wide text-sm">
                 {paste.data.paste.description}
               </p>
             </div>
@@ -131,9 +131,9 @@ export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
             <Highlight className={`text-sm ${paste.data.paste.codeLanguage}`}>{paste.data.paste.content}</Highlight>
           </div>
 
-          <div className="flex items-center justify-between text-sm mt-6">
-            <p className="bg-secondary-400 text-secondary-50 p-1">{getPrivacy}</p>
-            <p className="text-secondary-600 underline">@{getUser}</p>
+          <div className="flex items-center justify-between mt-6">
+            <p className="bg-secondary-400 text-secondary-50 p-1 text-xs">{getPrivacy}</p>
+            <p className="text-secondary-600 underline text-sm">@{getUser}</p>
           </div>
         </div>
       </div>

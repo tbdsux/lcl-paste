@@ -6,7 +6,7 @@ const LinkButton = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
     <Link href={props.href}>
       <a
         id={props.id}
-        className={`${props.className} text-secondary-800 hover:text-primary-500`}
+        className={`${props.className} text-secondary-800 hover:text-primary-500 text-sm tracking-wider`}
         title={props.children.toString()}
       >
         {props.children}

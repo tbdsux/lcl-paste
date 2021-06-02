@@ -153,7 +153,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 type="text"
                 placeholder="filename.txt"
                 defaultValue={data?.filename}
-                className="border border-secondary-300 rounded-md focus:outline-none focus:border-primary-400 py-2 px-3 tracking-wide w-full"
+                className="text-sm text-secondary-800 border-2 border-secondary-300 rounded-md focus:outline-none focus:border-primary-400 py-2 px-3 tracking-wide w-full"
               />
             </div>
 
@@ -182,7 +182,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 id="paste-description"
                 type="text"
                 ref={codeDescription}
-                className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 focus:outline-none focus:border-primary-400"
+                className="py-2 px-4 border tracking-wide rounded-md text-sm text-secondary-700 border-secondary-300 focus:outline-none focus:border-primary-400"
                 placeholder="Enter some short description for your paste..."
                 defaultValue={data?.description}
               />
