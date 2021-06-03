@@ -29,6 +29,7 @@ Run the development server.
 ### TODO:
 
 - ~Make `expirations` work~
+- ~paste embedding~
 - Improve paste deletion
 - Add auto setup for automatic `fork -> deploy`
 - Complete `api` endpoints
@@ -58,6 +59,9 @@ FAUNADB_SECRET_KEY=
 
 # FaunaDB LCL-PASTE Public Key (generate another one beside `FaunaDB Secret` one)
 FAUNADB_LCLPASTE_PUBLIC_KEY=
+
+# Your website / app url (USE: http://localhost:3000 if in development)
+NEXT_PUBLIC_APP_URL=
 ```
 
 ### Stack
