@@ -17,10 +17,10 @@ export const UserNav = () => {
     <>
       {user && mounted ? (
         <>
-          <li className="mx-6 my-1 md:my-0">
+          <li className="mx-4 md:mx-6 my-1 md:my-0">
             <LinkButton href="/user/pastes">Pastes</LinkButton>
           </li>
-          <li className="pl-8 my-1 md:my-0 inline-flex items-center border-l text-sm">
+          <li className="pl-4 md:pl-8 my-1 md:my-0 inline-flex items-center md:border-l text-sm">
             {/* basic user info */}
             <Link href="/user">
               <a title="Goto User Page" className="text-secondary-500 hover:text-primary-500 inline-flex items-center">
@@ -44,7 +44,7 @@ export const UserNav = () => {
           </li>
         </>
       ) : (
-        <li className="ml-6 my-1 md:my-0">
+        <li className="sm:ml-6 my-1 md:my-0">
           <Link href="/api/auth/login">
             <a title="User Login" className="text-sm py-2 px-8 bg-primary-400 hover:bg-primary-500 text-white">
               Login

@@ -8,8 +8,8 @@ const Navigation = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="py-4 w-11/12 mx-auto flex flex-col md:flex-row items-center justify-between">
-      <div className="w-full md:w-auto flex items-center justify-between">
+    <nav className="py-4 w-11/12 mx-auto flex flex-col sm:flex-row items-center justify-between">
+      <div className="w-full sm:w-auto flex items-center justify-between">
         <Link href="/">
           <a title="Return Home">
             <h1 className="text-xl font-extrabold tracking-wide">
@@ -19,7 +19,7 @@ const Navigation = () => {
           </a>
         </Link>
 
-        <button className="h-6 w-6 md:hidden" onClick={() => setOpen(open ? false : true)}>
+        <button className="h-6 w-6 sm:hidden" onClick={() => setOpen(open ? false : true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -31,8 +31,8 @@ const Navigation = () => {
           </svg>
         </button>
       </div>
-      <ul className="hidden md:inline-flex mt-2 md:mt-0 items-center text-secondary-600">
-        <li className="mx-6">
+      <ul className="hidden sm:inline-flex mt-2 sm:mt-0 items-center text-secondary-600">
+        <li className="mx-4 md:mx-6">
           <LinkButton id="link-latest" href="/latest">
             Latest
           </LinkButton>
@@ -40,8 +40,8 @@ const Navigation = () => {
         <UserNav />
       </ul>
       {open ? (
-        <ul className={`md:hidden inline-flex flex-col mt-2 md:mt-0 items-center text-secondary-600`}>
-          <li className="mx-6 my-1 md:my-0">
+        <ul className="sm:hidden inline-flex flex-col mt-2 sm:mt-0 items-center text-secondary-600">
+          <li className="my-2 sm:my-0">
             <LinkButton id="link-latest" href="/latest">
               Latest
             </LinkButton>
