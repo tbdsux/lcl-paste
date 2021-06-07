@@ -7,6 +7,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import _ from 'lodash';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { getCodeLanguage } from '@lib/code';
@@ -18,7 +20,20 @@ import { MonacoEditor } from './editor/monaco';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
 
+// convert the date to iso ?
+const convertDateForInput = (date: string) => {
+  if (date) {
+    const d = new Date(date);
+    const dd = date.split('T')[0];
+    return `${dd}T${d.getHours()}:${d.getMinutes()}`;
+  }
+};
+
 const MainEditor = ({ update, refid, data }: EditorProps) => {
+  const [pDate, setPDate] = useState<Date>(
+    update ? (data.expiryDate ? new Date(convertDateForInput(data.expiryDate)) : null) : new Date()
+  );
+
   const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
 
   const codeEditor = useRef(null);
@@ -26,7 +41,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
   const codeDescription = useRef<HTMLInputElement>(null);
-  const codeExpiration = useRef<HTMLInputElement>();
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
   // const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
@@ -41,9 +55,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
     const filename: string = codeFilename.current.value;
     const description: string = codeDescription.current.value;
     const isPrivate: boolean = codePrivate.current.checked;
-    const expiryDate: string = codeExpiration.current.value
-      ? new Date(codeExpiration.current.value).toISOString()
-      : null;
+    const expiryDate = new Date(pDate).toISOString();
 
     if (update) {
       if (filename != data.filename) {
@@ -105,14 +117,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         onErrorNotify(); // show notif
         console.error(e);
       });
-  };
-
-  const convertDateForInput = (date: string) => {
-    if (date) {
-      const d = new Date(date);
-      const dd = date.split('T')[0];
-      return `${dd}T${d.getHours()}:${d.getMinutes()}`;
-    }
   };
 
   const handleGetFileExt = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -195,18 +199,29 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 <button
                   title="Remove expiration date"
                   className="text-xs text-secondary-500 hover:underline"
-                  onClick={() => (codeExpiration.current.value = '')}
+                  onClick={() => setPDate(null)}
                 >
                   clear
                 </button>
               </div>
-              <input
-                id="paste-expiration"
-                type="datetime-local"
-                ref={codeExpiration}
-                defaultValue={convertDateForInput(data?.expiryDate)}
+              <DatePicker
+                selected={pDate}
+                onChange={(date: Date) => {
+                  setPDate(date);
+                }}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy hh:mm a"
+                placeholderText="set expiration date"
                 className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
               />
+              {/* <input
+                id="paste-expiration"
+                type="date"
+                ref={codeExpiration}
+                defaultValue={convertDateForInput(data?.expiryDate)}
+                placeholder="set expiration date"
+                className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
+              /> */}
             </div>
           </div>
         </div>
