@@ -41,7 +41,7 @@ export default function ViewPaste({ pasteid, initialPaste }: ViewPasteProps) {
     <Layout title={paste.error ? paste.description : paste.data.paste.filename}>
       <PasteContainer paste={paste} pasteContainerRef={pasteContainerRef} />
 
-      <CopyEmbed pasteid={pasteid} pasteContainerRef={pasteContainerRef} />
+      {!paste.error && <CopyEmbed pasteid={pasteid} pasteContainerRef={pasteContainerRef} />}
     </Layout>
   );
 }
