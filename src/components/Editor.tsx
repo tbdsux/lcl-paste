@@ -31,7 +31,7 @@ const convertDateForInput = (date: string) => {
 
 const MainEditor = ({ update, refid, data }: EditorProps) => {
   const [pDate, setPDate] = useState<Date>(
-    update ? (data.expiryDate ? new Date(convertDateForInput(data.expiryDate)) : null) : new Date()
+    update ? (data.expiryDate ? new Date(convertDateForInput(data.expiryDate)) : null) : null
   );
 
   const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
