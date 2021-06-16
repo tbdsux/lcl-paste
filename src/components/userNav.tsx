@@ -24,23 +24,25 @@ export const UserNav = () => {
             {/* basic user info */}
             <Link href="/user">
               <a title="Goto User Page" className="text-secondary-500 hover:text-primary-500 inline-flex items-center">
-                <Image src={user.picture} height="30" width="30" className="rounded-full" />
+                <Image src={user.picture} alt={user.name} height="30" width="30" className="rounded-full" />
                 <span className="ml-2">{user.name}</span>
               </a>
             </Link>
-            {/* logout button */}
-            <a href="/api/auth/logout" className="ml-4 text-secondary-400 hover:text-primary-500" title="Logout">
-              <div className="h-6 w-6">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
-              </div>
-            </a>
+            {/* logout button (try using <Link>) */}
+            <Link href="/api/auth/logout">
+              <a className="ml-4 text-secondary-400 hover:text-primary-500" title="Logout">
+                <div className="h-6 w-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                </div>
+              </a>
+            </Link>
           </li>
         </>
       ) : (

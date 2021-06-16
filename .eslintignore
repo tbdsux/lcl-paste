@@ -1,6 +1,9 @@
 # tailwind config
 tailwind.config.js
 
+# next config
+next.config.js
+
 # prettier
 !.prettierrc
 
