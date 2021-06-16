@@ -12,7 +12,7 @@
     "test:cli": "cypress run",
     "test:ci": "start-server-and-test dev http://localhost:3000 test:cli",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
-    "lint": "eslint --ext js,jsx,ts,tsx --fix",
+    "lint": "next lint",
     "postinstall": "husky install"
   },
   "dependencies": {
@@ -20,19 +20,19 @@
     "@monaco-editor/react": "^4.1.0",
     "@ootiq/blank": "^0.0.4",
     "@types/lodash": "^4.14.168",
-    "autoprefixer": "^10.2.5",
+    "autoprefixer": "^10.2.6",
     "faunadb": "^4.1.1",
     "joi": "^17.4.0",
-    "next": "^10.2.0",
+    "next": "^11.0.0",
     "nextjs-progressbar": "^0.0.9",
-    "postcss": "^8.2.8",
+    "postcss": "^8.3.4",
     "react": "17.0.1",
     "react-datepicker": "^4.1.1",
     "react-dom": "17.0.1",
     "react-highlight": "^0.14.0",
     "react-toastify": "^7.0.4",
     "swr": "^0.5.5",
-    "tailwindcss": "^2.1.1"
+    "tailwindcss": "^2.1.4"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
@@ -42,6 +42,7 @@
     "@typescript-eslint/parser": "^4.23.0",
     "cypress": "^7.2.0",
     "eslint": "^7.26.0",
+    "eslint-config-next": "^11.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -52,6 +53,6 @@
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.0",
     "start-server-and-test": "^1.12.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.3.2"
   }
 }
