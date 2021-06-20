@@ -12,8 +12,7 @@ import { GetStatsQuery } from '@utils/interfaces/query';
 export type ApiGetStats = GetStatsQuery;
 
 const getStats = async (req: NextApiRequest, res: NextApiResponse<ApiGetStats>) => {
-  const s = new Stats();
-  const q = await s.getStats();
+  const q = await Stats.getStats();
 
   res.status(q.code).json(q);
 };

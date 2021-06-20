@@ -71,6 +71,13 @@ interface BaseStatsProps {
 }
 type GetStatsQuery = BaseQuery<BaseStatsProps>;
 
+// api/user/stats
+interface UserPasteStatsProps {
+  user: string;
+  totalPastes: number;
+}
+type GetUserStatsQuery = BaseQuery<UserPasteStatsProps>;
+
 // EXPORT
 export type {
   ObjectProps,
@@ -89,5 +96,7 @@ export type {
   DeletePasteQuery,
   CreatePasteQuery,
   GetStatsQuery,
-  BaseStatsProps
+  BaseStatsProps,
+  UserPasteStatsProps,
+  GetUserStatsQuery
 };

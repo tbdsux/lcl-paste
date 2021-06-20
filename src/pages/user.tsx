@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 import Layout from '@components/Layout';
+import { UserPastesCount } from '@components/user-paste-count';
 
 export default withPageAuthRequired(function UserPage() {
   const { user } = useUser();
@@ -14,12 +15,15 @@ export default withPageAuthRequired(function UserPage() {
   return (
     <Layout title={`${user.name} - User`}>
       <section className="w-4/5 mx-auto py-12">
-        <div className="flex flex-col md:flex-row items-center justify-center border rounded-md border-secondary-200 shadow p-8">
-          <Image src={user.picture} height="200" width="200" className="rounded-full" />
-          <div className="ml-0 md:ml-8 mt-2 md:mt-0">
-            <h3 className="text-4xl md:text-5xl font-black tracking-wide mb-2 text-primary-500">{user.name}</h3>
-            <p className="bg-secondary-400 p-1 text-white text-right">@{user.sub.split('|')[0]}</p>
+        <div className="border rounded-md border-secondary-200 shadow p-8">
+          <div className="flex flex-col md:flex-row items-center justify-center">
+            <Image src={user.picture} height="200" width="200" className="rounded-full" />
+            <div className="ml-0 md:ml-8 mt-2 md:mt-0">
+              <h3 className="text-4xl md:text-5xl font-black tracking-wide mb-2 text-primary-500">{user.name}</h3>
+              <p className="bg-secondary-400 p-1 text-white text-right">@{user.sub.split('|')[0]}</p>
+            </div>
           </div>
+          <UserPastesCount />
         </div>
 
         <div className="mt-4">
