@@ -71,7 +71,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         pasteData.isPrivate = isPrivate;
       }
       if (expiryDate != data.expiryDate) {
-        pasteData.expiryDate = expiryDate;
+        pasteData.expiryDate = pDate ? expiryDate : null;
       }
       // end update only specific fields
     } else {
@@ -81,7 +81,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         filename: filename,
         description: description,
         isPrivate: isPrivate,
-        expiryDate: expiryDate
+        expiryDate: pDate ? expiryDate : null
       };
     }
 
