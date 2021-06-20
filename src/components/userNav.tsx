@@ -48,7 +48,10 @@ export const UserNav = () => {
       ) : (
         <li className="sm:ml-6 my-1 md:my-0">
           <Link href="/api/auth/login">
-            <a title="User Login" className="text-sm py-2 px-8 bg-primary-400 hover:bg-primary-500 text-white">
+            <a
+              title="User Login"
+              className="text-sm py-2 px-8 rounded-md bg-primary-400 hover:bg-primary-500 text-white"
+            >
               Login
             </a>
           </Link>

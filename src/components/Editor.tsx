@@ -170,7 +170,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 defaultChecked={data?.isPrivate}
               />
               <span
-                className="ml-2 text-secondary-600 lowercase text-sm"
+                className="ml-2 text-secondary-500 lowercase text-sm"
                 title="Your paste will not be shown in latest."
               >
                 Make Private
@@ -214,14 +214,6 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 placeholderText="set expiration date"
                 className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
               />
-              {/* <input
-                id="paste-expiration"
-                type="date"
-                ref={codeExpiration}
-                defaultValue={convertDateForInput(data?.expiryDate)}
-                placeholder="set expiration date"
-                className="py-2 px-4 border tracking-wide rounded-md text-sm border-secondary-300 text-secondary-600 focus:outline-none focus:border-primary-400"
-              /> */}
             </div>
           </div>
         </div>
