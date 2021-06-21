@@ -5,6 +5,7 @@ import { Info } from '@components/pastes/info';
 import { Details } from '@components/pastes/details';
 
 import { GetLatestPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
+import { isNew } from '@lib/isNew';
 
 type RenderLatestPastesProps = {
   initialPastes: GetLatestPastesQuery;
@@ -24,12 +25,20 @@ export const RenderLatestPastes = ({ initialPastes }: RenderLatestPastesProps) =
   return (
     <ul className="mt-6">
       {pastes.data?.map((paste: PasteQueryResponse, index) => (
-        <li className="my-2" key={index}>
+        <li className="my-3" key={index}>
           <Link href={`/p/${paste.data.pasteId}`}>
             <a
-              className="col-span-11 border border-secondary-200 py-3 px-6 flex flex-col md:flex-row items-start md:items-center justify-between rounded hover:border-primary-500"
+              className="relative col-span-11 border border-secondary-300 py-3 px-6 flex flex-col md:flex-row items-start md:items-center justify-between rounded hover:border-primary-500"
               title="View paste"
             >
+              {isNew(paste.data.createdDate) && (
+                <span
+                  title="Paste is newly created"
+                  className="absolute -top-2 -left-2 bg-primary-500 text-white rounded-md p-1 text-xs"
+                >
+                  new
+                </span>
+              )}
               <Info filename={paste.data.filename} description={paste.data.description} />
               <div className="w-full md:w-1/2 mt-1 md:mt-0 justify-end inline-flex items-center text-secondary-500">
                 <Details
