@@ -7,15 +7,18 @@ type CopyEmbedProps = {
 
 const getAppUrl = () => {
   if (process.env.NEXT_PUBLIC_APP_URL) {
-    return `https://${process.env.NEXT_PUBLIC_APP_URL}`;
+    return process.env.NEXT_PUBLIC_APP_URL;
   }
 
-  return process.env.NEXT_PUBLIC_VERCEL_URL;
+  return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
 };
 
 export const CopyEmbed = ({ pasteid, pasteContainerRef }: CopyEmbedProps) => {
   const embedRef = useRef<HTMLTextAreaElement>(null);
 
+  // the component depends on the MutableRef props (pasteContainerRef)
+  // there is a possibility to cause an error if using it the normal way
+  // since `pasteContainerRef` might not be mounted first?
   useEffect(() => {
     const generateIframe = (): string => {
       const u = getAppUrl();
@@ -28,6 +31,7 @@ export const CopyEmbed = ({ pasteid, pasteContainerRef }: CopyEmbedProps) => {
     const height = pasteContainerRef.current?.clientHeight + 100; // cause of the spaces
 
     embedRef.current.value = `<iframe src="${generateIframe()}" height="${height}" width="800" style="border: 1px solid #ddd; border-radius: 10px; margin:0px auto; display:block;"></iframe>`;
+    embedRef.current.readOnly = true;
   }, [pasteid, pasteContainerRef]);
 
   return (
@@ -38,6 +42,11 @@ export const CopyEmbed = ({ pasteid, pasteContainerRef }: CopyEmbedProps) => {
         <button
           onClick={() => {
             navigator.clipboard.writeText(embedRef.current.value);
+            embedRef.current.select();
+
+            setTimeout(() => {
+              embedRef.current.blur();
+            }, 2000);
           }}
           className="text-secondary-400 hover:text-secondary-500 absolute top-1 right-1"
           title="Copy Embed"

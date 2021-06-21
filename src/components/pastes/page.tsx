@@ -28,7 +28,7 @@ export const PasteContainer = ({ paste, pasteContainerRef }: PasteContainerProps
       </Head>
 
       <div className="w-5/6 mx-auto my-12" ref={pasteContainerRef}>
-        <div className="p-6 border border-primary-300 rounded-lg">
+        <div className="p-6 border border-primary-300 rounded-lg shadow-xl">
           <div className="pb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between">
             <div>
               <h4 id="paste-filename" className="text-primary-500 text-lg font-bold tracking-wider">
@@ -60,7 +60,7 @@ export const PasteContainer = ({ paste, pasteContainerRef }: PasteContainerProps
               expire in: <span className="underline">{getExpiryDate}</span>
             </p>
           )}
-          <div className="p-4 rounded-md shadow-2xl border border-secondary-200 relative">
+          <div className="p-4 rounded-md border border-secondary-200 shadow relative">
             <div className="absolute top-1 right-1 inline-flex items-center">
               {/* redirect to carbon */}
               <a
@@ -104,7 +104,7 @@ export const PasteContainer = ({ paste, pasteContainerRef }: PasteContainerProps
           </div>
 
           <div className="flex items-center justify-between mt-6">
-            <p className="bg-secondary-400 text-secondary-50 p-1 text-xs">{getPrivacy}</p>
+            <p className="bg-secondary-300 text-secondary-500 p-1 text-xs rounded-md">{getPrivacy}</p>
             <p className="text-secondary-600 underline text-sm">@{getUser}</p>
           </div>
         </div>
