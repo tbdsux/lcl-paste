@@ -1,10 +1,7 @@
-import useSWR from 'swr';
-import Link from 'next/link';
-
 import { UserActions } from '@components/pastes/userActions';
-import { Details } from '@components/pastes/details';
-
 import { GetUserPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
+import Link from 'next/link';
+import useSWR from 'swr';
 
 export const RenderUserPastes = () => {
   const { data: pastes, error } = useSWR<GetUserPastesQuery>('/api/pastes/user');
@@ -40,14 +37,20 @@ export const RenderUserPastes = () => {
           </div>
 
           <div className="mt-2 text-secondary-400">
-            <Details
-              username={paste.data.ownedByUsername}
-              createdDate={paste.data.createdDate}
-              updated={paste.data.updated}
-              isPrivate={paste.data.isPrivate}
-              updatedDate={paste.data.updatedDate}
-              isUserPage={true}
-            />
+            <div className="flex items-center justify-between">
+              <span className="text-xs">
+                {[
+                  `${
+                    paste.data.updated
+                      ? `${new Date(paste.data.updatedDate).toUTCString()}-updated`
+                      : new Date(paste.data.createdDate).toUTCString()
+                  }`
+                ]}
+              </span>
+              <span className="bg-secondary-400 text-xs p-1 text-white ml-3">
+                {paste.data.isPrivate ? 'private' : 'public'}
+              </span>
+            </div>
           </div>
         </li>
       ))}

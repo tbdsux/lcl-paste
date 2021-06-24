@@ -1,11 +1,7 @@
-import useSWR from 'swr';
-import Link from 'next/link';
-
-import { Info } from '@components/pastes/info';
-import { Details } from '@components/pastes/details';
-
-import { GetLatestPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
 import { isNew } from '@lib/isNew';
+import { GetLatestPastesQuery, PasteQueryResponse } from '@utils/interfaces/query';
+import Link from 'next/link';
+import useSWR from 'swr';
 
 type RenderLatestPastesProps = {
   initialPastes: GetLatestPastesQuery;
@@ -39,17 +35,34 @@ export const RenderLatestPastes = ({ initialPastes }: RenderLatestPastesProps) =
                   new
                 </span>
               )}
-              <Info filename={paste.data.filename} description={paste.data.description} />
-              <div className="w-full md:w-1/2 mt-1 md:mt-0 justify-end inline-flex items-center text-secondary-500">
-                <Details
-                  username={paste.data.ownedByUsername}
-                  createdDate={paste.data.createdDate}
-                  updated={paste.data.updated}
-                  isPrivate={paste.data.isPrivate}
-                  updatedDate={paste.data.updatedDate}
-                  isUserPage={false}
-                />
+
+              {/* start paste info */}
+              <div className="w-full md:w-1/2 justify-start inline-flex">
+                <h4 className="truncate">
+                  {paste.data.filename}{' '}
+                  <span className="text-secondary-500 text-sm">
+                    {paste.data.description ? `(${paste.data.description})` : null}
+                  </span>
+                </h4>
               </div>
+              {/* end paste info */}
+
+              {/* start paste other details */}
+              <div className="w-full md:w-1/2 mt-1 md:mt-0 justify-end inline-flex items-center text-secondary-500">
+                <div className="text-sm text-secondary-400 md:ml-8 inline-flex flex-col md:flex-row items-end md:items-center">
+                  <span title="author">@{paste.data.ownedByUsername ? paste.data.ownedByUsername : 'anonymous'}</span>{' '}
+                  <span className="ml-1 text-xs text-secondary-300" title="paste created date">
+                    {[
+                      `${
+                        paste.data.updated
+                          ? `${new Date(paste.data.updatedDate).toUTCString()}-updated`
+                          : new Date(paste.data.createdDate).toUTCString()
+                      }`
+                    ]}
+                  </span>
+                </div>
+              </div>
+              {/* end paste other details */}
             </a>
           </Link>
         </li>
