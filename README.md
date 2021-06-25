@@ -1,8 +1,24 @@
-# lcl-paste
-
-Simple Paste [Bin] Manager App
+<div align="center">
+    <h1>lcl-paste</h1>
+    <p>Simple Paste [Bin] Manager App</p>
+</div>
 
 ![App Screenshot](./screenshot.png)
+
+## Features
+
+- Automatic Editor syntax highlighting
+- Paste expiration feature
+- Paste embedding
+- Filename drag import (drag a file to the editor and try)
+- User management (**`Auth0`**)
+- Integration with other web apps (**`Carbon`**)
+- API (working but may have breaking changes)
+
+### Planned:
+
+- Multi-file support
+- ...more
 
 ## Hosting
 
