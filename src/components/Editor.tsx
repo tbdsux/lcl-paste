@@ -1,21 +1,16 @@
-import { useState, useRef, ChangeEvent, useCallback } from 'react';
-import Router from 'next/router';
-
-import { mutate } from 'swr';
-
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import _ from 'lodash';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-
-import { Paste, UpdatePaste } from '@utils/interfaces/paste';
 import { getCodeLanguage } from '@lib/code';
-
+import { Paste, UpdatePaste } from '@utils/interfaces/paste';
+import _ from 'lodash';
+import Router from 'next/router';
 import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
-
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { useDropzone } from 'react-dropzone';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { mutate } from 'swr';
 import { MonacoEditor } from './editor/monaco';
 
 type EditorProps = { update?: boolean; refid?: string; data?: Paste };
@@ -35,12 +30,11 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   );
 
   const btnCreateUpdateRef = useRef<HTMLButtonElement>(null);
-
   const codeEditor = useRef(null);
-
   const codeFilename = useRef<HTMLInputElement>(null);
   const codePrivate = useRef<HTMLInputElement>(null);
   const codeDescription = useRef<HTMLInputElement>(null);
+
   const [codeLanguage, setCodeLanguage] = useState<string>(update ? data.codeLanguage : 'text'); // text is initial language
   // const [isCode, setIsCode] = useState<boolean>(update ? data.isCode : false);
 
@@ -128,6 +122,23 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
   const onErrorNotify = (message = 'There was a problem...') => toast.error(message); // custom message
   const onCreateNotify = (message: string) => toast.info(message);
 
+  /* FILE DRAG HANDLER */
+  const { getRootProps } = useDropzone({
+    maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      acceptedFiles.forEach(async (f) => {
+        const content = await f.text();
+
+        codeFilename.current.value = f.name;
+        codeEditor.current.setValue(content);
+        setCodeLanguage(getCodeLanguage(f.name));
+      });
+    },
+    onDropRejected: () => {
+      toast.warn('1 file is only accepted.');
+    }
+  });
+
   return (
     <>
       <ToastContainer
@@ -137,12 +148,13 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
         newestOnTop={false}
         closeOnClick={false}
         rtl={false}
-        pauseOnFocusLoss
         draggable={false}
-        pauseOnHover
       />
 
-      <div className="w-11/12 xl:w-5/6 mx-auto p-8 shadow-lg my-4 border rounded-lg border-primary-300">
+      <div
+        {...getRootProps()}
+        className="w-11/12 xl:w-5/6 mx-auto p-8 shadow-lg my-4 border rounded-lg border-primary-300"
+      >
         {/* paste options */}
         <div className="mb-3">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-2">
@@ -222,7 +234,11 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
           <label htmlFor="code-content" className="text-sm text-secondary-600 lowercase">
             Paste
           </label>
-          <MonacoEditor codeEditor={codeEditor} codeLanguage={codeLanguage} content={data ? data.content : null} />
+          <MonacoEditor
+            codeEditor={codeEditor}
+            codeLanguage={codeLanguage}
+            content={update && data ? data.content : null}
+          />
         </div>
 
         <div className="flex items-center justify-end py-2">

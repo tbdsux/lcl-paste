@@ -1,5 +1,7 @@
-import { MutableRefObject, useCallback } from 'react';
-import Editor from '@monaco-editor/react';
+// this is wrapper to the Editor component from the library `@monaco-editor/react`
+
+import Editor, { BeforeMount } from '@monaco-editor/react';
+import { memo, MutableRefObject } from 'react';
 
 type MonacoEditorProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -8,8 +10,8 @@ type MonacoEditorProps = {
   codeLanguage: string;
 };
 
-export const MonacoEditor = ({ codeEditor, content, codeLanguage }: MonacoEditorProps) => {
-  const handleEditorBeforeMount = useCallback((monaco) => {
+const editor = ({ codeEditor, content, codeLanguage }: MonacoEditorProps) => {
+  const handleEditorBeforeMount: BeforeMount = (monaco) => {
     // definee custom theme
     monaco.editor.defineTheme('lcl-theme', {
       base: 'vs',
@@ -22,7 +24,7 @@ export const MonacoEditor = ({ codeEditor, content, codeLanguage }: MonacoEditor
         'editor.lineHighlightBorder': '#00000000'
       }
     });
-  }, []);
+  };
 
   return (
     <Editor
@@ -31,8 +33,7 @@ export const MonacoEditor = ({ codeEditor, content, codeLanguage }: MonacoEditor
       language={codeLanguage}
       defaultValue={content}
       beforeMount={handleEditorBeforeMount}
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      onMount={(editor, monaco) => {
+      onMount={(editor) => {
         // pass ref
         codeEditor.current = editor;
       }}
@@ -46,3 +47,5 @@ export const MonacoEditor = ({ codeEditor, content, codeLanguage }: MonacoEditor
     />
   );
 };
+
+export const MonacoEditor = memo(editor);
