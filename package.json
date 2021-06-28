@@ -16,7 +16,7 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.4.0",
+    "@auth0/nextjs-auth0": "^1.4.2",
     "@monaco-editor/react": "^4.2.1",
     "@ootiq/blank": "^0.0.4",
     "autoprefixer": "^10.2.6",
