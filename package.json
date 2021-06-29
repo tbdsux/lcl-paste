@@ -16,23 +16,23 @@
     "postinstall": "husky install"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.4.0",
+    "@auth0/nextjs-auth0": "^1.4.2",
     "@monaco-editor/react": "^4.2.1",
     "@ootiq/blank": "^0.0.4",
     "autoprefixer": "^10.2.6",
     "faunadb": "^4.3.0",
     "joi": "^17.4.0",
-    "next": "^11.0.0",
+    "next": "^11.0.1",
     "nextjs-progressbar": "^0.0.9",
-    "postcss": "^8.3.4",
-    "react": "17.0.1",
+    "postcss": "^8.3.5",
+    "react": "^17.0.2",
     "react-datepicker": "^4.1.1",
-    "react-dom": "17.0.1",
+    "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.4",
     "react-highlight": "^0.14.0",
     "react-toastify": "^7.0.4",
     "swr": "^0.5.6",
-    "tailwindcss": "^2.2.0"
+    "tailwindcss": "^2.2.4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
