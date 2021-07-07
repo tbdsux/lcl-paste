@@ -58,3 +58,10 @@ export interface ApiUpdatePasteBody {
   isPrivate: boolean;
   expiryDate: string;
 }
+
+// fields for the indec router.query
+export interface RouterPasteQueryData {
+  filename: string;
+  description: string;
+  content: string;
+}

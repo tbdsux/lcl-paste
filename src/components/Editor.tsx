@@ -1,10 +1,10 @@
 import { getCodeLanguage } from '@lib/code';
-import { Paste, UpdatePaste } from '@utils/interfaces/paste';
+import { Paste, RouterPasteQueryData, UpdatePaste } from '@utils/interfaces/paste';
 import _ from 'lodash';
 import Router from 'next/router';
 import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
-import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDropzone } from 'react-dropzone';
@@ -13,7 +13,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { mutate } from 'swr';
 import { MonacoEditor } from './editor/monaco';
 
-type EditorProps = { update?: boolean; refid?: string; data?: Paste };
+type EditorProps = {
+  update?: boolean;
+  refid?: string;
+  data?: Paste; // comes in with update,
+  queryData?: RouterPasteQueryData; // queryData is for custom data from url query (only applicable to index)
+};
 
 // convert the date to iso ?
 const convertDateForInput = (date: string) => {
@@ -24,7 +29,7 @@ const convertDateForInput = (date: string) => {
   }
 };
 
-const MainEditor = ({ update, refid, data }: EditorProps) => {
+const MainEditor = ({ update, refid, data, queryData }: EditorProps) => {
   const [pDate, setPDate] = useState<Date>(
     update ? (data.expiryDate ? new Date(convertDateForInput(data.expiryDate)) : null) : null
   );
@@ -113,6 +118,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       });
   };
 
+  // onChange even handler for automatically detecting file type
   const handleGetFileExt = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const filename = e.target.value;
     setCodeLanguage(getCodeLanguage(filename));
@@ -138,6 +144,13 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
       toast.warn('1 file is only accepted.');
     }
   });
+
+  // handle code language depending on query value (there might be a better solution)
+  useEffect(() => {
+    if (queryData?.filename) {
+      setCodeLanguage(getCodeLanguage(queryData.filename));
+    }
+  }, [queryData]);
 
   return (
     <>
@@ -168,7 +181,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 onChange={_.debounce(handleGetFileExt, 500)}
                 type="text"
                 placeholder="filename.txt"
-                defaultValue={data?.filename}
+                defaultValue={data?.filename || queryData?.filename}
                 className="text-sm text-secondary-800 border-2 border-secondary-300 rounded-md focus:outline-none focus:border-primary-400 py-2 px-3 tracking-wide w-full"
               />
             </div>
@@ -200,7 +213,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
                 ref={codeDescription}
                 className="py-2 px-4 border tracking-wide rounded-md text-sm text-secondary-700 border-secondary-300 focus:outline-none focus:border-primary-400"
                 placeholder="Enter some short description for your paste..."
-                defaultValue={data?.description}
+                defaultValue={data?.description || queryData?.description}
               />
             </div>
             <div className="flex flex-col w-56 lg:w-auto md:ml-4 py-2">
@@ -237,7 +250,7 @@ const MainEditor = ({ update, refid, data }: EditorProps) => {
           <MonacoEditor
             codeEditor={codeEditor}
             codeLanguage={codeLanguage}
-            content={update && data ? data.content : null}
+            content={update && data ? data.content : queryData?.content}
           />
         </div>
 
