@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Router from 'next/router';
 import { ApiCreatePasteResponse } from 'pages/api/pastes/create';
 import { ApiUpdatePasteResponse } from 'pages/api/pastes/update/[refid]';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDropzone } from 'react-dropzone';
@@ -18,6 +18,7 @@ type EditorProps = {
   refid?: string;
   data?: Paste; // comes in with update,
   queryData?: RouterPasteQueryData; // queryData is for custom data from url query (only applicable to index)
+  isAnonymousRef?: MutableRefObject<HTMLInputElement>;
 };
 
 // convert the date to iso ?
@@ -29,7 +30,7 @@ const convertDateForInput = (date: string) => {
   }
 };
 
-const MainEditor = ({ update, refid, data, queryData }: EditorProps) => {
+const MainEditor = ({ update, refid, data, queryData, isAnonymousRef }: EditorProps) => {
   const [pDate, setPDate] = useState<Date>(
     update ? (data.expiryDate ? new Date(convertDateForInput(data.expiryDate)) : null) : null
   );
@@ -88,13 +89,20 @@ const MainEditor = ({ update, refid, data, queryData }: EditorProps) => {
     onCreateNotify(update ? 'Updating paste...' : 'Creating paste...');
 
     // contact api
-    fetch(`${update ? `/api/pastes/update/${refid}` : '/api/pastes/create'}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(pasteData)
-    })
+    fetch(
+      `${
+        update
+          ? `/api/pastes/update/${refid}`
+          : `/api/pastes/create?isAnonymous=${String(isAnonymousRef.current?.checked)}`
+      }`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pasteData)
+      }
+    )
       .then((res) => res.json())
       .then((r: ApiCreatePasteResponse | ApiUpdatePasteResponse) => {
         if (r.error) {

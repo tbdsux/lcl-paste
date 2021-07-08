@@ -2,21 +2,18 @@
   NOTE: /api/pastes/create -> endpoint for creating a paste
 */
 
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { nanoid } from 'nanoid';
-
-import { PasteModel } from '@lib/models/paste';
-import methodHandler from '@lib/middleware/methods';
-import { getTokenAPI } from '@lib/hooks/useTokenAPI';
+import { errParseBody } from '@lib/body-parse';
 import { getCodeLanguage } from '@lib/code';
 import { getUser } from '@lib/hooks/getUser';
+import { getTokenAPI } from '@lib/hooks/useTokenAPI';
+import methodHandler from '@lib/middleware/methods';
+import { PasteModel } from '@lib/models/paste';
 import { schemaValidate } from '@lib/validate';
-
-import { errParseBody } from '@lib/body-parse';
+import { ApiCreatePasteBody, Paste } from '@utils/interfaces/paste';
 import { CreatePasteQuery, QueryErrorResponse } from '@utils/interfaces/query';
 import { ApiCreateBodySchema } from '@utils/schema/createBody';
-import { ApiCreatePasteBody, Paste } from '@utils/interfaces/paste';
+import { nanoid } from 'nanoid';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export type ApiCreatePasteResponse = CreatePasteQuery;
 type ValidateCreateProps = { rdata: ApiCreatePasteBody; ok: boolean; err?: QueryErrorResponse };
@@ -31,7 +28,7 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
   }
 
   const token = getTokenAPI(req, res);
-  const { isUser, name } = await getUser(req, res);
+  const { isUser, name } = await handleUser(req, res);
 
   const data: Paste = {
     createdDate: new Date().toISOString(),
@@ -48,6 +45,19 @@ const createPaste = async (req: NextApiRequest, res: NextApiResponse<ApiCreatePa
   const q = await p.createPaste(data, isUser);
 
   res.status(q.code).json(q);
+};
+
+const handleUser = async (req: NextApiRequest, res: NextApiResponse): Promise<{ isUser: boolean; name: string }> => {
+  const { isAnonymous } = req.query;
+  if (isAnonymous === 'true') {
+    return {
+      isUser: false,
+      name: 'anonymous'
+    };
+  }
+
+  const { isUser, name } = await getUser(req, res);
+  return { isUser, name };
 };
 
 // Getter and Validator for req.body
