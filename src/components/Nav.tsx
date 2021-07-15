@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import Link from 'next/link';
-
+import { useState } from 'react';
 import { LinkButton } from './shared/link';
 import { UserNav } from './userNav';
 
@@ -12,8 +11,8 @@ const Navigation = () => {
       <div className="w-full sm:w-auto flex items-center justify-between">
         <Link href="/">
           <a title="Return Home">
-            <h1 className="text-xl font-black tracking-wide">
-              Local <span className="text-primary-500">Paste</span>
+            <h1 className="text-2xl font-black tracking-wide text-secondary-700">
+              LCL <span className="text-primary-500">Paste</span>
             </h1>
             <p className="text-sm text-secondary-400 tracking-wide">a simple paste(bin) manager</p>
           </a>
